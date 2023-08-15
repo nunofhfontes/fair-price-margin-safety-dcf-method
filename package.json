@@ -8,8 +8,13 @@
   },
   "author": "Nuno Fontes",
   "license": "MIT",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/nunofhfontes/fair-price-margin-safety-dcf-method/issues"
   },
-  "homepage": "https://github.com/nunofhfontes/fair-price-margin-safety-dcf-method#readme"
+  "homepage": "https://github.com/nunofhfontes/fair-price-margin-safety-dcf-method#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.2"
+  }
 }
