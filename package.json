@@ -1,0 +1,19 @@
+{
+  "name": "fair-price-margin-safety-dcf-method",
+  "version": "1.0.0",
+  "description": "Margin Of Safety calculation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://nunofhfontes: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@github.com/nunofhfontes/fair-price-margin-safety-dcf-method.git"
+  },
+  "author": "Nuno Fontes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nunofhfontes/fair-price-margin-safety-dcf-method/issues"
+  },
+  "homepage": "https://github.com/nunofhfontes/fair-price-margin-safety-dcf-method#readme"
+}
