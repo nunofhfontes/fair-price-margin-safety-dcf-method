@@ -6,10 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://nunofhfontes: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@github.com/nunofhfontes/fair-price-margin-safety-dcf-method.git"
-  },
   "author": "Nuno Fontes",
   "license": "MIT",
   "bugs": {
