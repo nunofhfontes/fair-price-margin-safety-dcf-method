@@ -26,7 +26,8 @@ async function calculateMarginOfSafety(data) {
 
   const dcf = data['dcf'];
   const stockPrice = data['Stock Price'];
-  const marginOfSafety = (1 - (dcf / stockPrice)) * 100;
+  //const marginOfSafety = (1 - (dcf / stockPrice)) * 100;
+  const marginOfSafety = ((dcf - stockPrice)/dcf) * 100;
   return marginOfSafety.toFixed(2);
 }
 
@@ -51,6 +52,7 @@ async function processTickers() {
     const highMarginTable = [];
 
     for (const ticker of tickers) {
+      console.log("ticker -> ", ticker);
       const stockData = await fetchStockData(ticker);
       const marginOfSafety = await calculateMarginOfSafety(stockData);
 
