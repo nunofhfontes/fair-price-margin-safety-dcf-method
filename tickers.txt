@@ -1,4 +1,3 @@
-HD
-COF
-PFE
-JPM
+WM
+MA
+TROW
