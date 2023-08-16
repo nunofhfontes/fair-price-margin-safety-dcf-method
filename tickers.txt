@@ -14,7 +14,7 @@ UL
 MCD
 DPZ
 UNP
-WMT
+WM
 V
 MA
 ABBV
