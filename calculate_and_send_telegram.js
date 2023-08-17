@@ -35,6 +35,44 @@ High Margin of Safety Stocks:\n${formatResults(results.highMargin)}`;
 }
 
 // ... Remaining functions ...
+function formatResults(data) {
+// Same function as in the previous response
+// ...
+}
+
+async function fetchStockData(ticker) {
+    try {
+        const response = await fetch(`${API_URL}${ticker}?apikey=${API_KEY}`);
+        const data = await response.json();
+        return data[0]; // Assuming API response is an array with a single object
+    } catch (error) {
+        console.error(`Error fetching data for ${ticker}:`, error);
+        return null;
+    }
+}
+
+async function calculateMarginOfSafety(data) {
+    if (!data || !data['dcf'] || !data['Stock Price']) {
+        return null;
+    }
+
+    const dcf = data['dcf'];
+    const stockPrice = data['Stock Price'];
+    //const marginOfSafety = (1 - (dcf / stockPrice)) * 100;
+    const marginOfSafety = ((dcf - stockPrice)/dcf) * 100;
+    return marginOfSafety.toFixed(2);
+}
+
+async function fetchTickersFromURL(url) {
+    try {
+        const response = await fetch(url);
+        const text = await response.text();
+        return text.split('\n').map((ticker) => ticker.trim());
+    } catch (error) {
+        console.error('Error fetching tickers:', error);
+        return [];
+    }
+}
 
 // Process tickers, send email and Telegram message
 async function processTickersAndNotify() {
