@@ -72,11 +72,14 @@ async function sendTelegramMessage(results) {
   try {
     const chatIds = process.env.TELEGRAM_CHAT_IDS.split(',');
 
+    /*
     const message = `All Stocks Table:\n${formatResults(results.allStocks)}
 High Margin of Safety Stocks:\n${formatResults(results.highMargin)}`;
+*/
 
     for (const chatId of chatIds) {
-      await bot.sendMessage(chatId, message, { parse_mode: 'HTML' });
+      //await bot.sendMessage(chatId, message, { parse_mode: 'HTML' });
+      await bot.sendMessage(chatId, 'Testing message');
       console.log('Telegram message sent to chat ID:', chatId);
     }
   } catch (error) {
@@ -145,7 +148,7 @@ async function processTickersAndNotify() {
     };
 
     //sendEmail(results);
-    sendTelegramMessage(results);
+    sendTelegramMessage("testing");//results);
   } catch (error) {
     console.error('Error:', error);
   }
