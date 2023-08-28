@@ -145,7 +145,7 @@ async function processTickersAndNotify() {
     };
 
     //sendEmail(results);
-    //sendTelegramMessage(results);
+    sendTelegramMessage(results);
   } catch (error) {
     console.error('Error:', error);
   }
