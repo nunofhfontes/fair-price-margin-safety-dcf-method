@@ -72,19 +72,29 @@ async function sendTelegramMessage(results) {
   try {
     const chatIds = process.env.TELEGRAM_CHAT_IDS.split(',');
 
-    /*
-    const message = `All Stocks Table:\n${formatResults(results.allStocks)}
-High Margin of Safety Stocks:\n${formatResults(results.highMargin)}`;
-*/
+    // uses "special" that are allowed on telegram, since not all html is allowed
+    const message = `Results Summary:\n\n${formatResultsForTelegram(results.allStocks)}
+    High Margin of Safety Stocks:\n\n${formatResultsForTelegram(results.highMargin)}`;
 
     for (const chatId of chatIds) {
-      //await bot.sendMessage(chatId, message, { parse_mode: 'HTML' });
-      await bot.sendMessage(chatId, 'Testing message');
+      console.log("chatId => ", chatId);
+      await bot.sendMessage(chatId, message, { parse_mode: 'HTML' });
       console.log('Telegram message sent to chat ID:', chatId);
     }
   } catch (error) {
     console.error('Error sending Telegram message:', error);
   }
+}
+
+function formatResultsForTelegram(data) {
+  let formattedText = 'All Stocks Table:\n\n';
+  data.forEach((row) => {
+    formattedText += `Ticker: ${row.Ticker}\n`;
+    formattedText += `DCF: ${row.DCF}\n`;
+    formattedText += `Stock Price: ${row['Stock Price']}\n`;
+    formattedText += `Margin of Safety: ${row['Margin of Safety']}%\n\n`;
+  });
+  return formattedText;
 }
 
 function formatResults(data) {
@@ -148,7 +158,7 @@ async function processTickersAndNotify() {
     };
 
     //sendEmail(results);
-    sendTelegramMessage("testing");//results);
+    sendTelegramMessage(results);
   } catch (error) {
     console.error('Error:', error);
   }
