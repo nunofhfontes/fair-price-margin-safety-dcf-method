@@ -67,7 +67,7 @@ async function sendEmail(results) {
     console.error('Error sending email:', error);
   }
 }
-
+/*
 async function sendTelegramMessage(results) {
   try {
     const chatIds = process.env.TELEGRAM_CHAT_IDS.split(',');
@@ -85,6 +85,34 @@ async function sendTelegramMessage(results) {
     console.error('Error sending Telegram message:', error);
   }
 }
+*/
+
+async function sendTelegramMessage(results) {
+  try {
+    const chatIds = process.env.TELEGRAM_CHAT_IDS.split(',');
+
+    // uses "special" tags that are allowed on telegram, since not all html is allowed
+    const allStocksTable = formatResultsForTelegram(results.allStocks);
+    const highMarginTable = formatResultsForTelegram(results.highMargin);
+
+    // Split allStocksTable into two messages
+    const allStocksTablePart1 = allStocksTable.substring(0, allStocksTable.length / 2);
+    const allStocksTablePart2 = allStocksTable.substring(allStocksTable.length / 2);
+
+    for (const chatId of chatIds) {
+      console.log("chatId => ", chatId);
+      await bot.sendMessage(chatId, `Results Summary (Part 1):\n\n${allStocksTablePart1}`, { parse_mode: 'HTML' });
+      await bot.sendMessage(chatId, `Results Summary (Part 2):\n\n${allStocksTablePart2}`, { parse_mode: 'HTML' });
+      await bot.sendMessage(chatId, `High Margin of Safety Stocks:\n\n${highMarginTable}`, { parse_mode: 'HTML' });
+      await bot.sendMessage(chatId, '===================\n\nAnd thats it for today!!!\n\n===================');
+
+      console.log('Telegram messages sent to chat ID:', chatId);
+    }
+  } catch (error) {
+    console.error('Error sending Telegram messages:', error);
+  }
+}
+
 
 function formatResultsForTelegram(data) {
   let formattedText = 'All Stocks Table:\n\n';
