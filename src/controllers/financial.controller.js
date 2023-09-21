@@ -18,7 +18,12 @@ class FinancialStatementController {
 
     console.log("getting Cash Flows for Ticker from SEC");
 
-    financialStatementService.
+    let cashFromOperations = await financialStatementService.fetchFreeCashFlowForTicker();
+
+    res.status(200).json(
+      { 
+        cashFromOperations: cashFromOperations,
+      });
 
   }
 
