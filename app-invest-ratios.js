@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const financialRoutes = require('./src/routes/financialRoutes');
+const financialRoutes = require('./src/routes/financial.route');
 
 app.use(express.json());
 
@@ -12,6 +12,7 @@ app.use('/frontend2', express.static(__dirname + '/frontend2'));
 
 // ... other middleware ...
 
+// segregate code to routers according to features
 app.use('/financial', financialRoutes);
 
 

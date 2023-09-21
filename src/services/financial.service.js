@@ -1,6 +1,55 @@
 // src/services/FinancialStatementService.js
+const axios = require('axios');
 
 class FinancialStatementService {
+
+    async fetchFinancialStatementForTicker(companyId) {
+      // Implement logic to fetch financial data from SEC EDGAR
+      // Return the fetched data
+    }
+
+    async fetchFinancialStatementForTicker(ticker) {
+      
+      // NetCashProvidedByUsedInOperatingActivities -> Cash From Operations
+      // PaymentsToAcquireProductiveAssets          -> CAPEX
+
+      // Implement logic to fetch Cash Flows data from SEC EDGAR
+      const url = 'https://data.sec.gov/api/xbrl/companyfacts/CIK0001418121.json';
+
+      try {
+        const response = await axios.get(url);
+
+        // Check if the request was successful (status code 200)
+        if (response.status === 200) {
+          const data = response.data;
+          // Process and use the 'data' as needed
+          console.log(data.facts.us-gaap.);
+        } else {
+          console.error('HTTP request failed with status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+
+      // Calculate Cash FLow trend/growth
+      
+      // Return the fetched data
+    }
+
+    async translateTickerToCik(ticker) {
+
+      // call SEC EDGAR's endpoint to translate the ticker to CIK
+
+    }
+
+    async checkIfTickerIsListedOnUsExchange(ticker) {
+
+      // we need to check if the inserte ticker is listed on some US exchange and available
+      // we must differentiate tickers for countries and their exchanges
+      // we'll start with just american available tickers 
+
+    }
+
     async fetchFinancialData(companyId) {
       // Implement logic to fetch financial data from a database or external API
       // Return the fetched data
