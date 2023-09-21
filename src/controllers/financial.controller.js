@@ -20,10 +20,16 @@ class FinancialStatementController {
 
     let cashFromOperations = await financialStatementService.fetchFreeCashFlowForTicker();
 
-    res.status(200).json(
-      { 
-        cashFromOperations: cashFromOperations,
-      });
+    console.log("cashFromOperations Map on controller: ", cashFromOperations);
+
+    // Convert the map to a JavaScript object
+    const mapToObject = Object.fromEntries(cashFromOperations);
+    res.status(200).json(mapToObject);
+
+    // res.status(200).json(
+    //   { 
+    //     cashFromOperations: cashFromOperations,
+    //   });
 
   }
 
