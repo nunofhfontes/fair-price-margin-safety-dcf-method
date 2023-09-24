@@ -15,6 +15,9 @@ class FinancialStatementService {
 
       // Initialize an empty map
       const resultMap = new Map();
+
+      // Create a map to store filtered data
+      const filteredDataMap = new Map();
       
       // NetCashProvidedByUsedInOperatingActivities -> Cash From Operations
       // PaymentsToAcquireProductiveAssets          -> CAPEX
@@ -31,23 +34,33 @@ class FinancialStatementService {
           // Process and use the 'data' as needed
           //console.log(data.facts.us-gaap.);
 
-          cashFromOperations = data["facts"]["us-gaap"]["PaymentsToAcquireProductiveAssets"]["units"]["USD"]; //data.facts.us-gaap.PaymentsToAcquireProductiveAssets.units.USD;
+          cashFromOperations = data["facts"]["us-gaap"]["NetCashProvidedByUsedInOperatingActivities"]["units"]["USD"]; //data.facts.us-gaap.PaymentsToAcquireProductiveAssets.units.USD;
 
           console.log("Cash From Operations: ", cashFromOperations);
 
           // Filter the array based on "form" field and store in the map
           cashFromOperations.forEach(item => {
+            // if (item.form === "10-K") {
+            //   // Check if the year is already in the map
+            //   if (resultMap.has(item.fy)) {
+
+            //     console.log("year: " + item.fy + " | val: " + item.val);
+
+            //     // TODO: distinguish the proper 10-K value amonsgt the multiple possibilities
+
+            //     // If it exists, append "10-K" to the existing value (a string)
+            //     resultMap.set(item.fy, item.val);
+            //   } else {
+            //     // If it doesn't exist, create a new entry
+            //     resultMap.set(item.fy, "10-K");
+            //   }
+            // }
             if (item.form === "10-K") {
-              // Check if the year is already in the map
-              if (resultMap.has(item.fy)) {
-
-                // TODO: distinguish the proper 10-K value amonsgt the multiple possibilities
-
-                // If it exists, append "10-K" to the existing value (a string)
-                resultMap.set(item.fy, resultMap.get(item.fy) + ", 10-K");
-              } else {
-                // If it doesn't exist, create a new entry
-                resultMap.set(item.fy, "10-K");
+              const year = item.fy;
+              const endDate = item.end;
+          
+              if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
+                filteredDataMap.set(year, item);
               }
             }
           });
@@ -69,7 +82,8 @@ class FinancialStatementService {
       
       // Return the fetched data
       //return cashFromOperations;
-      return resultMap;
+      //return resultMap;
+      return filteredDataMap;
     }
 
     async translateTickerToCik(ticker) {
