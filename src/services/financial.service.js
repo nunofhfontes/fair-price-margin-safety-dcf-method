@@ -40,27 +40,15 @@ class FinancialStatementService {
 
           // Filter the array based on "form" field and store in the map
           cashFromOperations.forEach(item => {
-            // if (item.form === "10-K") {
-            //   // Check if the year is already in the map
-            //   if (resultMap.has(item.fy)) {
-
-            //     console.log("year: " + item.fy + " | val: " + item.val);
-
-            //     // TODO: distinguish the proper 10-K value amonsgt the multiple possibilities
-
-            //     // If it exists, append "10-K" to the existing value (a string)
-            //     resultMap.set(item.fy, item.val);
-            //   } else {
-            //     // If it doesn't exist, create a new entry
-            //     resultMap.set(item.fy, "10-K");
-            //   }
-            // }
             if (item.form === "10-K") {
               const year = item.fy;
               const endDate = item.end;
           
               if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
                 filteredDataMap.set(year, item);
+
+                this.checkIfHasFrameFieldAndUpdate(filteredDataMap, item);
+
               }
             }
           });
@@ -84,6 +72,15 @@ class FinancialStatementService {
       //return cashFromOperations;
       //return resultMap;
       return filteredDataMap;
+    }
+
+    checkIfHasFrameFieldAndUpdate(filteredDataMap, item) {
+      if(item.hasOwnProperty("frame")) {
+        if (item.frame.length >= 4) {
+          const year = item.frame.slice(-4);
+          filteredDataMap.set(year, item);
+        }
+      }
     }
 
     async translateTickerToCik(ticker) {
