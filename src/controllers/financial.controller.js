@@ -18,19 +18,11 @@ class FinancialStatementController {
 
     console.log("getting Cash Flows for Ticker from SEC");
 
-    let cashFromOperations = await financialStatementService.fetchFreeCashFlowForTicker();
-
-    console.log("cashFromOperations Map on controller: ", cashFromOperations);
+    let fcf = await financialStatementService.fetchFreeCashFlowForTicker();
 
     // Convert the map to a JavaScript object
-    const mapToObject = Object.fromEntries(cashFromOperations);
-    res.status(200).json(mapToObject);
-
-    // res.status(200).json(
-    //   { 
-    //     cashFromOperations: cashFromOperations,
-    //   });
-
+    const fcfMappedToObject = Object.fromEntries(fcf);
+    res.status(200).json(fcfMappedToObject);
   }
 
   async getFinancialStatementsForTicker(req, res, next) {

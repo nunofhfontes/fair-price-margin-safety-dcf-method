@@ -10,18 +10,31 @@ class FinancialStatementService {
 
     async fetchFreeCashFlowForTicker(ticker) {
 
+      // NetCashProvidedByUsedInOperatingActivities -> Cash From Operations
+      // PaymentsToAcquireProductiveAssets          -> CAPEX
+
       let cashFromOperations;
       let capex;
-
-      // Initialize an empty map
-      const resultMap = new Map();
 
       // Create a map to store filtered data
       const filteredDataMap = new Map();
       
-      // NetCashProvidedByUsedInOperatingActivities -> Cash From Operations
-      // PaymentsToAcquireProductiveAssets          -> CAPEX
+      const accounts = new Map();
+      accounts.set("cashFromOperations", {
+        secKey: 'NetCashProvidedByUsedInOperatingActivities',
+        annualData: '',
+      });
+      accounts.set("capex", {
+        secKey: 'PaymentsToAcquireProductiveAssets',
+        annualData: '',
+      });
+      accounts.set("freeCashFlow", {});
 
+      accounts.forEach((value, key) => {
+        console.log(`Key: ${key}, Value: ${value}`);
+
+      });
+      
       // Implement logic to fetch Cash Flows data from SEC EDGAR
       const url = 'https://data.sec.gov/api/xbrl/companyfacts/CIK0000354950.json';
 
@@ -34,30 +47,25 @@ class FinancialStatementService {
           // Process and use the 'data' as needed
           //console.log(data.facts.us-gaap.);
 
-          cashFromOperations = data["facts"]["us-gaap"]["NetCashProvidedByUsedInOperatingActivities"]["units"]["USD"]; //data.facts.us-gaap.PaymentsToAcquireProductiveAssets.units.USD;
+          cashFromOperations = data["facts"]["us-gaap"]["NetCashProvidedByUsedInOperatingActivities"]["units"]["USD"];
+          capex = data["facts"]["us-gaap"]["PaymentsToAcquireProductiveAssets"]["units"]["USD"];
 
-          console.log("Cash From Operations: ", cashFromOperations);
+          //console.log("Cash From Operations: ", cashFromOperations);
+          console.log("CAPEX: ", capex);
 
           // Filter the array based on "form" field and store in the map
-          cashFromOperations.forEach(item => {
-            if (item.form === "10-K") {
-              const year = item.fy;
-              const endDate = item.end;
-          
-              if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
-                filteredDataMap.set(year, item);
-
-                this.checkIfHasFrameFieldAndUpdate(filteredDataMap, item);
-
-              }
-            }
+          cashFromOperations.forEach(rawCurrentItem => {
+            this.extractAnualResultsFromRawData(rawCurrentItem, filteredDataMap)
+            // if (item.form === "10-K") {
+            //   const year = item.fy;
+            //   const endDate = item.end;
+            //   if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
+            //     filteredDataMap.set(year, item);
+            //     this.checkIfHasFrameFieldAndUpdate(filteredDataMap, item);
+            //   }
+            // }
           });
 
-          // Convert the map to an object (if needed)
-          const resultObject = Object.fromEntries(resultMap);
-
-          console.log("result Map: ", resultObject);
-          
         } else {
           console.error('HTTP request failed with status:', response.status);
         }
@@ -69,9 +77,18 @@ class FinancialStatementService {
       // Calculate Cash FLow trend/growth
       
       // Return the fetched data
-      //return cashFromOperations;
-      //return resultMap;
       return filteredDataMap;
+    }
+
+    extractAnualResultsFromRawData(rawCurrentItem, filteredDataMap) {
+      if (rawCurrentItem.form === "10-K") {
+        const year = rawCurrentItem.fy;
+        const endDate = rawCurrentItem.end;
+        if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
+          filteredDataMap.set(year, rawCurrentItem);
+          this.checkIfHasFrameFieldAndUpdate(filteredDataMap, rawCurrentItem);
+        }
+      }
     }
 
     checkIfHasFrameFieldAndUpdate(filteredDataMap, item) {
