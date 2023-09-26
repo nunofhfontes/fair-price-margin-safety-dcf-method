@@ -59,6 +59,11 @@ class FinancialStatementService {
 
       // NetCashProvidedByUsedInOperatingActivities -> Cash From Operations
       // PaymentsToAcquireProductiveAssets          -> CAPEX
+      // PaymentsToAcquirePropertyPlantAndEquipment  ???
+      // "PaymentsToAcquirePropertyPlantAndEquipment": {
+      //   "label": "Payments to Acquire Property, Plant, and Equipment",
+      //   "description": "The cash outflow associated with the acquisition of long-lived, physical assets that are used in the normal conduct of business to produce goods and services and not intended for resale; includes cash outflows to pay for construction of self-constructed assets.",
+
 
       let cashFromOperationsRawData;
       let capexRawData;
@@ -101,9 +106,17 @@ class FinancialStatementService {
         // Check if the request was successful (status code 200)
         if (response.status === 200) {
           const data = response.data;
+
+          //console.log("check units: ", data["facts"]["us-gaap"]["NetCashProvidedByUsedInOperatingActivities"]["units"]);
+          console.log("check capex units: ", data["facts"]["us-gaap"]["PaymentsToAcquireProductiveAssets"]);
+          
+          
+          
           // Process and use the 'data' as needed
           cashFromOperationsRawData = data["facts"]["us-gaap"]["NetCashProvidedByUsedInOperatingActivities"]["units"]["USD"];
           capexRawData = data["facts"]["us-gaap"]["PaymentsToAcquireProductiveAssets"]["units"]["USD"];
+
+
 
           // Filter the array based on "form" field and store in the map
           cashFromOperationsRawData.forEach(rawCurrentItem => {
