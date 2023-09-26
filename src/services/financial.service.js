@@ -34,6 +34,15 @@ class FinancialStatementService {
         // Get the CIK number for the specified ticker
         cikNumber = tickerMap.get(tickerToSearch.toLowerCase());
 
+        // Convert the number to a string
+        const cikString = cikNumber.toString();
+
+        // Calculate the number of zeros needed to make the total length 10
+        const zerosNeeded = 10 - cikString.length;
+
+        // Create the final string with the desired number and zeros
+        cikNumber = '0'.repeat(zerosNeeded) + cikString;
+
         if (cikNumber) {
           console.log(`CIK number for ${tickerToSearch}: ${cikNumber}`);
         } else {
@@ -77,10 +86,14 @@ class FinancialStatementService {
       
       // Implement logic to fetch Cash Flows data from SEC EDGAR
       //const url = 'https://data.sec.gov/api/xbrl/companyfacts/CIK0000354950.json';
-      const url = `https://data.sec.gov/api/xbrl/companyfacts/CIK0000${cikNumber}.json`;
+
+      //FIXME - the total CIK must have a certain length
+      const url = `https://data.sec.gov/api/xbrl/companyfacts/CIK${cikNumber}.json`;
 
       // TODO - instead of getting all the facts, we could just get the ones needed
       // https://data.sec.gov/api/xbrl/companyconcept/CIK##########/us-gaap/AccountsPayableCurrent.json
+
+      console.log("url -> ", url);
 
       try {
         const response = await axios.get(url);
