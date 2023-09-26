@@ -66,13 +66,11 @@ class FinancialStatementService {
 
     async fetchFreeCashFlowForTicker(cikNumber) {
 
-      // NetCashProvidedByUsedInOperatingActivities -> Cash From Operations
-      // PaymentsToAcquireProductiveAssets          -> CAPEX
-      // PaymentsToAcquirePropertyPlantAndEquipment  ???
-      // "PaymentsToAcquirePropertyPlantAndEquipment": {
-      //   "label": "Payments to Acquire Property, Plant, and Equipment",
-      //   "description": "The cash outflow associated with the acquisition of long-lived, physical assets that are used in the normal conduct of business to produce goods and services and not intended for resale; includes cash outflows to pay for construction of self-constructed assets.",
-
+      // Some COntext about the needed sec fields to calculate the FCF
+      // NetCashProvidedByUsedInOperatingActivitiesContinuingOperations -> Cash From Operations
+      // NetCashProvidedByUsedInOperatingActivities                     -> Cash From Operations
+      // PaymentsToAcquireProductiveAssets                              -> CAPEX
+      // PaymentsToAcquirePropertyPlantAndEquipment                     -> CAPEX
 
       let netCashProvidedByUsedInOperatingActivitiesContinuingOperationsRawData;
       let cashFromOperationsRawData;
@@ -86,37 +84,13 @@ class FinancialStatementService {
       const paymentsToAcquirePropertyPlantAndEquipmentFilteredMap = new Map();
       const fcfFilteredDataMap = new Map();
       
-      // const accounts = new Map();
-      // accounts.set("cashFromOperations", {
-      //   secKey: 'NetCashProvidedByUsedInOperatingActivities',
-      //   annualData: '',
-      // });
-      // accounts.set("capex", {
-      //   secKey: 'PaymentsToAcquireProductiveAssets',
-      //   annualData: '',
-      // });
-      // accounts.set("freeCashFlow", {});
-
-      // accounts.forEach((value, key) => {
-      //   console.log(`Key: ${key}, Value: ${value}`);
-
-      // });
-
-      // // Process and use the 'data' as needed
-      // cashFromOperationsRawData = data["facts"]["us-gaap"]["NetCashProvidedByUsedInOperatingActivities"]["units"]["USD"];
-      // capexRawData = data["facts"]["us-gaap"]["PaymentsToAcquireProductiveAssets"]["units"]["USD"];
-
-      
-      // Implement logic to fetch Cash Flows data from SEC EDGAR
-      //const url = 'https://data.sec.gov/api/xbrl/companyfacts/CIK0000354950.json';
-
-      //FIXME - the total CIK must have a certain length
+      // The total CIK must have a certain length, 10
       const url = `https://data.sec.gov/api/xbrl/companyfacts/CIK${cikNumber}.json`;
 
       // TODO - instead of getting all the facts, we could just get the ones needed
       // https://data.sec.gov/api/xbrl/companyconcept/CIK##########/us-gaap/AccountsPayableCurrent.json
 
-      console.log("url -> ", url);
+      console.log("Facts url -> ", url);
 
       try {
         const response = await axios.get(url);
@@ -131,30 +105,32 @@ class FinancialStatementService {
           paymentsToAcquireProductiveAssetsRawData = data["facts"]["us-gaap"]["PaymentsToAcquireProductiveAssets"];
           paymentsToAcquirePropertyPlantAndEquipmentRawData = data["facts"]["us-gaap"]["paymentsToAcquirePropertyPlantAndEquipmentRawData"];
 
+          // Parsing the Raw Data and getting the right 10-K values
           if(netCashProvidedByUsedInOperatingActivitiesContinuingOperationsRawData) {
             netCashProvidedByUsedInOperatingActivitiesContinuingOperationsRawData["units"]["USD"].forEach(rawCurrentItem => {
               this.extractAnualResultsFromRawData(rawCurrentItem, netCashProvidedByUsedInOperatingActivitiesContinuingOperationsFilteredMap);
             });
           }
-
+          // Parsing the Raw Data and getting the right 10-K values
           if(cashFromOperationsRawData) {
             cashFromOperationsRawData["units"]["USD"].forEach(rawCurrentItem => {
               this.extractAnualResultsFromRawData(rawCurrentItem, cashFromOpsFilteredDataMap)
             });
           }
-
+          // Parsing the Raw Data and getting the right 10-K values
           if(paymentsToAcquireProductiveAssetsRawData) {
             paymentsToAcquireProductiveAssetsRawData["units"]["USD"].forEach(rawCurrentItem => {
               this.extractAnualResultsFromRawData(rawCurrentItem, paymentsToAcquireProductiveAssetsFilteredMap)
             });
           }
-
+          // Parsing the Raw Data and getting the right 10-K values
           if(paymentsToAcquirePropertyPlantAndEquipmentRawData) {
             paymentsToAcquirePropertyPlantAndEquipmentRawData["units"]["USD"].forEach(rawCurrentItem => {
               this.extractAnualResultsFromRawData(rawCurrentItem, paymentsToAcquirePropertyPlantAndEquipmentFilteredMap);
             });
           }
 
+          // This is to get the financial report's year span, the maximum and minimum years
           const maps = [netCashProvidedByUsedInOperatingActivitiesContinuingOperationsFilteredMap,
             cashFromOpsFilteredDataMap,
             paymentsToAcquireProductiveAssetsFilteredMap,
@@ -181,6 +157,7 @@ class FinancialStatementService {
           console.log('Minimum year among all maps:', minimumYear);
           console.log('Maximum year among all maps:', maximumYear);
 
+          // For each year, get the accumulated FCF and store it on the Map (year - FCF)
           for (let i = minimumYear; i <= maximumYear; i++) {
             let accFcf = 0;
             // computing FCF = CashFromOperatins - CAPEX
@@ -206,24 +183,12 @@ class FinancialStatementService {
         console.log('ERROR!!!!!!!!!!!');
       }
 
+      //TODO
       // Calculate Cash FLow trend/growth
       
       // Return the computed
       return fcfFilteredDataMap;
     }
-
-    // if(cashFromOpsFilteredDataMap.has(key) && paymentsToAcquireProductiveAssetsFilteredMap.has(key) && paymentsToAcquirePropertyPlantAndEquipmentFilteredMap.has(key)) {
-            //   console("Capex with 2 element");
-            //   fcfFilteredDataMap.set(key, value.val - paymentsToAcquireProductiveAssetsFilteredMap.get(key).val - paymentsToAcquirePropertyPlantAndEquipmentFilteredMap.get(key).val);
-            // } else if(cashFromOpsFilteredDataMap.has(key) && paymentsToAcquireProductiveAssetsFilteredMap.has(key)) {
-            //   console("Capex with just 1 element");
-            //   fcfFilteredDataMap.set(key, value.val - paymentsToAcquireProductiveAssetsFilteredMap.get(key).val);
-            // //} else if() {
-            
-            // } else {
-            //   console.log("Capex with 0 elements");
-            //   fcfFilteredDataMap.set(key, value.val);
-            // }
 
     extractAnualResultsFromRawData(rawCurrentItem, filteredDataMap) {
       if (rawCurrentItem.form === "10-K") {
@@ -243,12 +208,6 @@ class FinancialStatementService {
           filteredDataMap.set(year, item);
         }
       }
-    }
-
-    async translateTickerToCik(ticker) {
-
-      // call SEC EDGAR's endpoint to translate the ticker to CIK
-
     }
 
     async checkIfTickerIsListedOnUsExchange(ticker) {
