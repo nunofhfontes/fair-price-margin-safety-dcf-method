@@ -13,7 +13,7 @@ class FinancialStatementService {
     async getCikForTicker(tickerToSearch) {
 
       // Try to get the CIK number from the cache
-      let cikFromCache = await cacheService.getCikFromCache(tickerToSearch);
+      let cikFromCache = await cacheService.getCikFromCache(tickerToSearch.toLowerCase());
       if(cikFromCache) {
         console.log(`Gotten the CIK nr -> ${cikFromCache} from the cache`);
         return cikFromCache;
@@ -52,6 +52,7 @@ class FinancialStatementService {
         cikNumber = '0'.repeat(zerosNeeded) + cikString;
 
         if (cikNumber) {
+          console.log('Parsed ticker-cik file parsed');
           console.log(`CIK number for ${tickerToSearch}: ${cikNumber}`);
         } else {
           console.log(`Ticker ${tickerToSearch} not found in the mapping.`);

@@ -35,7 +35,7 @@ async function fetchTickerMapping() {
     // Store the map in the cache with a key 'tickerData'
     cache.set('tickerData', tickerMap);
 
-    console.log('Init Cache - Data (size of) retrieved from API and cached: ', tickerMap.size);
+    console.log(`-----------------------------------\nInit Cache - Data (size of) retrieved from API and cached: ${tickerMap.size}`);
     console.log("Example: ", tickerMap.get('aapl'));
 
     return tickerMap;
@@ -52,7 +52,7 @@ startCache = async () => {
   if (tickerData) {
     // Access ticker data from the cache
     const cikNumber = tickerData.get('aapl'); // Replace 'AAPL' with your desired ticker
-    console.log('Init Cache Testing - CIK number for AAPL:', cikNumber);
+    console.log(`Init Cache Testing - CIK number for AAPL: ${cikNumber} \n-----------------------------------`);
   }
 }
 

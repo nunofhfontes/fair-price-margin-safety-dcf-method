@@ -3,6 +3,9 @@ const app = express();
 const financialRoutes = require('./src/routes/financial.route');
 const cacheService = require('./src/services/node.cache.service');
 
+// Init Cache
+cacheService.startCache();
+
 app.use(express.json());
 
 // Serve static files for frontend1
@@ -15,8 +18,6 @@ app.use('/frontend2', express.static(__dirname + '/frontend2'));
 
 // segregate code to routers according to features
 app.use('/financial', financialRoutes);
-
-cacheService.startCache();
 
 // ... start the server ...
 const PORT = process.env.PORT || 3000;
