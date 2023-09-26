@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const financialRoutes = require('./src/routes/financial.route');
+const cacheService = require('./src/services/node.cache.service');
 
 app.use(express.json());
 
@@ -15,9 +16,12 @@ app.use('/frontend2', express.static(__dirname + '/frontend2'));
 // segregate code to routers according to features
 app.use('/financial', financialRoutes);
 
+cacheService.startCache();
 
 // ... start the server ...
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
