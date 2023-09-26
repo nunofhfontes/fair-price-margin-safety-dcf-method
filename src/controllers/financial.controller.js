@@ -16,9 +16,10 @@ class FinancialStatementController {
 
   async getCashFlowsForTicker(req, res, next) {
 
-    console.log("getting Cash Flows for Ticker from SEC");
+    console.log("getting Cash Flows for Ticker from SEC -> ", req.params.companyId);
 
-    let fcf = await financialStatementService.fetchFreeCashFlowForTicker();
+    let cik = await financialStatementService.getCikForTicker(req.params.companyId);
+    let fcf = await financialStatementService.fetchFreeCashFlowForTicker(cik);
 
     // Convert the map to a JavaScript object
     const fcfMappedToObject = Object.fromEntries(fcf);
