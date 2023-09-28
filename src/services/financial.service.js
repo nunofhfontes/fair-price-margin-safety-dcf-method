@@ -14,15 +14,16 @@ class FinancialStatementService {
 
       // Try to get the CIK number from the cache
       let cikFromCache = await cacheService.getCikFromCache(tickerToSearch.toLowerCase());
+      console.log("CHECK CIK FROM CACHE: ", cikFromCache);
+      
       if(cikFromCache) {
+        // fill with the necessary zeros
+        cikFromCache = this.formatCikNumber(cikFromCache);
         console.log(`Gotten the CIK nr -> ${cikFromCache} from the cache`);
         return cikFromCache;
       }
 
-      // TODO - store the tocker - cik list into a cache
-
       let cikNumber = 0;
-
       const ticker2CikUrl = 'https://www.sec.gov/include/ticker.txt';
       try {
         // Fetch the text file from the URL using Axios
@@ -42,14 +43,17 @@ class FinancialStatementService {
         // Get the CIK number for the specified ticker
         cikNumber = tickerMap.get(tickerToSearch.toLowerCase());
 
-        // Convert the number to a string
-        const cikString = cikNumber.toString();
+        // fill with the necessary zeros
+        this.formatCikNumber(cikNumber);
 
-        // Calculate the number of zeros needed to make the total length 10
-        const zerosNeeded = 10 - cikString.length;
+        // // Convert the number to a string
+        // const cikString = cikNumber.toString();
 
-        // Create the final string with the desired number and zeros
-        cikNumber = '0'.repeat(zerosNeeded) + cikString;
+        // // Calculate the number of zeros needed to make the total length 10
+        // const zerosNeeded = 10 - cikString.length;
+
+        // // Create the final string with the desired number and zeros
+        // cikNumber = '0'.repeat(zerosNeeded) + cikString;
 
         if (cikNumber) {
           console.log('Parsed ticker-cik file parsed');
@@ -62,6 +66,19 @@ class FinancialStatementService {
       } 
 
       return cikNumber;
+    }
+
+    formatCikNumber(cikNumber) {
+      // Convert the number to a string
+      let cikString = cikNumber.toString();
+
+      // Calculate the number of zeros needed to make the total length 10
+      const zerosNeeded = 10 - cikString.length;
+
+      // Create the final string with the desired number and zeros
+      cikString = '0'.repeat(zerosNeeded) + cikString;
+
+      return cikString;
     }
 
     async fetchFreeCashFlowForTicker(cikNumber) {

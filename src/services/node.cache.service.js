@@ -63,8 +63,11 @@ getCikFromCache = async (ticker) => {
       // Access ticker data from the cache
       const cikNumber = tickerData.get(ticker); // Replace 'AAPL' with your desired ticker
       console.log(`Retrieved CIK- > ${cikNumber} from the cache for the ticker -> ${ticker}`);
+      
+      // return cik number
+      return tickerData.get(ticker); 
     }
-  }
+}
 
 module.exports = {
     startCache,
