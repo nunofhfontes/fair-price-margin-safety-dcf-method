@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
+const cors = require(cors);
 const financialRoutes = require('./src/routes/financial.route');
 const cacheService = require('./src/services/node.cache.service');
 
 // Init Cache
 cacheService.startCache();
+
+app.use(cors());
 
 app.use(express.json());
 
