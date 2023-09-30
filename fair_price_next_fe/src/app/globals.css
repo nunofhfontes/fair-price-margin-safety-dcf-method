@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: Open Sans,sans-serif;
+  font-size: 14px;
+  color: #888;
+  font-weight: 400;
+  background: #f4f7fa;
+  /* position: relative; */
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
