@@ -81,13 +81,20 @@ class FinancialStatementService {
       return cikString;
     }
 
-    async fetchFreeCashFlowForTicker(cikNumber) {
+    async fetchFreeCashFlowForTicker(cikNumber, ticker) {
 
       // Some COntext about the needed sec fields to calculate the FCF
       // NetCashProvidedByUsedInOperatingActivitiesContinuingOperations -> Cash From Operations
       // NetCashProvidedByUsedInOperatingActivities                     -> Cash From Operations
       // PaymentsToAcquireProductiveAssets                              -> CAPEX
       // PaymentsToAcquirePropertyPlantAndEquipment                     -> CAPEX
+
+      // Check if there's cached Data for this ticker
+      let cachedData = cacheService.getFcfOnCache(ticker);
+      if(cachedData && cachedData.fcf){
+        console.log(`INFO: Found FCF cached data for ticker: ${ticker}`);
+        return cachedData;
+      }
 
       let netCashProvidedByUsedInOperatingActivitiesContinuingOperationsRawData;
       let cashFromOperationsRawData;
@@ -203,6 +210,9 @@ class FinancialStatementService {
       //TODO
       // Calculate Cash FLow trend/growth
       
+      // setting info on cache
+      cacheService.setFcfOnCache(ticker, filteredDataMap);
+
       // Return the computed
       return fcfFilteredDataMap;
     }

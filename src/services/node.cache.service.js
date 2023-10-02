@@ -69,7 +69,36 @@ getCikFromCache = async (ticker) => {
     }
 }
 
+setFcfOnCache = (ticker, fcfData) => {
+  
+  //TODO: should merge objects instead of smashing
+
+  console.log(`INFO: setting FCF information on cache for ticker: ${ticker}`);
+  
+  cache.set(ticker, {
+    fcf: fcfData,
+  });
+}
+
+getFcfOnCache = (ticker, fcfData) => {
+  
+  //TODO: should merge objects instead of smashing
+
+  console.log(`INFO: getting FCF information on cache for ticker: ${ticker}`);
+  
+  let fcfData = cache.set(ticker);
+
+  if(!fcfData) {
+    console.log(`WARN: no Cache FCF information found for ticker: ${ticker}`);
+    return;
+  }
+  
+  return fcfData;
+}
+
 module.exports = {
     startCache,
     getCikFromCache,
+    setFcfOnCache,
+    getFcfOnCache,
 };
