@@ -6,7 +6,8 @@ import React, { useState } from 'react';
 const SearchBox = () => {
   const [inputValue, setInputValue] = useState('');
   const knownTickers = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT']; // Sample list of known tickers
-  const [suggestions, setSuggestions] = useState([]);
+//   const [suggestions, setSuggestions] = useState([]);
+  const [suggestion, setSuggestion] = useState(null);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -21,7 +22,8 @@ const SearchBox = () => {
     );
 
     // Update the suggestions based on matched tickers
-    setSuggestions(matchedTickers);
+    // setSuggestions(matchedTickers);
+    setSuggestion(matchedTickers);
   };
 
   return (
@@ -32,13 +34,17 @@ const SearchBox = () => {
         value={inputValue}
         onChange={handleInputChange}
       />
-      {suggestions.length > 0 && (
+      {suggestion && (
+        <p>Suggestion: {suggestion}</p>
+      )}
+      {/* {suggestions.length > 0 && (
         <ul>
           {suggestions.map((ticker) => (
             <li key={ticker}>{ticker}</li>
           ))}
         </ul>
-      )}
+      )} */}
+
     </div>
   );
 };
