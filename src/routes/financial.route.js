@@ -7,6 +7,7 @@ const financialStatementController = require('../controllers/financial.controlle
 const router = express.Router();
 
 // segregate code to specific controllers
+router.get('/tickers', financialStatementController.getTickers);
 router.get('/company/:companyId/fcf', financialStatementController.getCashFlowsForTicker);
 router.get('/company/:companyId/revenue', financialStatementController.getRevenue);
 router.get('/company/:companyId/profit', financialStatementController.getProfit);

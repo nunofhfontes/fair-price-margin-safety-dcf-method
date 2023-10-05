@@ -5,11 +5,16 @@ import React, { useState } from 'react';
 
 const SearchBox = () => {
   const [inputValue, setInputValue] = useState('');
-  const knownTickers = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT']; // Sample list of known tickers
+  const knownTickers = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT', 'TGT']; // Sample list of known tickers
 //   const [suggestions, setSuggestions] = useState([]);
   const [suggestion, setSuggestion] = useState(null);
+  const [showSuggestion, setShowSuggestion] = useState(false);
+ 
 
   const handleInputChange = (e) => {
+
+    console.log("input changes detector: ", e.target.value);
+
     const value = e.target.value;
     setInputValue(value);
 
@@ -17,9 +22,15 @@ const SearchBox = () => {
     // const matchedTickers = knownTickers.filter((ticker) =>
     //   ticker.toLowerCase().includes(value.toLowerCase())
     // );
+    if(!value) {
+        // if there's no inserted value, prevent the search
+        return;
+    }
     const matchedTickers = knownTickers.filter((ticker) =>
       ticker.toLowerCase().startsWith(value.toLowerCase())
     );
+
+    // if(suggestion)
 
     // Update the suggestions based on matched tickers
     // setSuggestions(matchedTickers);
@@ -34,9 +45,12 @@ const SearchBox = () => {
         value={inputValue}
         onChange={handleInputChange}
       />
-      {suggestion && (
+      {/* {suggestion ? (
         <p>Suggestion: {suggestion}</p>
-      )}
+      ): (<></>) } */}
+      {/* {suggestion && (
+        <p>Suggestion: {suggestion}</p>
+      )} */}
       {/* {suggestions.length > 0 && (
         <ul>
           {suggestions.map((ticker) => (

@@ -2,7 +2,7 @@
 module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
@@ -13,10 +13,11 @@ module.exports = {
         white: '#fff',
         gray: {
           100: '#f7fafc',
-          500: '#f4f7fa',
+          500: '#3f4d67',
+          // f4f7fa
           900: '#1a202c',
         },
-  
+        customgray: '#3f4d67',
         // ...
       }
     },
@@ -26,6 +27,14 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      // colors : {
+      //   gray: {
+      //     100: '#f7fafc',
+      //     500: '#3f4d67',
+      //     // f4f7fa
+      //     900: '#1a202c',
+      //   },
+      // },
     },
   },
   plugins: [],

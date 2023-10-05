@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Navbar from './components/Navbar'
 import Sidemenu from './components/Sidemenu'
+import Dashboard from './components/Dashboard'
+
 
 export default function Home() {
   return (
@@ -10,8 +12,11 @@ export default function Home() {
         <div className='w-1/5'>
           <Sidemenu />
         </div>
-        <div className='w-4/5 mx-5'>
-          <div className="container mx-auto mt-12">
+        <main className='w-4/5 mx-5'>
+          <Dashboard />
+
+
+          {/* <div className="container mx-auto mt-12">
             <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
                 <div className="w-full px-4 py-5 bg-white rounded-lg shadow">
                     <div className="text-sm font-medium text-gray-500 truncate">
@@ -38,8 +43,8 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-          </div>
-        </div>
+          </div> */}
+        </main>
       </div>
     </>
     
