@@ -38,28 +38,61 @@ const SearchBox = () => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter ticker"
-        value={inputValue}
-        onChange={handleInputChange}
-      />
-      {/* {suggestion ? (
-        <p>Suggestion: {suggestion}</p>
-      ): (<></>) } */}
-      {/* {suggestion && (
-        <p>Suggestion: {suggestion}</p>
-      )} */}
-      {/* {suggestions.length > 0 && (
-        <ul>
-          {suggestions.map((ticker) => (
-            <li key={ticker}>{ticker}</li>
-          ))}
-        </ul>
-      )} */}
-
+    
+    <div class="">
+    <div class="inline-flex flex-col justify-center relative text-gray-500">
+        <div class="relative">
+            <input type="text" class="w-full p-2 pl-8 rounded border border-gray-200 bg-gray-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent" 
+                placeholder="search..." 
+                value={inputValue}
+                onChange={handleInputChange}
+            />
+            <svg class="w-4 h-4 absolute left-2.5 top-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            {suggestion ? (
+                <div className='z-10 absolute bg-gray-200 w-full'>{suggestion}</div>
+            ): (<></>) }
+        </div>
+        
     </div>
+</div>
+
+    // <div className="relative">
+    //     <span className="absolute inset-y-0 left-0 flex items-center py-4">
+    //         <button
+    //             type="submit"
+    //             className="p-2 focus:outline-none focus:ring"
+    //         >
+    //             <svg
+    //                 xmlns="http://www.w3.org/2000/svg"
+    //                 className="w-6 h-6"
+    //                 fill="none"
+    //                 viewBox="0 0 24 24"
+    //                 stroke="currentColor"
+    //                 strokeWidth={2}
+    //             >
+    //                 <path
+    //                     strokeLinecap="round"
+    //                     strokeLinejoin="round"
+    //                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+    //                 />
+    //             </svg>
+    //         </button>
+    //     </span>
+    //     <input
+    //         type="search"
+    //         name="Search"
+    //         placeholder="Search..."
+    //         className="w-full py-2 pl-10 text-sm rounded-md focus:outline-none"
+    //         value={inputValue}
+    //         onChange={handleInputChange}
+    //     />
+
+    //     {/* {suggestion ? (
+    //         <div className='z-50'>Suggestion: {suggestion}</div>
+    //         ): (<></>) } */}
+    // </div>
   );
 };
 
@@ -95,3 +128,27 @@ export default SearchBox;
         className="w-full py-2 pl-10 text-sm rounded-md focus:outline-none"
     />
 </div> */}
+
+
+// <div>
+    //   <input
+    //     type="text"
+    //     placeholder="Enter ticker"
+    //     value={inputValue}
+    //     onChange={handleInputChange}
+    //   />
+      {/* {suggestion ? (
+        <p>Suggestion: {suggestion}</p>
+      ): (<></>) } */}
+      {/* {suggestion && (
+        <p>Suggestion: {suggestion}</p>
+      )} */}
+      {/* {suggestions.length > 0 && (
+        <ul>
+          {suggestions.map((ticker) => (
+            <li key={ticker}>{ticker}</li>
+          ))}
+        </ul>
+      )} */}
+
+    {/* </div> */}
