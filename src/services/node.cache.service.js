@@ -45,6 +45,16 @@ async function fetchTickerMapping() {
   }
 }
 
+getTickersFromCache = async () => {
+  // Check if the data is already in the cache
+  const cachedData = cache.get('tickerData');
+
+  if (cachedData) {
+    console.log('Data (size of) retrieved from cache: ', cachedData.size);
+    return cachedData;
+  }
+}
+
 // Init
 startCache = async () => {
   const tickerData = await fetchTickerMapping();
@@ -98,6 +108,7 @@ getFcfOnCache = (ticker, fcfData) => {
 
 module.exports = {
     startCache,
+    getTickersFromCache,
     getCikFromCache,
     setFcfOnCache,
     getFcfOnCache,
