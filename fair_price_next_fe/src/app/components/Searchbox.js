@@ -1,28 +1,36 @@
 
 
 // components/SearchBox.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SearchBox = () => {
-  const [inputValue, setInputValue] = useState('');
   const knownTickers = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT', 'TGT']; // Sample list of known tickers
+  const [inputValue, setInputValue] = useState('');
+  const [tickerArray, setTickerArray] = useState([]);
   const [suggestion, setSuggestion] = useState(null);
   const [isInputFocused, setInputFocused] = useState(false);
 
-//   useEffect(() => {
-//     // Fetch knownTickers from the API when the component mounts
-//     const fetchTickers = async () => {
-//       try {
-//         const response = await fetch('YOUR_API_ENDPOINT');
-//         const data = await response.json();
-//         setKnownTickers(data); // Assuming the API response is an array of tickers
-//       } catch (error) {
-//         console.error('Error fetching tickers:', error);
-//       }
-//     };
+  useEffect(() => {
+    // Fetch knownTickers from the API when the component mounts
+    const fetchTickers = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/financial/tickers');
+        const data = await response.json();
+        if(!data) {
+          setTickerArray(knownTickers); 
+        } else {
+          setTickerArray(Object.keys(data));
+        }
+        console.log('tickerArray: ', tickerArray);
+      } catch (error) {
+        // here we set the known tickers as a fallback, at least will have some suggestions
+        setTickerArray(knownTickers);
+        console.error('Error fetching tickers:', error);
+      }
+    };
 
-//     fetchTickers();
-//   }, []); // The empty array [] ensures this effect runs once when the component mounts
+    fetchTickers();
+  }, []); // The empty array [] ensures this effect runs once when the component mounts
 
 
   const handleInputFocus = () => {
@@ -53,8 +61,10 @@ const SearchBox = () => {
     setInputValue(value);
 
     // Check if the input value matches any known tickers
-    console.log('knownTickers: ', knownTickers);
-    const matchedTickers = knownTickers.find((ticker) =>
+    // console.log('knownTickers: ', knownTickers);
+    // const matchedTickers = knownTickers.find((ticker) =>
+    console.log('tickerArray: ', tickerArray);
+    const matchedTickers = tickerArray.find((ticker) =>
       ticker.toLowerCase().startsWith(value.toLowerCase())
     );
     console.log("matchedTickers: ", matchedTickers);
