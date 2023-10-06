@@ -90,13 +90,15 @@ setFcfOnCache = (ticker, fcfData) => {
   });
 }
 
-getFcfOnCache = (ticker, fcfData) => {
+getFcfFromCache = (ticker) => {
   
   //TODO: should merge objects instead of smashing
 
   console.log(`INFO: getting FCF information on cache for ticker: ${ticker}`);
   
-  let fcfData = cache.set(ticker);
+  // ????
+  // let fcfData = cache.set(ticker);
+  let fcfData = cache.get(ticker);
 
   if(!fcfData) {
     console.log(`WARN: no Cache FCF information found for ticker: ${ticker}`);
@@ -111,5 +113,5 @@ module.exports = {
     getTickersFromCache,
     getCikFromCache,
     setFcfOnCache,
-    getFcfOnCache,
+    getFcfFromCache,
 };
