@@ -9,7 +9,23 @@ const SearchBox = () => {
 //   const [suggestions, setSuggestions] = useState([]);
   const [suggestion, setSuggestion] = useState(null);
   const [showSuggestion, setShowSuggestion] = useState(false);
- 
+  const [isInputFocused, setInputFocused] = useState(false);
+
+  const handleInputFocus = () => {
+    setInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    console.log('on Blur event');
+    setInputFocused(false);
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    console.log('on handle suggestion: ', suggestion);
+    setInputValue(suggestion);
+    // You can also clear the suggestion list here if needed
+    setSuggestion(null);
+  };
 
   const handleInputChange = (e) => {
 
@@ -22,10 +38,10 @@ const SearchBox = () => {
     // const matchedTickers = knownTickers.filter((ticker) =>
     //   ticker.toLowerCase().includes(value.toLowerCase())
     // );
-    if(!value) {
-        // if there's no inserted value, prevent the search
-        return;
-    }
+    // if(!value) {
+    //     // if there's no inserted value, prevent the search
+    //     return;
+    // }
     console.log('knownTickers: ', knownTickers);
     const matchedTickers = knownTickers.find((ticker) =>
       ticker.toLowerCase().startsWith(value.toLowerCase())
@@ -48,13 +64,22 @@ const SearchBox = () => {
                 placeholder="search..." 
                 value={inputValue}
                 onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                //onBlur={handleInputBlur}
             />
             <svg className="w-4 h-4 absolute left-2.5 top-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
-            {suggestion ? (
+            {/* {suggestion ? (
                 <div className='z-10 absolute rounded border border-gray-20 bg-gray-200 w-full'>{suggestion}</div>
-            ): (<></>) }
+            ): (<></>) } */}
+            {isInputFocused && suggestion && (
+               <div 
+                className='z-10 absolute rounded-b border border-gray-20 bg-white w-full cursor-pointer'
+                onClick={() => handleSuggestionClick(suggestion)}>
+                    {suggestion}
+                </div>
+            )}
         </div>
         
     </div>
