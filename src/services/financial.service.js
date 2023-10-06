@@ -5,6 +5,23 @@ const cacheService = require('../services/node.cache.service');
 
 class FinancialStatementService {
 
+    async getTickers() {
+
+      console.log('CONTROLLER: getting tickers');
+
+      // first get ticker data from cache (it was stored on cache when the server started running)
+      let tickerCachedData = await cacheService.getTickersFromCache();
+
+      if(!tickerCachedData) {
+        // if there's no cached data for tickers, extend the cache's TTL
+        console.warn('WARNING - No cached for tickers!');
+      }
+
+      console.log('CONTROLLER: checking tickers size', tickerCachedData.size);
+
+      return tickerCachedData;
+    }
+
     async fetchFinancialStatementForTicker(companyId) {
       // Implement logic to fetch financial data from SEC EDGAR
       // Return the fetched data
@@ -90,7 +107,7 @@ class FinancialStatementService {
       // PaymentsToAcquirePropertyPlantAndEquipment                     -> CAPEX
 
       // Check if there's cached Data for this ticker
-      let cachedData = cacheService.getFcfOnCache(ticker);
+      let cachedData = cacheService.getFcfFromCache(ticker);
       if(cachedData && cachedData.fcf){
         console.log(`INFO: Found FCF cached data for ticker: ${ticker}`);
         return cachedData;

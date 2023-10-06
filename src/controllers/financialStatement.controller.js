@@ -5,6 +5,8 @@ const router = express.Router();
 
 const FinancialStatementService = require('./FinancialStatementService');
 
+
+
 // Example route to fetch financial data for a specific company
 router.get('/company/:companyId', async (req, res) => {
   const companyId = req.params.companyId;

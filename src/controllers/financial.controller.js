@@ -13,6 +13,20 @@ class FinancialStatementController {
   // for HD
   // https://data.sec.gov/api/xbrl/companyfacts/CIK0000354950.json
 
+  // getting tickers for the Searchbox on the frontend
+  async getTickers(req, res, next) {
+
+    console.log('ROUTER: getting tickers');
+
+    // call the service layer to get ticker data
+    let tickers = await financialStatementService.getTickers();
+
+    console.log('ROUTER: checking tickers.size', tickers.size);
+
+    // Convert the map to a JavaScript object
+    const tickersMappedToObject = Object.fromEntries(tickers);
+    res.status(200).json(tickersMappedToObject);
+  }
 
   async getCashFlowsForTicker(req, res, next) {
 
