@@ -11,24 +11,33 @@ const SearchBox = () => {
   const [isInputFocused, setInputFocused] = useState(false);
 
   useEffect(() => {
-    // Fetch knownTickers from the API when the component mounts
+    
+
     const fetchTickers = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/financial/tickers');
-        const data = await response.json();
-        if(!data) {
-          setTickerArray(knownTickers); 
-        } else {
-          setTickerArray(Object.keys(data));
+      // Fetch knownTickers from the API when the component mounts
+      // Check if tickers are stored in localStorage
+      const storedTickers = localStorage.getItem('tickers');
+      if (storedTickers) {
+        setTickerArray(JSON.parse(storedTickers));
+      } else {
+        try {
+          const response = await fetch('http://localhost:3000/financial/tickers');
+          const data = await response.json();
+          if(!data) {
+            setTickerArray(knownTickers); 
+          } else {
+            setTickerArray(Object.keys(data));
+            localStorage.setItem('tickers', JSON.stringify(Object.keys(data))); // setItem(keyName, keyValue)
+          }
+          console.log('tickerArray: ', tickerArray);
+        } catch (error) {
+          // here we set the known tickers as a fallback, at least will have some suggestions
+          setTickerArray(knownTickers);
+          console.error('Error fetching tickers:', error);
         }
-        console.log('tickerArray: ', tickerArray);
-      } catch (error) {
-        // here we set the known tickers as a fallback, at least will have some suggestions
-        setTickerArray(knownTickers);
-        console.error('Error fetching tickers:', error);
       }
     };
-
+    
     fetchTickers();
   }, []); // The empty array [] ensures this effect runs once when the component mounts
 
