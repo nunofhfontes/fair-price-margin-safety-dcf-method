@@ -2,7 +2,7 @@ const NodeCache = require('node-cache');
 const axios = require('axios');
 
 // Initialize the cache with a 5-minute expiration time (adjust as needed)
-const cache = new NodeCache({ stdTTL: 300 });
+const cache = new NodeCache({ stdTTL: 1300 });
 
 const apiUrl = 'https://www.sec.gov/include/ticker.txt'; // Replace with your API URL
 
