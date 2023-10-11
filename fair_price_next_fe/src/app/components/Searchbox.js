@@ -55,12 +55,41 @@ const SearchBox = () => {
     }, 100);
   };
 
-  const handleSuggestionClick = (suggestion) => {
+  const handleSuggestionClick = async (suggestion) => {
     console.log('on handle suggestion: ', suggestion);
     setInputValue(suggestion);
+
     // You can also clear the suggestion list here if needed
     setSuggestion(null);
+
+    // get data for that ticker
+    console.log(`fetching data for ticker -> ${suggestion}`);
+
+    
+    const tickerData = await getDataForTicker(suggestion);
+    
+
+    // change page to "stock's data page"
   };
+
+  const getDataForTicker = async (ticker) => {
+
+    try {
+      const response = await fetch(`http://localhost:3000/financial/company/${ticker}/fcf`);
+      const data = await response.json();
+      if(!data) {
+      } else {
+        // TODO - temp, log data
+        console.log(`fcf data: ${data}`);
+
+        // store data on local storage
+        //localStorage.setItem('tickers', JSON.stringify(Object.keys(data))); // setItem(keyName, keyValue)
+      }
+    } catch (error) {
+      console.error('Error fetching tickers:', error);
+    }
+
+  }
 
   const handleInputChange = (e) => {
 
