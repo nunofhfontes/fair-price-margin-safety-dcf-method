@@ -228,7 +228,7 @@ class FinancialStatementService {
       // Calculate Cash FLow trend/growth
       
       // setting info on cache
-      cacheService.setFcfOnCache(ticker, filteredDataMap);
+      cacheService.setFcfOnCache(ticker, fcfFilteredDataMap);
 
       // Return the computed
       return fcfFilteredDataMap;

@@ -29,7 +29,7 @@ const SearchBox = () => {
             setTickerArray(Object.keys(data));
             localStorage.setItem('tickers', JSON.stringify(Object.keys(data))); // setItem(keyName, keyValue)
           }
-          console.log('tickerArray: ', tickerArray);
+          //console.log('tickerArray: ', tickerArray);
         } catch (error) {
           // here we set the known tickers as a fallback, at least will have some suggestions
           setTickerArray(knownTickers);
@@ -59,8 +59,7 @@ const SearchBox = () => {
     console.log('on handle suggestion: ', suggestion);
     setInputValue(suggestion);
 
-    // You can also clear the suggestion list here if needed
-    setSuggestion(null);
+    
 
     // get data for that ticker
     console.log(`fetching data for ticker -> ${suggestion}`);
@@ -70,6 +69,9 @@ const SearchBox = () => {
     
 
     // change page to "stock's data page"
+
+    // You can also clear the suggestion list here if needed
+    setSuggestion(null);
   };
 
   const getDataForTicker = async (ticker) => {
