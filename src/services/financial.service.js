@@ -134,7 +134,19 @@ class FinancialStatementService {
       console.log("Facts url -> ", url);
 
       try {
-        const response = await axios.get(url);
+        console.log("BEFORE HTTP CALL");
+
+        const headers = {
+          'User-Agent': 'Mozilla 5.0',
+          'Accept-Encoding': 'gzip, deflate',
+          'Host': 'www.sec.gov',
+        };
+
+        const response = await axios.get(url, {
+          headers: headers,
+        });
+
+        console.log("RESPONSE STATUS: ", response.status);
 
         // Check if the request was successful (status code 200)
         if (response.status === 200) {
@@ -220,8 +232,36 @@ class FinancialStatementService {
           console.error('HTTP request failed with status:', response.status);
         }
       } catch (error) {
-        console.error('Error fetching data:', error.message);
-        console.log('ERROR!!!!!!!!!!!');
+        // console.error('FCF calc => Error fetching data:', error.message);
+        // console.log('ERROR!!!!!!!!!!!');
+
+        // if (error.response) {
+        //   const { status, data } = error.response;
+        //   console.error(`HTTP status code: ${status}`);
+        //   console.error("Response data:", data);
+        // } else {
+        //   console.error("Request failed:", error.message);
+        // }
+
+        if (error.response) {
+          const { status, data } = error.response;
+          console.error(`HTTP status code: ${status}`);
+          console.error('Response data:', data);
+    
+          // You can also create an error HTML file with the error details
+          const errorHtmlContent = `${JSON.stringify(data, null, 2)}`;
+    
+          fs.writeFile('error.html', errorHtmlContent, (err) => {
+            if (err) {
+              console.error('Error writing error HTML file:', err);
+            } else {
+              console.log('Error HTML file "error.html" created successfully.');
+            }
+          });
+        } else {
+          console.error('Request failed:', error.message);
+        }
+
       }
 
       //TODO
