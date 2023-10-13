@@ -133,14 +133,36 @@ class FinancialStatementService {
 
       console.log("Facts url -> ", url);
 
+      // Request interceptor
+      axios.interceptors.request.use((config) => {
+        // Log the request URL and any other relevant information
+        console.log('Request URL:', config.url);
+        console.log('Request Method:', config.method);
+        console.log('Request Headers:', config.headers);
+        console.log('Request Data:', config.data);
+
+        // You can also modify the request configuration if needed
+        // For example, you can add an API key to headers
+
+        return config;
+      }, (error) => {
+        // Handle request errors
+        return Promise.reject(error);
+      });
+
       try {
         console.log("BEFORE HTTP CALL");
 
+        //Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36
+        // gzip, deflate, br
+
+        // 'Host': 'www.sec.gov',
         const headers = {
-          'User-Agent': 'Mozilla 5.0',
+          'User-Agent': 'traderfactory nunnofontes@traderfactory.com',
           'Accept-Encoding': 'gzip, deflate',
-          'Host': 'www.sec.gov',
         };
+
+        // TODO MAYBE CHANGE TO FETCH (headers maybe wrong)
 
         const response = await axios.get(url, {
           headers: headers,
@@ -245,8 +267,8 @@ class FinancialStatementService {
 
         if (error.response) {
           const { status, data } = error.response;
-          console.error(`HTTP status code: ${status}`);
-          console.error('Response data:', data);
+          console.error(`HTTP status code: ${status} , creating error.html.`);
+          //console.error('Response data:', data);
     
           // You can also create an error HTML file with the error details
           const errorHtmlContent = `${JSON.stringify(data, null, 2)}`;

@@ -103,7 +103,7 @@ const SearchBox = () => {
     // Check if the input value matches any known tickers
     // console.log('knownTickers: ', knownTickers);
     // const matchedTickers = knownTickers.find((ticker) =>
-    console.log('tickerArray: ', tickerArray);
+    //console.log('tickerArray: ', tickerArray);
     const matchedTickers = tickerArray.find((ticker) =>
       ticker.toLowerCase().startsWith(value.toLowerCase())
     );
