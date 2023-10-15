@@ -11,8 +11,6 @@ const SearchBox = () => {
   const [isInputFocused, setInputFocused] = useState(false);
 
   useEffect(() => {
-    
-
     const fetchTickers = async () => {
       // Fetch knownTickers from the API when the component mounts
       // Check if tickers are stored in localStorage
@@ -37,7 +35,6 @@ const SearchBox = () => {
         }
       }
     };
-    
     fetchTickers();
   }, []); // The empty array [] ensures this effect runs once when the component mounts
 
@@ -59,14 +56,10 @@ const SearchBox = () => {
     console.log('on handle suggestion: ', suggestion);
     setInputValue(suggestion);
 
-    
-
     // get data for that ticker
     console.log(`fetching data for ticker -> ${suggestion}`);
 
-    
     const tickerData = await getDataForTicker(suggestion);
-    
 
     // change page to "stock's data page"
 
@@ -76,21 +69,30 @@ const SearchBox = () => {
 
   const getDataForTicker = async (ticker) => {
 
-    try {
-      const response = await fetch(`http://localhost:3000/financial/company/${ticker}/fcf`);
-      const data = await response.json();
-      if(!data) {
-      } else {
-        // TODO - temp, log data
-        console.log(`fcf data: ${data}`);
+    // check if there's already data on local storage for that ticker
+    let tickerData = localStorage.getItem(ticker);
 
-        // store data on local storage
-        //localStorage.setItem('tickers', JSON.stringify(Object.keys(data))); // setItem(keyName, keyValue)
+    if(tickerData) {
+      console.log('ticker data already stored on localstorage: ', tickerData);
+    } else {
+      try {
+        const response = await fetch(`http://localhost:3000/financial/company/${ticker}/fcf`);
+        const data = await response.json();
+        if(!data) {
+        } else {
+          // TODO - temp, log data
+          console.log(`fcf data: `, data);
+
+          // store data on local storage
+          localStorage.setItem(ticker, JSON.stringify(data)); // setItem(keyName, keyValue)
+
+          tickerData = data;
+        }
+      } catch (error) {
+        console.error('Error fetching tickers:', error);
       }
-    } catch (error) {
-      console.error('Error fetching tickers:', error);
     }
-
+    return tickerData;
   }
 
   const handleInputChange = (e) => {
@@ -114,6 +116,13 @@ const SearchBox = () => {
     setSuggestion(matchedTickers);
   };
 
+  const handleSubmitTicker = async () => {
+    console.log('state, inputValue : ', inputValue);
+    
+    const tickerData = await getDataForTicker(suggestion);
+
+  }
+
   return (
     
     <div className="">
@@ -126,7 +135,10 @@ const SearchBox = () => {
                     onFocus={handleInputFocus}
                     onBlur={handleInputBlur}
                 />
-                <svg className="w-4 h-4 absolute left-2.5 top-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 absolute left-2.5 top-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                  onClick={handleSubmitTicker}>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
                 {isInputFocused && suggestion && (
