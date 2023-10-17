@@ -2,6 +2,7 @@
 
 // components/SearchBox.js
 import React, { useState, useEffect } from 'react';
+import { eventBus } from './EventBus';
 
 const SearchBox = () => {
   const knownTickers = ['AAPL', 'GOOGL', 'TSLA', 'AMZN', 'MSFT', 'TGT']; // Sample list of known tickers
@@ -79,6 +80,7 @@ const SearchBox = () => {
         const response = await fetch(`http://localhost:3000/financial/company/${ticker}/fcf`);
         const data = await response.json();
         if(!data) {
+          //TODO - Do something if no data was retrieved!
         } else {
           // TODO - temp, log data
           console.log(`fcf data: `, data);
@@ -119,9 +121,16 @@ const SearchBox = () => {
   const handleSubmitTicker = async () => {
     console.log('state, inputValue : ', inputValue);
     
+    // get Data
     const tickerData = await getDataForTicker(suggestion);
-
+    // notify of data retrieval
+    handleDataRetrieval(tickerData);
   }
+
+  const handleDataRetrieval = (newData) => {
+    eventBus.emit('updateData', newData);
+    console.log('Sent event of newData notification!');
+  };
 
   return (
     
