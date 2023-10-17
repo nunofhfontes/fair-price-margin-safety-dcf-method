@@ -9,8 +9,10 @@ import {
     Tooltip,
     PointElement,
     LineElement,
+    BarElement,
+    ArcElement,
   } from "chart.js";
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Doughnut } from 'react-chartjs-2';
 
 // Register ChartJS components using ChartJS.register
 ChartJS.register(
@@ -18,6 +20,8 @@ ChartJS.register(
     LinearScale,
     PointElement,
     LineElement,
+    BarElement,
+    ArcElement,
     Tooltip,
   );
 
@@ -105,7 +109,7 @@ function Dashboard() {
 
             {/* <Line ref={ref} data={data} /> */}
 
-            <Line
+            {/* <Line
                 data={{
                 labels: [
                     "2023-01",
@@ -123,12 +127,26 @@ function Dashboard() {
                     },
                 ],
                 }}
-            />
+            /> */}
 
             <Bar
-                ref={chartRef}
-                data={data}
-                // onClick={onClick}
+                data={{
+                    labels: [
+                        "2023-01",
+                        "2023-02",
+                        "2023-03",
+                        "2023-04",
+                        "2023-05",
+                        "2023-06",
+                        "2023-07",
+                    ],
+                    datasets: [
+                        {
+                        data: [100, 120, 115, 134, 168, 132, 200],
+                        backgroundColor: "purple",
+                        },
+                    ],
+                }}
             />
 
         </>
