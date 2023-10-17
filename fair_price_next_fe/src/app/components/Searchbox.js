@@ -66,6 +66,9 @@ const SearchBox = () => {
 
     // You can also clear the suggestion list here if needed
     setSuggestion(null);
+
+    // notify of data retrieval
+    handleDataRetrieval(tickerData);
   };
 
   const getDataForTicker = async (ticker) => {
