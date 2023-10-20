@@ -1,17 +1,7 @@
-// src/controllers/FinancialStatementController.js
-
-//const FinancialStatementService = require('../services/FinancialStatementService');
 const financialStatementService = require('../services/financial.service');
+const CashFlowService = require('../services/cashFlow.service');
 
 class FinancialStatementController {
-
-  // EXAMPLES - to fetch data on the urls below
-  
-  // for APLE
-  // https://data.sec.gov/api/xbrl/companyfacts/CIK0001418121.json
-
-  // for HD
-  // https://data.sec.gov/api/xbrl/companyfacts/CIK0000354950.json
 
   // getting tickers for the Searchbox on the frontend
   async getTickers(req, res, next) {
@@ -34,6 +24,7 @@ class FinancialStatementController {
 
     let cik = await financialStatementService.getCikForTicker(req.params.companyId);
     let fcf = await financialStatementService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
+    let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
 
     // Convert the map to a JavaScript object
     const fcfMappedToObject = Object.fromEntries(fcf);
