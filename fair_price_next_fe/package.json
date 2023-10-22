@@ -6,7 +6,8 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "chart.js": "^4.4.0",
@@ -18,6 +19,7 @@
   "devDependencies": {
     "autoprefixer": "latest",
     "postcss": "latest",
-    "tailwindcss": "latest"
+    "tailwindcss": "latest",
+    "jsdoc": "^3.6.3"
   }
 }

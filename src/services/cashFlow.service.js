@@ -14,9 +14,22 @@ class CashFlowService {
 
     // CAGR without considering the years with 0 free cash flow
     calculateCAGRWithoutZeros(data) {
-        const nonZeroYears = Object.keys(data).filter((year) => data[year] !== 0);
+
+        console.log('data: ', data);
+        console.log("keys: ", Object.keys(data));
+        console.log("data.keys(): ", data.keys());
+
+        //const nonZeroYears = Object.keys(data).filter((year) => data[year] !== 0);
         
+        const nonZeroYears = data.keys().filter((year) => data[year] !== 0);
+
+        //const nonZeroYears = data;
+
+        //console.log("keys: ", data.keys);
+        console.log("nonZeroYears: ", nonZeroYears);
+
         if (nonZeroYears.length < 2) {
+            console.warn("CAGR computing without zeros - Not enough data to calculate CAGR");
             return null; // Not enough data to calculate CAGR
         }
         

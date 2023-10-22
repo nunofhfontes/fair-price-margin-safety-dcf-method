@@ -11,7 +11,7 @@
  * @param {string} fcfData - FCF Data.
  * @returns {FcfDto} The created user.
  */
-const createFcfDto = (ticker, email) => {
+const createFcfDto = (ticker, fcfData) => {
     const user = {
       ticker,
       fcfData,
@@ -19,3 +19,5 @@ const createFcfDto = (ticker, email) => {
     };
     return user;
   }
+
+  

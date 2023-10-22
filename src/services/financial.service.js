@@ -151,18 +151,12 @@ class FinancialStatementService {
       });
 
       try {
-        console.log("BEFORE HTTP CALL");
-
-        //Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36
-        // gzip, deflate, br
-
+        // In theory this should be included, but it doesn't work with it
         // 'Host': 'www.sec.gov',
         const headers = {
           'User-Agent': 'traderfactory nunnofontes@traderfactory.com',
           'Accept-Encoding': 'gzip, deflate',
         };
-
-        // TODO MAYBE CHANGE TO FETCH (headers maybe wrong)
 
         const response = await axios.get(url, {
           headers: headers,
