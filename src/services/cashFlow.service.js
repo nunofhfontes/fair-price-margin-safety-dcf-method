@@ -21,7 +21,7 @@ class CashFlowService {
 
         //const nonZeroYears = Object.keys(data).filter((year) => data[year] !== 0);
         
-        const nonZeroYears = data.keys().filter((year) => data[year] !== 0);
+        const nonZeroYears = Array.from(data.keys()).filter((year) => data[year] !== 0);
 
         //const nonZeroYears = data;
 
@@ -45,7 +45,7 @@ class CashFlowService {
     
     // CAGR considering all years
     calculateCAGRWithZeros(data) {
-        const years = Object.keys(data);
+        const years = Array.from(data.keys());
         const firstYear = years[0];
         const lastYear = years[years.length - 1];
         const initialValue = data[firstYear];
