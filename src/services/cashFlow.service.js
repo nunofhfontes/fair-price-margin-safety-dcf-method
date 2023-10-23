@@ -5,10 +5,8 @@ class CashFlowService {
     async calculateFcfCagr(ticker, fcfMap) {
 
         const cagrWithoutZeros = this.calculateCAGRWithoutZeros(fcfMap);
-        const cagrWithZeros = this.calculateCAGRWithZeros(fcfMap);
     
         console.log('CAGR without considering zeros:', cagrWithoutZeros);
-        console.log('CAGR considering all years:', cagrWithZeros);
 
     }
 
@@ -51,20 +49,6 @@ class CashFlowService {
         console.log('typeof cagr', typeof cagr);
         return cagr;
     }
-    
-    // CAGR considering all years
-    calculateCAGRWithZeros(data) {
-        const years = Array.from(data.keys());
-        const firstYear = years[0];
-        const lastYear = years[years.length - 1];
-        const initialValue = data[firstYear];
-        const finalValue = data[lastYear];
-        
-        const yearsRange = lastYear - firstYear + 1;
-        const cagr = ((finalValue / initialValue) ** (1 / yearsRange) - 1) * 100;
-        return cagr;
-    }
-    
 }
 
 
