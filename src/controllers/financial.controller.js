@@ -25,6 +25,7 @@ class FinancialStatementController {
     let cik = await financialStatementService.getCikForTicker(req.params.companyId);
     let fcf = await financialStatementService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
     let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
+    let dcf = await CashFlowService.calculateDCF(req.params.companyId, cik, fcf, fcfCagr);
 
     // Convert the map to a JavaScript object
     const fcfMappedToObject = Object.fromEntries(fcf);

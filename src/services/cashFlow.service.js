@@ -27,6 +27,45 @@ class CashFlowService {
         const cagr = ((finalValue / initialValue) ** (1 / years) - 1) * 100;
         return cagr;
     }
+
+    calculateDCF(ticker, cik, fcf, fcfCagr) {
+
+        // Required rate of return (discount rate)
+        const discountRate = 0.1; // 10%
+
+        // Estimated future cash flows (in millions)
+        const cashFlows = [
+            100,  // Year 1
+            120,  // Year 2
+            140,  // Year 3
+            160,  // Year 4
+            180,  // Year 5
+        ];
+
+        // Total number of shares outstanding (in millions)
+        const sharesOutstanding = 20; // Example number
+
+        // Calculate the present value of each cash flow
+        const presentValues = cashFlows.map((cashFlow, index) => {
+            return cashFlow / Math.pow(1 + discountRate, index + 1);
+        });
+
+        // Calculate the fair value by summing up the present values
+        const fairValue = presentValues.reduce((acc, value) => acc + value, 0);
+
+        // Calculate the fair price per share
+        const fairPricePerShare = fairValue / sharesOutstanding;
+
+        console.log('Fair Value:', fairValue.toFixed(2));
+        console.log('Fair Price Per Share:', fairPricePerShare.toFixed(2));
+
+
+    }
+
+    getOutstandingShares(ticker, cik) {
+
+    }
+
 }
 
 
