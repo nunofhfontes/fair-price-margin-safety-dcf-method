@@ -41,6 +41,7 @@ class CashFlowService {
             160,  // Year 4
             180,  // Year 5
         ];
+        // TODO - change to expected FCF that will be a projection from past FCFs
 
         // Total number of shares outstanding (in millions)
         const sharesOutstanding = 20; // Example number
@@ -58,6 +59,16 @@ class CashFlowService {
 
         console.log('Fair Value:', fairValue.toFixed(2));
         console.log('Fair Price Per Share:', fairPricePerShare.toFixed(2));
+
+        // Computing the Terminal Value using the Perpetuity Growth Model
+        // Parameters
+        const finalYearCashFlow = 180; // Cash flow in the last forecasted year (Year 5 in the previous example)
+        const growthRate = 0.05; // 5% growth rate
+
+        // Calculate the Terminal Value
+        const terminalValue = finalYearCashFlow * (1 + growthRate) / (discountRate - growthRate);
+
+        console.log('Terminal Value:', terminalValue.toFixed(2));
 
 
     }
