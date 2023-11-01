@@ -7,7 +7,7 @@ First, run the server.
 
 1 - go to (...)/fair-price-margin-safety-dcf-method
 
-2 - run the following statement: node fair-price-margin-safety-dcf-method.js
+2 - run the following statement: node app-invest-ratios.js
 
 3 - the server will be available at localhost:3000, and will be serving two endpoits:
     localhost:3000/financial/tickers
