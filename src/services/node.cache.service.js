@@ -59,14 +59,14 @@ getTickersFromCache = async () => {
 startCache = async () => {
 
   //FIXME - NF - temporarily disabled for debug purposes
-  // const tickerData = await fetchTickerMapping();
+  const tickerData = await fetchTickerMapping();
 
-  // if (tickerData) {
-  //   // Access ticker data from the cache
-  //   const cikNumber = tickerData.get('aapl'); // Replace 'AAPL' with your desired ticker
-  //   console.log(`Init Cache Testing - CIK number for AAPL: ${cikNumber} \n-----------------------------------`);
-  // }
-  console.log("Starting Mock Cache.");
+  if (tickerData) {
+    // Access ticker data from the cache
+    const cikNumber = tickerData.get('aapl'); // Replace 'AAPL' with your desired ticker
+    console.log(`Init Cache Testing - CIK number for AAPL: ${cikNumber} \n-----------------------------------`);
+  }
+  // console.log("Starting Mock Cache.");
 
 }
 
