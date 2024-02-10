@@ -16,8 +16,15 @@ async function fetchTickerMapping() {
       return cachedData;
     }
 
+    const headers = {
+      'User-Agent': 'traderfactory nunnofontes@traderfactory.com',
+      'Accept-Encoding': 'gzip, deflate',
+    };
+
     // Fetch the text file from the API
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(apiUrl, {
+      headers: headers,
+    });
     if (!response.data) {
       throw new Error('No data received from the API.');
     }
