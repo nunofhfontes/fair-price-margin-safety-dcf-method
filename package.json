@@ -4,6 +4,7 @@
   "description": "Margin Of Safety calculation",
   "main": "index.js",
   "scripts": {
+    "start": "node app-invest-ratios.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nuno Fontes",
