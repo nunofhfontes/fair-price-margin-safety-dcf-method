@@ -98,6 +98,83 @@ class FinancialStatementService {
       return cikString;
     }
 
+    // generic function to get the facts for tickers
+    // then returns the facts
+    async getFactsForTicker(cikNumber, ticker) {
+      
+      // Check if there's cached Data for this ticker
+      let cachedData = cacheService.getFcfFromCache(ticker);
+      if(cachedData && cachedData.fcf){
+        console.log(`INFO: Found FCF cached data for ticker: ${ticker}`);
+        return cachedData;
+      }
+
+      // The total CIK must have a certain length, 10
+      const url = `https://data.sec.gov/api/xbrl/companyfacts/CIK${cikNumber}.json`;
+
+      // Request interceptor
+      axios.interceptors.request.use((config) => {
+        // Log the request URL and any other relevant information
+        console.log('Request URL:', config.url);
+        console.log('Request Method:', config.method);
+        console.log('Request Headers:', config.headers);
+        console.log('Request Data:', config.data);
+
+        // You can also modify the request configuration if needed
+        // For example, you can add an API key to headers
+
+        return config;
+      }, (error) => {
+        // Handle request errors
+        return Promise.reject(error);
+      });
+
+      try {
+        // In theory this should be included, but it doesn't work with it
+        // 'Host': 'www.sec.gov',
+        const headers = {
+          'User-Agent': 'traderfactory nunnofontes@traderfactory.com',
+          'Accept-Encoding': 'gzip, deflate',
+        };
+
+        const response = await axios.get(url, {
+          headers: headers,
+        });
+
+        console.log("RESPONSE STATUS: ", response.status);
+
+        // Check if the request was successful (status code 200)
+        if (response.status === 200) {
+          const data = response.data;
+
+        } else {
+          console.error('HTTP request failed with status:', response.status);
+        }
+      } catch (error) {
+
+        if (error.response) {
+          const { status, data } = error.response;
+          console.error(`HTTP status code: ${status} , creating error.html.`);
+          //console.error('Response data:', data);
+    
+          // You can also create an error HTML file with the error details
+          const errorHtmlContent = `${JSON.stringify(data, null, 2)}`;
+    
+          fs.writeFile('error.html', errorHtmlContent, (err) => {
+            if (err) {
+              console.error('Error writing error HTML file:', err);
+            } else {
+              console.log('Error HTML file "error.html" created successfully.');
+            }
+          });
+        } else {
+          console.error('Request failed:', error.message);
+        }
+
+      }
+
+    }
+
     async fetchFreeCashFlowForTicker(cikNumber, ticker) {
 
       // Some COntext about the needed sec fields to calculate the FCF
@@ -290,6 +367,8 @@ class FinancialStatementService {
       return fcfFilteredDataMap;
     }
 
+    //TODO - NF - document this method
+    // in the future I might not remember why this is done
     extractAnualResultsFromRawData(rawCurrentItem, filteredDataMap) {
       if (rawCurrentItem.form === "10-K") {
         const year = rawCurrentItem.fy;
@@ -301,6 +380,8 @@ class FinancialStatementService {
       }
     }
 
+    //TODO - NF - document this method
+    // in the future I might not remember why this is done
     checkIfHasFrameFieldAndUpdate(filteredDataMap, item) {
       if(item.hasOwnProperty("frame")) {
         if (item.frame.length >= 4) {
