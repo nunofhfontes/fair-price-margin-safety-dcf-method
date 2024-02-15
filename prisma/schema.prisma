@@ -10,16 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Portfolio {
-  id        BigInt   @id @default(sequence())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  description   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  BigInt
-}
+
 model Post {
   id        BigInt   @id @default(sequence())
   createdAt DateTime @default(now())
@@ -45,4 +36,46 @@ model User {
   posts       Post[]
   portfolios  Portfolio[]
   profile     Profile?
+}
+
+model Portfolio {
+  id            BigInt   @id @default(sequence())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  title         String   @db.VarChar(255)
+  description   String?
+  published     Boolean  @default(false)
+  author        User     @relation(fields: [authorId], references: [id])
+  authorId      BigInt
+  stocks        Stock[]
+}
+
+model Stock {
+  id        BigInt   @id @default(sequence())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ticker    String
+  analysis  Analysis
+  analysisUpdatedAt DateTime @analysisUpdatedAt
+  prices    Quote[]
+}
+
+model Analysis {
+  id             BigInt  @id @default(sequence())
+  description    String?
+  fcf1y          BigInt
+  fcf3y          BigInt
+  fcf5y          BigInt
+  fcfcagr        BigInt
+  revenue1y      BigInt
+  revenue3y      BigInt
+  revenue5y      BigInt
+}
+
+model Quote {
+  id        BigInt   @id @default(sequence())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ticker    String
+  price     String
 }
