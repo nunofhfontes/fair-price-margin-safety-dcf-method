@@ -15,8 +15,8 @@ model Post {
   id        BigInt   @id @default(sequence())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
+  title     String
+  content   String
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
   authorId  BigInt
@@ -35,6 +35,8 @@ model User {
   name        String?
   posts       Post[]
   portfolios  Portfolio[]
+  //portfolios  Portfolio[] @relation(fields: [portfolioId], references: [id])
+  //portfolioId Int
   profile     Profile?
 }
 
@@ -42,7 +44,7 @@ model Portfolio {
   id            BigInt   @id @default(sequence())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  title         String   @db.VarChar(255)
+  title         String
   description   String?
   published     Boolean  @default(false)
   author        User     @relation(fields: [authorId], references: [id])
@@ -51,17 +53,22 @@ model Portfolio {
 }
 
 model Stock {
-  id        BigInt   @id @default(sequence())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ticker    String
-  analysis  Analysis
-  analysisUpdatedAt DateTime @analysisUpdatedAt
-  prices    Quote[]
+  id                BigInt   @id @default(sequence())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  ticker            String
+  portfolio         Portfolio @relation(fields: [portfolioId], references: [id])
+  portfolioId       BigInt
+  analysis          Analysis?
+  analysisUpdatedAt DateTime
+  prices            Quote[]
+  quoteId           BigInt
 }
 
 model Analysis {
   id             BigInt  @id @default(sequence())
+  stock          Stock @relation(fields: [stockId], references: [id])
+  stockId        BigInt @unique
   description    String?
   fcf1y          BigInt
   fcf3y          BigInt
@@ -78,4 +85,6 @@ model Quote {
   updatedAt DateTime @updatedAt
   ticker    String
   price     String
+  stock     Stock @relation(fields: [stockId], references: [id])
+  stockId   BigInt
 }
