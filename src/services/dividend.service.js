@@ -1,7 +1,7 @@
-// FinancialStatementService.js
+// Functions for Dividend purposes
 
-// Simulating some database or external service interactions
-const fetchFinancialData = async (companyId) => {
+// Get paid dividends for year year interval
+const fetchDividendDataForYears = async (companyId) => {
     // Implement logic to fetch financial data from a database or external API
     // Return the fetched data
 };
