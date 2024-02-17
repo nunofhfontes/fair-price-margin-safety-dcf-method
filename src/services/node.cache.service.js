@@ -63,7 +63,7 @@ getTickersFromCache = async () => {
 }
 
 // Init
-startCache = async () => {
+const startCache = async () => {
 
   //FIXME - NF - temporarily disabled for debug purposes
   const tickerData = await fetchTickerMapping();

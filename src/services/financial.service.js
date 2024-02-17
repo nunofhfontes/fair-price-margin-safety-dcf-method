@@ -22,6 +22,21 @@ class FinancialStatementService {
       return tickerCachedData;
     }
 
+    // method to extract an account from a SEC's raw data json
+    extractAccountsFinancialDataFromRawDataJson(financialRawDataJson, targetAccount, country) {
+      //NOTE: for now, this is just for US markets, so we'll harcode the country and use the SEC's format only
+      country = "US";
+
+      if (country == "US") {
+        //return data["facts"]["us-gaap"][targetAccount];
+
+        console.log('targetAccount: ', targetAccount);
+        console.log('!!!! account json: ', financialRawDataJson);
+
+        return financialRawDataJson["facts"]["us-gaap"][targetAccount];
+      }
+    } 
+
     async fetchFinancialStatementForTicker(companyId) {
       // Implement logic to fetch financial data from SEC EDGAR
       // Return the fetched data
@@ -102,12 +117,16 @@ class FinancialStatementService {
     // then returns the facts
     async getFactsForTicker(cikNumber, ticker) {
       
+      console.log("getFactsForTicker function | ticker -> ", ticker);
+
       // Check if there's cached Data for this ticker
-      let cachedData = cacheService.getFcfFromCache(ticker);
-      if(cachedData && cachedData.fcf){
-        console.log(`INFO: Found FCF cached data for ticker: ${ticker}`);
-        return cachedData;
-      }
+
+      //FIXME - is this needed ?????????!!!!!!!!
+      // let cachedData = cacheService.getFcfFromCache(ticker);
+      // if(cachedData && cachedData.fcf){
+      //   console.log(`INFO: Found FCF cached data for ticker: ${ticker}`);
+      //   return cachedData;
+      // }
 
       // The total CIK must have a certain length, 10
       const url = `https://data.sec.gov/api/xbrl/companyfacts/CIK${cikNumber}.json`;
@@ -147,6 +166,8 @@ class FinancialStatementService {
         if (response.status === 200) {
           const data = response.data;
 
+          //successfull reqest and response, return the data
+          return data;
         } else {
           console.error('HTTP request failed with status:', response.status);
         }
