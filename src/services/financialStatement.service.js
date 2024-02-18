@@ -17,11 +17,25 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
 
     //SEC's field for revenues -> SalesRevenueNet
     let reveneuesRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "SalesRevenueNet");
-    console.log("reveneuesRawJson: ", reveneuesRawJson);
 
     //stopped here
-    //let tmp = financialService.extractAnualResultsFromRawData(reveneuesRawJson, );
+    const revenuesFilteredMap = new Map();
 
+    // Parsing the Raw Data and getting the right 10-K values
+    if(reveneuesRawJson) {
+        reveneuesRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAnualResultsFromRawData(rawCurrentItem, revenuesFilteredMap);
+        });
+    }
+
+    //financialService.extractAnualResultsFromRawData(reveneuesRawJson, revenuesFilteredMap);
+    console.log("revenuesFilteredMap: ", revenuesFilteredMap.size);
+
+    revenuesFilteredMap.forEach((value, key) => {
+        console.log(`${key} = ${value}`);
+    });
+
+    return revenuesFilteredMap;
 };
 
 const getRevenueCagrForYears = (financialData, startYear, endYear) => {

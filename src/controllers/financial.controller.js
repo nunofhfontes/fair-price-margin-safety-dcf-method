@@ -26,18 +26,12 @@ class FinancialStatementController {
   // return of capital
   async getFullAnalysisForTicker(req, res, next) {
 
-    console.log("getting Full Analysis for Ticker from SEC -> ", req.params.companyId);
-
     let cik = await financialService.getCikForTicker(req.params.companyId);
-
-    console.log("financial controller | ticker -> ",req.params.companyId); 
     let factsRaw = await financialService.getFactsForTicker(cik, req.params.companyId);
 
     //store facts raw data on Cache (and DB ?? parsed dta??) --->>> maybe store the analysis result on the DB and discard the rawData
 
     //field name in the json -> SalesRevenueNet
-    console.log("financial controller  GETTING REVENUE | ticker -> ",req.params.companyId); 
-    console.log("checking FACTS, entityName: ", factsRaw['entityName']);
     let revenues3y = financialStatementService.getRevenueForYears(factsRaw, 2023, 2020);
 
 
@@ -47,8 +41,8 @@ class FinancialStatementController {
     // let dcf = await CashFlowService.calculateDCF(req.params.companyId, cik, fcf, fcfCagr);
 
     // Convert the map to a JavaScript object
-    const fcfMappedToObject = Object.fromEntries(null);
-    res.status(200).json(fcfMappedToObject);
+    //const fcfMappedToObject = Object.fromEntries(revenues3y);
+    res.status(200).json(revenues3y);
   }
 
   async getCashFlowsForTicker(req, res, next) {

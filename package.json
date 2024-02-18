@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/nunofhfontes/fair-price-margin-safety-dcf-method#readme",
   "dependencies": {
+    "@prisma/client": "^5.9.1",
     "axios": "^1.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
