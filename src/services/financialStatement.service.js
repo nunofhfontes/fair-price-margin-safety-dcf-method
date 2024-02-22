@@ -32,8 +32,17 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
     console.log("revenuesFilteredMap: ", revenuesFilteredMap.size);
 
     revenuesFilteredMap.forEach((value, key) => {
-        console.log(`${key} = ${value}`);
+        //console.log(`${key} = ${value}`);
+        console.log("=============================");
+        console.log(key);
+        console.log(value);
+        console.log("=============================");
     });
+
+    // Convert the map to an array of objects
+    const dataArray = Array.from(revenuesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // Print the table to the console
+    console.table(dataArray);
 
     return revenuesFilteredMap;
 };
