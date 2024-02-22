@@ -13,6 +13,12 @@ First, run the server.
     localhost:3000/financial/tickers
     localhost:3000/financial/[SOME_TICKER]/fcf
 
+3.1 - endpoints are now availabe (just for development at https://financial-analysis-api.onrender.com/financial/company/HD/fcf 
+    for example), available endpoints:
+    https://financial-analysis-api.onrender.com/financial/company/[SOME_TICKER]/fcf
+    https://financial-analysis-api.onrender.com/financial/analysis/[SOME_TICKER]/full
+
+    
 Second, run the frontend.
 
 1 - go to (...)/fair-price-margin-safety-dcf-method/fair_price_next_fe
