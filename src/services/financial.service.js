@@ -30,8 +30,8 @@ class FinancialStatementService {
       if (country == "US") {
         //return data["facts"]["us-gaap"][targetAccount];
 
-        console.log('targetAccount: ', targetAccount);
-        console.log('!!!! account json: ', financialRawDataJson);
+        //console.log('targetAccount: ', targetAccount);
+        //console.log('!!!! account json: ', financialRawDataJson);
 
         return financialRawDataJson["facts"]["us-gaap"][targetAccount];
       }
@@ -134,10 +134,10 @@ class FinancialStatementService {
       // Request interceptor
       axios.interceptors.request.use((config) => {
         // Log the request URL and any other relevant information
-        console.log('Request URL:', config.url);
-        console.log('Request Method:', config.method);
-        console.log('Request Headers:', config.headers);
-        console.log('Request Data:', config.data);
+        // console.log('Request URL:', config.url);
+        // console.log('Request Method:', config.method);
+        // console.log('Request Headers:', config.headers);
+        // console.log('Request Data:', config.data);
 
         // You can also modify the request configuration if needed
         // For example, you can add an API key to headers
@@ -160,7 +160,7 @@ class FinancialStatementService {
           headers: headers,
         });
 
-        console.log("RESPONSE STATUS: ", response.status);
+        //console.log("RESPONSE STATUS: ", response.status);
 
         // Check if the request was successful (status code 200)
         if (response.status === 200) {
@@ -391,11 +391,28 @@ class FinancialStatementService {
     //TODO - NF - document this method
     // in the future I might not remember why this is done
     extractAnualResultsFromRawData(rawCurrentItem, filteredDataMap) {
+
+
+      //TODO - Add exception for SalesRevenueNet ?????
+      // because every field has form = 10-K instead of some having 10-Q
+      // We must distinguish them by the frame, which can have the format CY2013 or CY2014Q1
+
       if (rawCurrentItem.form === "10-K") {
+
+        // console.log("form -> ", rawCurrentItem.form);
+        // console.log("fy -> ", rawCurrentItem.fy);
+        // console.log("end -> ", rawCurrentItem.end);
+        // console.log("-----------------------------");
+
         const year = rawCurrentItem.fy;
         const endDate = rawCurrentItem.end;
+
         if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
           filteredDataMap.set(year, rawCurrentItem);
+          console.log("++++++++++++++");
+          console.log("year -> ", year);
+          console.log("rawCurrentItem -> ", rawCurrentItem);
+          console.log("++++++++++++++");
           this.checkIfHasFrameFieldAndUpdate(filteredDataMap, rawCurrentItem);
         }
       }

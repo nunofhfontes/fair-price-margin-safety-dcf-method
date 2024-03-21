@@ -46,6 +46,12 @@ class FinancialStatementController {
     // Convert the map to a JavaScript object
     //const fcfMappedToObject = Object.fromEntries(revenues3y);
     res.status(200).json(revenues3y);
+
+
+    // TO RETURN A MAP
+    // Convert the map to a JavaScript object
+    //const fcfMappedToObject = Object.fromEntries(revenues3y);
+    //res.status(200).json(fcfMappedToObject);
   }
 
   async getCashFlowsForTicker(req, res, next) {
