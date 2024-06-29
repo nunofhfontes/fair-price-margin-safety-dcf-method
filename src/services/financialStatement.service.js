@@ -17,6 +17,7 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
 
     //SEC's field for revenues -> SalesRevenueNet
     let reveneuesRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "SalesRevenueNet");
+    //also SEC's field for revenues, from 2017 on -> RevenueFromContractWithCustomerExcludingAssessedTax
 
     //stopped here
     const revenuesFilteredMap = new Map();
