@@ -297,6 +297,20 @@ class FinancialStatementService {
             });
           }
 
+          //----------_CHECKING VALUES-------------//
+          // // Convert the map to an array of objects
+          let dataArray = Array.from(netCashProvidedByUsedInOperatingActivitiesContinuingOperationsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+          // // Print the table to the console
+          console.table("Printing the Table");
+          console.table(dataArray);
+          dataArray = Array.from(cashFromOpsFilteredDataMap, ([year, data]) => ({ Year: year, ...data }));
+          console.table(dataArray);
+          dataArray = Array.from(paymentsToAcquireProductiveAssetsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+          console.table(dataArray);
+          dataArray = Array.from(paymentsToAcquirePropertyPlantAndEquipmentFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+          console.table(dataArray);
+          //----------_CHECKING VALUES-------------//
+
           // This is to get the financial report's year span, the maximum and minimum years
           const maps = [netCashProvidedByUsedInOperatingActivitiesContinuingOperationsFilteredMap,
             cashFromOpsFilteredDataMap,
@@ -306,6 +320,8 @@ class FinancialStatementService {
           // Initialize minimum and maximum years
           let minimumYear = Infinity;
           let maximumYear = -Infinity;
+
+          
 
           maps.forEach((map) => {
             const years = [...map.keys()];

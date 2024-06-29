@@ -16,15 +16,21 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
     console.log("getRevenueForYears METHOD ");
 
     //SEC's field for revenues -> SalesRevenueNet
-    let reveneuesRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "SalesRevenueNet");
+    let salesRevenueNetRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "SalesRevenueNet");
     //also SEC's field for revenues, from 2017 on -> RevenueFromContractWithCustomerExcludingAssessedTax
+    let revenueFromContractWithCustomerExcludingAssessedTaxRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "RevenueFromContractWithCustomerExcludingAssessedTax");
 
-    //stopped here
     const revenuesFilteredMap = new Map();
 
     // Parsing the Raw Data and getting the right 10-K values
-    if(reveneuesRawJson) {
-        reveneuesRawJson["units"]["USD"].forEach(rawCurrentItem => {
+    if(salesRevenueNetRawJson) {
+        salesRevenueNetRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAnualResultsFromRawData(rawCurrentItem, revenuesFilteredMap);
+        });
+    }
+    if(revenueFromContractWithCustomerExcludingAssessedTaxRawJson) {
+        console.log("Inside RevenueFromContractWithCustomerExcludingAssessedTaxRawJson");
+        revenueFromContractWithCustomerExcludingAssessedTaxRawJson["units"]["USD"].forEach(rawCurrentItem => {
             financialService.extractAnualResultsFromRawData(rawCurrentItem, revenuesFilteredMap);
         });
     }
@@ -42,6 +48,7 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
     // // Convert the map to an array of objects
     const dataArray = Array.from(revenuesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
+    console.table("Printing the Table");
     console.table(dataArray);
 
     return revenuesFilteredMap;
