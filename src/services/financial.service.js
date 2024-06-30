@@ -406,6 +406,51 @@ class FinancialStatementService {
 
     //TODO - NF - document this method
     // in the future I might not remember why this is done
+    extractAndFilterAnualResultsFromRawData(rawCurrentItem, filteredDataMap) {
+
+
+      //TODO - Add exception for SalesRevenueNet ?????
+      // because every field has form = 10-K instead of some having 10-Q
+      // We must distinguish them by the frame, which can have the format CY2013 or CY2014Q1
+
+      if (rawCurrentItem.form === "10-K") {
+
+        // console.log("form -> ", rawCurrentItem.form);
+        // console.log("fy -> ", rawCurrentItem.fy);
+        // console.log("end -> ", rawCurrentItem.end);
+        // console.log("-----------------------------");
+
+        const year = rawCurrentItem.fy;
+        const endDate = rawCurrentItem.end;
+
+        if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
+        // if (!filteredDataMap.has(year) && !rawCurrentItem.frame) {
+        //if (!rawCurrentItem.frame || (typeof rawCurrentItem['frame'] === 'string') && (!rawCurrentItem['frame'].toLowerCase().includes('q'))) {
+          filteredDataMap.set(year, rawCurrentItem);
+          // console.log("++++++++++++++");
+          // console.log("year -> ", year);
+          // console.log("rawCurrentItem -> ", rawCurrentItem);
+          // console.log("++++++++++++++");
+
+ 
+          
+
+          //this.checkIfHasFrameFieldAndUpdate(filteredDataMap, rawCurrentItem);
+        }
+
+        // if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
+        //   filteredDataMap.set(year, rawCurrentItem);
+        //   console.log("++++++++++++++");
+        //   console.log("year -> ", year);
+        //   console.log("rawCurrentItem -> ", rawCurrentItem);
+        //   console.log("++++++++++++++");
+        //   this.checkIfHasFrameFieldAndUpdate(filteredDataMap, rawCurrentItem);
+        // }
+      }
+    }
+
+    //TODO - NF - document this method
+    // in the future I might not remember why this is done
     extractAnualResultsFromRawData(rawCurrentItem, filteredDataMap) {
 
 

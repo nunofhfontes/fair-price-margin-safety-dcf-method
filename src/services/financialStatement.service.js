@@ -25,13 +25,13 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
     // Parsing the Raw Data and getting the right 10-K values
     if(salesRevenueNetRawJson) {
         salesRevenueNetRawJson["units"]["USD"].forEach(rawCurrentItem => {
-            financialService.extractAnualResultsFromRawData(rawCurrentItem, revenuesFilteredMap);
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, revenuesFilteredMap);
         });
     }
     if(revenueFromContractWithCustomerExcludingAssessedTaxRawJson) {
         console.log("Inside RevenueFromContractWithCustomerExcludingAssessedTaxRawJson");
         revenueFromContractWithCustomerExcludingAssessedTaxRawJson["units"]["USD"].forEach(rawCurrentItem => {
-            financialService.extractAnualResultsFromRawData(rawCurrentItem, revenuesFilteredMap);
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, revenuesFilteredMap);
         });
     }
 
