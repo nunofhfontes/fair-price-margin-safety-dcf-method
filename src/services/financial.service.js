@@ -404,8 +404,8 @@ class FinancialStatementService {
       return fcfFilteredDataMap;
     }
 
-    //TODO - NF - document this method
-    // in the future I might not remember why this is done
+    // this method first filters a raw json item by the form property 10-k
+    // then a map is filled, by the year, always updating the year by the last filled element (endDate)
     extractAndFilterAnualResultsFromRawData(rawCurrentItem, filteredDataMap) {
 
 
@@ -414,38 +414,12 @@ class FinancialStatementService {
       // We must distinguish them by the frame, which can have the format CY2013 or CY2014Q1
 
       if (rawCurrentItem.form === "10-K") {
-
-        // console.log("form -> ", rawCurrentItem.form);
-        // console.log("fy -> ", rawCurrentItem.fy);
-        // console.log("end -> ", rawCurrentItem.end);
-        // console.log("-----------------------------");
-
         const year = rawCurrentItem.fy;
         const endDate = rawCurrentItem.end;
 
         if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
-        // if (!filteredDataMap.has(year) && !rawCurrentItem.frame) {
-        //if (!rawCurrentItem.frame || (typeof rawCurrentItem['frame'] === 'string') && (!rawCurrentItem['frame'].toLowerCase().includes('q'))) {
           filteredDataMap.set(year, rawCurrentItem);
-          // console.log("++++++++++++++");
-          // console.log("year -> ", year);
-          // console.log("rawCurrentItem -> ", rawCurrentItem);
-          // console.log("++++++++++++++");
-
- 
-          
-
-          //this.checkIfHasFrameFieldAndUpdate(filteredDataMap, rawCurrentItem);
         }
-
-        // if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
-        //   filteredDataMap.set(year, rawCurrentItem);
-        //   console.log("++++++++++++++");
-        //   console.log("year -> ", year);
-        //   console.log("rawCurrentItem -> ", rawCurrentItem);
-        //   console.log("++++++++++++++");
-        //   this.checkIfHasFrameFieldAndUpdate(filteredDataMap, rawCurrentItem);
-        // }
       }
     }
 
