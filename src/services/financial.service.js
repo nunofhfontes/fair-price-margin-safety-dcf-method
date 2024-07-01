@@ -421,7 +421,12 @@ class FinancialStatementService {
           filteredDataMap.set(year, rawCurrentItem);
         }
       }
+
+      
+
     }
+
+    
 
     //TODO - NF - document this method
     // in the future I might not remember why this is done

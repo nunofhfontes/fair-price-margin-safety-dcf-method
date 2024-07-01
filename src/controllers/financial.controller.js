@@ -35,23 +35,30 @@ class FinancialStatementController {
     //TODO --->>> ADD THIS FIELD  "RevenueFromContractWithCustomerExcludingAssessedTax": {
     //   "label": "Revenue from Contract with Customer, Excluding Assessed Tax",
     //   "description": "Amount, excluding tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value added and excise.",
-    let revenues3y = financialStatementService.getRevenueForYears(factsRaw, 2023, 2020);
-
+    let revenues3y = await financialStatementService.getRevenueForYears(factsRaw, 2023, 2020);
+    let costOfRevenues = await financialStatementService.getCostOfRevenues(factsRaw);
 
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
     // let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
     // let dcf = await CashFlowService.calculateDCF(req.params.companyId, cik, fcf, fcfCagr);
 
+    //console.log(revenues3y);
+
     // Convert the map to a JavaScript object
     //const fcfMappedToObject = Object.fromEntries(revenues3y);
-    res.status(200).json(revenues3y);
+    //res.status(200).json(revenues3y);
 
 
     // TO RETURN A MAP
     // Convert the map to a JavaScript object
-    //const fcfMappedToObject = Object.fromEntries(revenues3y);
-    //res.status(200).json(fcfMappedToObject);
+    const revenuesMappedToObject = Object.fromEntries(revenues3y);
+    const costOfRevenuesMappedToObject = Object.fromEntries(revenues3y);
+    // console.log(fcfMappedToObject);
+    res.status(200).json({
+      revenues: revenuesMappedToObject,
+      costOfRevenues: costOfRevenuesMappedToObject,
+    });
   }
 
   async getCashFlowsForTicker(req, res, next) {
