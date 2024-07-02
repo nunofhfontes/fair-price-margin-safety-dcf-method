@@ -37,6 +37,7 @@ class FinancialStatementController {
     //   "description": "Amount, excluding tax collected from customer, of revenue from satisfaction of performance obligation by transferring promised good or service to customer. Tax collected from customer is tax assessed by governmental authority that is both imposed on and concurrent with specific revenue-producing transaction, including, but not limited to, sales, use, value added and excise.",
     let revenues3y = await financialStatementService.getRevenueForYears(factsRaw, 2023, 2020);
     let costOfRevenues = await financialStatementService.getCostOfRevenues(factsRaw);
+    let grossProfit = await financialStatementService.getGrossProfit(factsRaw);
 
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
@@ -53,11 +54,13 @@ class FinancialStatementController {
     // TO RETURN A MAP
     // Convert the map to a JavaScript object
     const revenuesMappedToObject = Object.fromEntries(revenues3y);
-    const costOfRevenuesMappedToObject = Object.fromEntries(revenues3y);
+    const costOfRevenuesMappedToObject = Object.fromEntries(costOfRevenues);
+    const grossProfitMappedToObject = Object.fromEntries(grossProfit);
     // console.log(fcfMappedToObject);
     res.status(200).json({
       revenues: revenuesMappedToObject,
       costOfRevenues: costOfRevenuesMappedToObject,
+      grossProfit: grossProfitMappedToObject,
     });
   }
 

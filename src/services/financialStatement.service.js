@@ -83,7 +83,32 @@ const getCostOfRevenues = (financialRawData, startYear, endYear) => {
     return costOfRevenuesFilteredMap;
 }
 
-// Function to create a new map with corrected keys
+const getGrossProfit = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> GrossProfit
+    //get GrossProfit out of the entire rawJson
+    let grossProfitRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "GrossProfit");
+    
+    let grossProfitFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(grossProfitRawJson) {
+        grossProfitRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, grossProfitFilteredMap);
+        });
+    }
+
+    grossProfitFilteredMap = fixMapKeys(grossProfitFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(grossProfitFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - Gross Profit");
+    console.table(dataArray);
+
+    return grossProfitFilteredMap;
+}
+
+// Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
 
@@ -116,6 +141,7 @@ module.exports = {
     getCostOfRevenues,
     fetchFinancialData,
     calculateRevenue,
-    calculateProfit
+    calculateProfit,
+    getGrossProfit
 };
   
