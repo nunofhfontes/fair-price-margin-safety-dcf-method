@@ -38,6 +38,7 @@ class FinancialStatementController {
     let revenues3y = await financialStatementService.getRevenueForYears(factsRaw, 2023, 2020);
     let costOfRevenues = await financialStatementService.getCostOfRevenues(factsRaw);
     let grossProfit = await financialStatementService.getGrossProfit(factsRaw);
+    let sellingGeneralAndAdministrativeExpense = await financialStatementService.getSellingGeneralAndAdministrativeExpense(factsRaw);
 
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
@@ -56,11 +57,18 @@ class FinancialStatementController {
     const revenuesMappedToObject = Object.fromEntries(revenues3y);
     const costOfRevenuesMappedToObject = Object.fromEntries(costOfRevenues);
     const grossProfitMappedToObject = Object.fromEntries(grossProfit);
+    const sellingGeneralAndAdministrativeExpenseMappedToObject = Object.fromEntries(sellingGeneralAndAdministrativeExpense);
+
     // console.log(fcfMappedToObject);
     res.status(200).json({
-      revenues: revenuesMappedToObject,
-      costOfRevenues: costOfRevenuesMappedToObject,
-      grossProfit: grossProfitMappedToObject,
+      revenues: {
+        revenues: revenuesMappedToObject,
+        costOfRevenues: costOfRevenuesMappedToObject,
+        grossProfit: grossProfitMappedToObject,
+      },
+      operatingExpensesAndIncome: {
+        sellingGeneralAndAdministrativeExpense: sellingGeneralAndAdministrativeExpenseMappedToObject
+      }
     });
   }
 

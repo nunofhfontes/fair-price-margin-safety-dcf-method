@@ -108,6 +108,40 @@ const getGrossProfit = (financialRawData, startYear, endYear) => {
     return grossProfitFilteredMap;
 }
 
+/**
+ * Retrieves the selling, general, and administrative expense for a given financial raw data,
+ * within a specified year interval.
+ *
+ * @param {Object} financialRawData - The raw financial data containing the expense information.
+ * @param {number} startYear - The starting year of the interval.
+ * @param {number} endYear - The ending year of the interval.
+ * @return {Promise<Object>} A promise that resolves to the selling, general, and administrative expense
+ * for the specified year interval.
+ */
+const getSellingGeneralAndAdministrativeExpense = (financialRawData, startYear, endYear) => {
+    //SEC's field for selling, general and admin costs -> SellingGeneralAndAdministrativeExpense
+    let sellingGeneralAndAdministrativeExpenseRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "SellingGeneralAndAdministrativeExpense");
+    
+    let sellingGeneralAndAdministrativeExpenseFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(sellingGeneralAndAdministrativeExpenseRawJson) {
+        sellingGeneralAndAdministrativeExpenseRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, sellingGeneralAndAdministrativeExpenseFilteredMap);
+        });
+    }
+
+    sellingGeneralAndAdministrativeExpenseFilteredMap = fixMapKeys(sellingGeneralAndAdministrativeExpenseFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(sellingGeneralAndAdministrativeExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - SellingGeneralAndAdministrativeExpense");
+    console.table(dataArray);
+
+    return sellingGeneralAndAdministrativeExpenseFilteredMap;
+}
+
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
@@ -142,6 +176,7 @@ module.exports = {
     fetchFinancialData,
     calculateRevenue,
     calculateProfit,
-    getGrossProfit
+    getGrossProfit,
+    getSellingGeneralAndAdministrativeExpense,
 };
   
