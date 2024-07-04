@@ -39,7 +39,7 @@ class FinancialStatementController {
     let costOfRevenues = await financialStatementService.getCostOfRevenues(factsRaw);
     let grossProfit = await financialStatementService.getGrossProfit(factsRaw);
     let sellingGeneralAndAdministrativeExpense = await financialStatementService.getSellingGeneralAndAdministrativeExpense(factsRaw);
-
+    let depreciationAndAmortization = await financialStatementService.getDepreciationAndAmortization(factsRaw);
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
     // let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
@@ -58,6 +58,9 @@ class FinancialStatementController {
     const costOfRevenuesMappedToObject = Object.fromEntries(costOfRevenues);
     const grossProfitMappedToObject = Object.fromEntries(grossProfit);
     const sellingGeneralAndAdministrativeExpenseMappedToObject = Object.fromEntries(sellingGeneralAndAdministrativeExpense);
+    const depreciationAndAmortizationMappedToObject = Object.fromEntries(depreciationAndAmortization);
+
+
 
     // console.log(fcfMappedToObject);
     res.status(200).json({
@@ -67,7 +70,8 @@ class FinancialStatementController {
         grossProfit: grossProfitMappedToObject,
       },
       operatingExpensesAndIncome: {
-        sellingGeneralAndAdministrativeExpense: sellingGeneralAndAdministrativeExpenseMappedToObject
+        sellingGeneralAndAdministrativeExpense: sellingGeneralAndAdministrativeExpenseMappedToObject,
+        depreciationAndAmortization: depreciationAndAmortizationMappedToObject
       }
     });
   }
