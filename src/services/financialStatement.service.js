@@ -227,5 +227,6 @@ module.exports = {
     getGrossProfit,
     getSellingGeneralAndAdministrativeExpense,
     getDepreciationAndAmortization,
+    getTotalOperatingExpenses,
 };
   
