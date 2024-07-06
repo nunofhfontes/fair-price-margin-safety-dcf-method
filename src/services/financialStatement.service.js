@@ -166,6 +166,30 @@ const getDepreciationAndAmortization = (financialRawData, startYear, endYear) =>
     return depreciationAndAmortizationFilteredMap;
 }
 
+const getTotalOperatingExpenses = (financialRawData, startYear, endYear) => {
+    //SEC's field for total operating expenses -> TotalOperatingExpenses
+    let totalOperatingExpensesRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "OperatingExpenses");
+    
+    let totalOperatingExpensesFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(totalOperatingExpensesRawJson) {
+        totalOperatingExpensesRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, totalOperatingExpensesFilteredMap);
+        });
+    }
+
+    totalOperatingExpensesFilteredMap = fixMapKeys(totalOperatingExpensesFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(totalOperatingExpensesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - TotalOperatingExpenses");
+    console.table(dataArray);
+
+    return totalOperatingExpensesFilteredMap;
+}
+
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
