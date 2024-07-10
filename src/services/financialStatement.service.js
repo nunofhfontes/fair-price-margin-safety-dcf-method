@@ -242,6 +242,31 @@ const getInterestExpense = (financialRawData, startYear, endYear) => {
     return interestExpenseFilteredMap;
 }
 
+const getInvestmentIncomeInterestAndDividends = (financialRawData, startYear, endYear) => {
+    //SEC's field for investment income -> InvestmentIncome
+    //get InvestmentIncome out of the entire rawJson
+    let investmentIncomeRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "InvestmentIncomeInterestAndDividend");
+    
+    let investmentIncomeFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(investmentIncomeRawJson) {
+        investmentIncomeRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, investmentIncomeFilteredMap);
+        });
+    }
+
+    investmentIncomeFilteredMap = fixMapKeys(investmentIncomeFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(investmentIncomeFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - InvestmentIncome");
+    console.table(dataArray);
+
+    return investmentIncomeFilteredMap;
+}
+
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
@@ -282,5 +307,6 @@ module.exports = {
     getTotalOperatingExpenses,
     getOperatingIncomeLoss,
     getInterestExpense,
+    getInvestmentIncomeInterestAndDividends,
 };
   

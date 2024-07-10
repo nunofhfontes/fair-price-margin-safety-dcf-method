@@ -43,6 +43,7 @@ class FinancialStatementController {
     let totalOperatingExpenses = await financialStatementService.getTotalOperatingExpenses(factsRaw);
     let operatingIncomeLoss = await financialStatementService.getOperatingIncomeLoss(factsRaw);
     let interestExpense = await financialStatementService.getInterestExpense(factsRaw);
+    let investmentIncomeInterestAndDividend = await financialStatementService.getInvestmentIncomeInterestAndDividend(factsRaw);
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
     // let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
@@ -65,6 +66,7 @@ class FinancialStatementController {
     const totalOperatingExpensesMappedToObject = Object.fromEntries(totalOperatingExpenses);
     const operatingIncomeLossMappedToObject = Object.fromEntries(operatingIncomeLoss);
     const interestExpenseMappedToObject = Object.fromEntries(interestExpense);
+    const investmentIncomeInterestAndDividendMappedToObject = Object.fromEntries(investmentIncomeInterestAndDividend);
 
 
     // console.log(fcfMappedToObject);
@@ -82,6 +84,7 @@ class FinancialStatementController {
       },
       earningsFromContinuingOperations: {
         interestExpense: interestExpenseMappedToObject,
+        interestAndInvestmentIncome: investmentIncomeInterestAndDividendMappedToObject,
       }
     });
   }
