@@ -317,6 +317,40 @@ const getOtherNonOperatingIncomeExpenses = (financialRawData, startYear, endYear
     return otherNonoperatingIncomeExpenseFilteredMap;
 }
 
+//IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments
+const getEBTIncludingUnsualItems = (financialRawData, startYear, endYear) => {
+
+    // get EBTIncludingUnsualItems out of the entire rawJson
+    let incomeLossContOpBefTaxMinInterestAndIncLossEqInvestRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments");
+    let incomeLossContOpBefIncTaxExtrItemsNonContrIntRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest");
+
+
+    let ebtIncludingUnsualItemsFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(incomeLossContOpBefTaxMinInterestAndIncLossEqInvestRawJson) {
+        incomeLossContOpBefTaxMinInterestAndIncLossEqInvestRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, ebtIncludingUnsualItemsFilteredMap);
+        });
+    }
+    // Parsing the Raw Data and getting the right 10-K values
+    if(incomeLossContOpBefIncTaxExtrItemsNonContrIntRawJson) {
+        incomeLossContOpBefIncTaxExtrItemsNonContrIntRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, ebtIncludingUnsualItemsFilteredMap);
+        });
+    }
+
+    ebtIncludingUnsualItemsFilteredMap = fixMapKeys(ebtIncludingUnsualItemsFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(ebtIncludingUnsualItemsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - EBTIncludingUnsualItems");
+    console.table(dataArray);
+
+    return ebtIncludingUnsualItemsFilteredMap;
+}
+
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
@@ -360,5 +394,6 @@ module.exports = {
     getInvestmentIncomeInterestAndDividends,
     getNonOperatingIncomeExpenses,
     getOtherNonOperatingIncomeExpenses,
+    getEBTIncludingUnsualItems,
 };
   

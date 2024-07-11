@@ -46,6 +46,7 @@ class FinancialStatementController {
     let investmentIncomeInterestAndDividend = await financialStatementService.getInvestmentIncomeInterestAndDividends(factsRaw);
     let nonOperatingIncomeExpense = await financialStatementService.getNonOperatingIncomeExpenses(factsRaw);
     let otherNonoperatingIncomeExpense = await financialStatementService.getOtherNonOperatingIncomeExpenses(factsRaw);
+    let ebtIncludingUnsualItems = await financialStatementService.getEBTIncludingUnsualItems(factsRaw);
 
 
     
@@ -73,6 +74,8 @@ class FinancialStatementController {
     const investmentIncomeInterestAndDividendMappedToObject = Object.fromEntries(investmentIncomeInterestAndDividend);
     const nonoperatingIncomeExpenseMappedToObject = Object.fromEntries(nonOperatingIncomeExpense);
     const otherNonoperatingIncomeExpenseMappedToObject = Object.fromEntries(otherNonoperatingIncomeExpense);
+    const ebtIncludingUnsualItemsMappedToObject = Object.fromEntries(ebtIncludingUnsualItems);
+
 
 
 
@@ -95,6 +98,7 @@ class FinancialStatementController {
           interestAndInvestmentIncome: investmentIncomeInterestAndDividendMappedToObject,
           netInterestExpenses: nonoperatingIncomeExpenseMappedToObject,
           otherNonoperatingIncomeExpense: otherNonoperatingIncomeExpenseMappedToObject,
+          ebtIncludingUnsualItems: ebtIncludingUnsualItemsMappedToObject,
         }
       }
     });
