@@ -44,7 +44,10 @@ class FinancialStatementController {
     let operatingIncomeLoss = await financialStatementService.getOperatingIncomeLoss(factsRaw);
     let interestExpense = await financialStatementService.getInterestExpense(factsRaw);
     let investmentIncomeInterestAndDividend = await financialStatementService.getInvestmentIncomeInterestAndDividends(factsRaw);
-    let nonoperatingIncomeExpense = await financialStatementService.getNonOperatingIncomeExpenses(factsRaw);
+    let nonOperatingIncomeExpense = await financialStatementService.getNonOperatingIncomeExpenses(factsRaw);
+    let otherNonoperatingIncomeExpense = await financialStatementService.getOtherNonOperatingIncomeExpenses(factsRaw);
+
+
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
     // let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
@@ -68,8 +71,9 @@ class FinancialStatementController {
     const operatingIncomeLossMappedToObject = Object.fromEntries(operatingIncomeLoss);
     const interestExpenseMappedToObject = Object.fromEntries(interestExpense);
     const investmentIncomeInterestAndDividendMappedToObject = Object.fromEntries(investmentIncomeInterestAndDividend);
+    const nonoperatingIncomeExpenseMappedToObject = Object.fromEntries(nonOperatingIncomeExpense);
+    const otherNonoperatingIncomeExpenseMappedToObject = Object.fromEntries(otherNonoperatingIncomeExpense);
 
-    const nonoperatingIncomeExpenseMappedToObject = Object.fromEntries(nonoperatingIncomeExpense);
 
 
     // console.log(fcfMappedToObject);
@@ -90,6 +94,7 @@ class FinancialStatementController {
           interestExpense: interestExpenseMappedToObject,
           interestAndInvestmentIncome: investmentIncomeInterestAndDividendMappedToObject,
           netInterestExpenses: nonoperatingIncomeExpenseMappedToObject,
+          otherNonoperatingIncomeExpense: otherNonoperatingIncomeExpenseMappedToObject,
         }
       }
     });
