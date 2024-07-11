@@ -43,7 +43,8 @@ class FinancialStatementController {
     let totalOperatingExpenses = await financialStatementService.getTotalOperatingExpenses(factsRaw);
     let operatingIncomeLoss = await financialStatementService.getOperatingIncomeLoss(factsRaw);
     let interestExpense = await financialStatementService.getInterestExpense(factsRaw);
-    let investmentIncomeInterestAndDividend = await financialStatementService.getInvestmentIncomeInterestAndDividend(factsRaw);
+    let investmentIncomeInterestAndDividend = await financialStatementService.getInvestmentIncomeInterestAndDividends(factsRaw);
+    let nonoperatingIncomeExpense = await financialStatementService.getNonOperatingIncomeExpenses(factsRaw);
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
     // let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
@@ -68,23 +69,28 @@ class FinancialStatementController {
     const interestExpenseMappedToObject = Object.fromEntries(interestExpense);
     const investmentIncomeInterestAndDividendMappedToObject = Object.fromEntries(investmentIncomeInterestAndDividend);
 
+    const nonoperatingIncomeExpenseMappedToObject = Object.fromEntries(nonoperatingIncomeExpense);
+
 
     // console.log(fcfMappedToObject);
     res.status(200).json({
-      revenues: {
-        revenues: revenuesMappedToObject,
-        costOfRevenues: costOfRevenuesMappedToObject,
-        grossProfit: grossProfitMappedToObject,
-      },
-      operatingExpensesAndIncome: {
-        sellingGeneralAndAdministrativeExpense: sellingGeneralAndAdministrativeExpenseMappedToObject,
-        depreciationAndAmortization: depreciationAndAmortizationMappedToObject,
-        totalOperatingExpenses: totalOperatingExpensesMappedToObject,
-        operatingIncomeLoss: operatingIncomeLossMappedToObject,
-      },
-      earningsFromContinuingOperations: {
-        interestExpense: interestExpenseMappedToObject,
-        interestAndInvestmentIncome: investmentIncomeInterestAndDividendMappedToObject,
+      financialStatement: {
+        revenues: {
+          revenues: revenuesMappedToObject,
+          costOfRevenues: costOfRevenuesMappedToObject,
+          grossProfit: grossProfitMappedToObject,
+        },
+        operatingExpensesAndIncome: {
+          sellingGeneralAndAdministrativeExpense: sellingGeneralAndAdministrativeExpenseMappedToObject,
+          depreciationAndAmortization: depreciationAndAmortizationMappedToObject,
+          totalOperatingExpenses: totalOperatingExpensesMappedToObject,
+          operatingIncomeLoss: operatingIncomeLossMappedToObject,
+        },
+        earningsFromContinuingOperations: {
+          interestExpense: interestExpenseMappedToObject,
+          interestAndInvestmentIncome: investmentIncomeInterestAndDividendMappedToObject,
+          netInterestExpenses: nonoperatingIncomeExpenseMappedToObject,
+        }
       }
     });
   }
