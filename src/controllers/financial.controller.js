@@ -47,7 +47,8 @@ class FinancialStatementController {
     let nonOperatingIncomeExpense = await financialStatementService.getNonOperatingIncomeExpenses(factsRaw);
     let otherNonoperatingIncomeExpense = await financialStatementService.getOtherNonOperatingIncomeExpenses(factsRaw);
     let ebtIncludingUnsualItems = await financialStatementService.getEBTIncludingUnsualItems(factsRaw);
-
+    let incomeTaxExpense = await financialStatementService.getIncomeTaxExpenseBenefit(factsRaw);
+    let earningsFromContinuingOperations = await financialStatementService.getEarningsFromContinuingOperations(factsRaw);
 
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
@@ -75,7 +76,8 @@ class FinancialStatementController {
     const nonoperatingIncomeExpenseMappedToObject = Object.fromEntries(nonOperatingIncomeExpense);
     const otherNonoperatingIncomeExpenseMappedToObject = Object.fromEntries(otherNonoperatingIncomeExpense);
     const ebtIncludingUnsualItemsMappedToObject = Object.fromEntries(ebtIncludingUnsualItems);
-
+    const incomeTaxExpenseMappedToObject = Object.fromEntries(incomeTaxExpense);
+    const earningsFromContinuingOperationsMappedToObject = Object.fromEntries(earningsFromContinuingOperations);
 
 
 
@@ -99,6 +101,8 @@ class FinancialStatementController {
           netInterestExpenses: nonoperatingIncomeExpenseMappedToObject,
           otherNonoperatingIncomeExpense: otherNonoperatingIncomeExpenseMappedToObject,
           ebtIncludingUnsualItems: ebtIncludingUnsualItemsMappedToObject,
+          incomeTaxExpense: incomeTaxExpenseMappedToObject,
+          earningsFromContinuingOperations: earningsFromContinuingOperationsMappedToObject,
         }
       }
     });

@@ -351,6 +351,56 @@ const getEBTIncludingUnsualItems = (financialRawData, startYear, endYear) => {
     return ebtIncludingUnsualItemsFilteredMap;
 }
 
+const getIncomeTaxExpenseBenefit = (financialRawData, startYear, endYear) => {
+
+    // get IncomeTaxExpenseBenefit out of the entire rawJson
+    let incomeTaxExpenseBenefitRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "IncomeTaxExpenseBenefit");
+    
+    let incomeTaxExpenseBenefitFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(incomeTaxExpenseBenefitRawJson) {
+        incomeTaxExpenseBenefitRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, incomeTaxExpenseBenefitFilteredMap);
+        });
+    }
+
+    incomeTaxExpenseBenefitFilteredMap = fixMapKeys(incomeTaxExpenseBenefitFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(incomeTaxExpenseBenefitFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - IncomeTaxExpenseBenefit");
+    console.table(dataArray);
+
+    return incomeTaxExpenseBenefitFilteredMap;
+}
+
+const getEarningsFromContinuingOperations = (financialRawData, startYear, endYear) => {
+
+    // get EarningsFromContinuingOperations out of the entire rawJson
+    let earningsFromContinuingOperationsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "NetIncomeLoss");
+    
+    let earningsFromContinuingOperationsFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(earningsFromContinuingOperationsRawJson) {
+        earningsFromContinuingOperationsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, earningsFromContinuingOperationsFilteredMap);
+        });
+    }
+
+    earningsFromContinuingOperationsFilteredMap = fixMapKeys(earningsFromContinuingOperationsFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(earningsFromContinuingOperationsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - EarningsFromContinuingOperations");
+    console.table(dataArray);
+
+    return earningsFromContinuingOperationsFilteredMap;
+}
+
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
@@ -395,5 +445,7 @@ module.exports = {
     getNonOperatingIncomeExpenses,
     getOtherNonOperatingIncomeExpenses,
     getEBTIncludingUnsualItems,
+    getIncomeTaxExpenseBenefit,
+    getEarningsFromContinuingOperations
 };
   
