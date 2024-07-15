@@ -428,6 +428,33 @@ const getNetIncome = (financialRawData, startYear, endYear) => {
    // NetIncomeLoss
 }
 
+const getWeightedAverageNumberOfDilutedSharesOutstanding = (financialRawData, startYear, endYear) => {
+    
+    // get WeightedAverageNumberOfDilutedSharesOutstanding out of the entire rawJson
+    let weightedAverageNumberOfDilutedSharesOutstandingRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "WeightedAverageNumberOfDilutedSharesOutstanding");
+    
+    console.log("=> ", weightedAverageNumberOfDilutedSharesOutstandingRawJson);
+
+    let weightedAverageNumberOfDilutedSharesOutstandingFilteredMap = new Map();
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(weightedAverageNumberOfDilutedSharesOutstandingRawJson) {
+        weightedAverageNumberOfDilutedSharesOutstandingRawJson["units"]["shares"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, weightedAverageNumberOfDilutedSharesOutstandingFilteredMap);
+        });
+    }
+
+    weightedAverageNumberOfDilutedSharesOutstandingFilteredMap = fixMapKeys(weightedAverageNumberOfDilutedSharesOutstandingFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(weightedAverageNumberOfDilutedSharesOutstandingFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - WeightedAverageNumberOfDilutedSharesOutstanding");
+    console.table(dataArray);
+
+    return weightedAverageNumberOfDilutedSharesOutstandingFilteredMap;
+}
+
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
@@ -475,5 +502,6 @@ module.exports = {
     getIncomeTaxExpenseBenefit,
     getEarningsFromContinuingOperations,
     getNetIncome,
+    getWeightedAverageNumberOfDilutedSharesOutstanding,
 };
   

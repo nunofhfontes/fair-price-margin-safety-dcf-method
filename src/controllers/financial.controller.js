@@ -50,6 +50,7 @@ class FinancialStatementController {
     let incomeTaxExpense = await financialStatementService.getIncomeTaxExpenseBenefit(factsRaw);
     let earningsFromContinuingOperations = await financialStatementService.getEarningsFromContinuingOperations(factsRaw);
     let netIncome = await financialStatementService.getNetIncome(factsRaw);
+    let weightAvgNrOfDilutSharesOutst = await financialStatementService.getWeightedAverageNumberOfDilutedSharesOutstanding(factsRaw);
 
     
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
@@ -80,7 +81,7 @@ class FinancialStatementController {
     const incomeTaxExpenseMappedToObject = Object.fromEntries(incomeTaxExpense);
     const earningsFromContinuingOperationsMappedToObject = Object.fromEntries(earningsFromContinuingOperations);
     const netIncomeMappedToObject = Object.fromEntries(netIncome);
-
+    const weightAvgNrOfDilutSharesOutstMappedToObject = Object.fromEntries(weightAvgNrOfDilutSharesOutst);
 
 
     // console.log(fcfMappedToObject);
@@ -112,6 +113,9 @@ class FinancialStatementController {
             netIncome: netIncomeMappedToObject
           },
           netIncToCommonExclExtraItems: {},
+        },
+        supplementalItems: {
+          weightAvgNrOfDilutSharesOutst: weightAvgNrOfDilutSharesOutstMappedToObject,
         }
       }
     });
