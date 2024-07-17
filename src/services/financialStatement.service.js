@@ -455,6 +455,26 @@ const getWeightedAverageNumberOfDilutedSharesOutstanding = (financialRawData, st
     return weightedAverageNumberOfDilutedSharesOutstandingFilteredMap;
 }
 
+const getCommonStockDividendsPerShareCashPaid = (financialRawData, startYear, endYear) => {
+    // get CommonStockDividendsPerShareCashPaid out of the entire rawJson
+    let commonStockDividendsPerShareCashPaidRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "CommonStockDividendsPerShareCashPaid");
+    let commonStockDividendsPerShareCashPaidFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(commonStockDividendsPerShareCashPaidRawJson) {
+        commonStockDividendsPerShareCashPaidRawJson["units"]["USD/shares"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, commonStockDividendsPerShareCashPaidFilteredMap);
+        });
+    }
+    //commonStockDividendsPerShareCashPaidFilteredMap = fixMapKeys(commonStockDividendsPerShareCashPaidFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(commonStockDividendsPerShareCashPaidFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - CommonStockDividendsPerShareCashPaid");
+    console.table(dataArray);
+    return commonStockDividendsPerShareCashPaidFilteredMap;
+}
+    
+//FIXME - consider renaming this function, because the name is too generic
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
 const fixMapKeys = (map) => {
     const fixedMap = new Map();
@@ -503,5 +523,6 @@ module.exports = {
     getEarningsFromContinuingOperations,
     getNetIncome,
     getWeightedAverageNumberOfDilutedSharesOutstanding,
+    getCommonStockDividendsPerShareCashPaid,
 };
   

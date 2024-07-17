@@ -51,8 +51,14 @@ class FinancialStatementController {
     let earningsFromContinuingOperations = await financialStatementService.getEarningsFromContinuingOperations(factsRaw);
     let netIncome = await financialStatementService.getNetIncome(factsRaw);
     let weightAvgNrOfDilutSharesOutst = await financialStatementService.getWeightedAverageNumberOfDilutedSharesOutstanding(factsRaw);
-
+    let commonStockDividendsPerShareCashPaid = await financialStatementService.getCommonStockDividendsPerShareCashPaid(factsRaw);
     
+
+
+
+    // CommonStockDividendsPerShareDeclared
+
+
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
     // let fcfCagr = await CashFlowService.calculateFcfCagr(req.params.companyId, fcf);
     // let dcf = await CashFlowService.calculateDCF(req.params.companyId, cik, fcf, fcfCagr);
@@ -82,6 +88,7 @@ class FinancialStatementController {
     const earningsFromContinuingOperationsMappedToObject = Object.fromEntries(earningsFromContinuingOperations);
     const netIncomeMappedToObject = Object.fromEntries(netIncome);
     const weightAvgNrOfDilutSharesOutstMappedToObject = Object.fromEntries(weightAvgNrOfDilutSharesOutst);
+    const commonStockDividendsPerShareCashPaidMappedToObject = Object.fromEntries(commonStockDividendsPerShareCashPaid);
 
 
     // console.log(fcfMappedToObject);
@@ -116,6 +123,7 @@ class FinancialStatementController {
         },
         supplementalItems: {
           weightAvgNrOfDilutSharesOutst: weightAvgNrOfDilutSharesOutstMappedToObject,
+          commonStockDividendsPerShareCashPaid: commonStockDividendsPerShareCashPaidMappedToObject,
         }
       }
     });
