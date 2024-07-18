@@ -53,7 +53,8 @@ class FinancialStatementController {
     let weightAvgNrOfDilutSharesOutst = await financialStatementService.getWeightedAverageNumberOfDilutedSharesOutstanding(factsRaw);
     let commonStockDividendsPerShareCashPaid = await financialStatementService.getCommonStockDividendsPerShareCashPaid(factsRaw);
     
-
+      //TODO - NF - EffectiveIncomeTaxRateContinuingOperations --> check if this is the correct field??
+      const effectiveTaxRate = await financialStatementService.getEffectiveTaxRate(factsRaw);
 
 
     // CommonStockDividendsPerShareDeclared
@@ -89,6 +90,8 @@ class FinancialStatementController {
     const netIncomeMappedToObject = Object.fromEntries(netIncome);
     const weightAvgNrOfDilutSharesOutstMappedToObject = Object.fromEntries(weightAvgNrOfDilutSharesOutst);
     const commonStockDividendsPerShareCashPaidMappedToObject = Object.fromEntries(commonStockDividendsPerShareCashPaid);
+    const effectiveTaxRateMappedToObject = Object.fromEntries(effectiveTaxRate);
+  
 
 
     // console.log(fcfMappedToObject);
@@ -124,6 +127,7 @@ class FinancialStatementController {
         supplementalItems: {
           weightAvgNrOfDilutSharesOutst: weightAvgNrOfDilutSharesOutstMappedToObject,
           commonStockDividendsPerShareCashPaid: commonStockDividendsPerShareCashPaidMappedToObject,
+          effectiveTaxRate: effectiveTaxRateMappedToObject,
         }
       }
     });

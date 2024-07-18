@@ -473,6 +473,26 @@ const getCommonStockDividendsPerShareCashPaid = (financialRawData, startYear, en
     console.table(dataArray);
     return commonStockDividendsPerShareCashPaidFilteredMap;
 }
+
+const getEffectiveTaxRate = (financialRawData, startYear, endYear) => {
+
+    // get EffectiveTaxRate out of the entire rawJson
+    let effectiveTaxRateRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "EffectiveIncomeTaxRateContinuingOperations");
+    let effectiveTaxRateFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(effectiveTaxRateRawJson) {
+        effectiveTaxRateRawJson["units"]["pure"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, effectiveTaxRateFilteredMap);
+        });
+    }
+    effectiveTaxRateFilteredMap = fixMapKeys(effectiveTaxRateFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(effectiveTaxRateFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - EffectiveTaxRate");
+    console.table(dataArray);
+    return effectiveTaxRateFilteredMap;
+}
     
 //FIXME - consider renaming this function, because the name is too generic
 // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
@@ -524,5 +544,6 @@ module.exports = {
     getNetIncome,
     getWeightedAverageNumberOfDilutedSharesOutstanding,
     getCommonStockDividendsPerShareCashPaid,
+    getEffectiveTaxRate,
 };
   
