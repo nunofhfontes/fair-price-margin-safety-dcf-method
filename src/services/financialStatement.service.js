@@ -46,7 +46,7 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
     // });
 
     //we need to fix the keys (year) on the map, because the year should be given by the endDate and not the fy property
-    revenuesFilteredMap = fixMapKeys(revenuesFilteredMap);
+    revenuesFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(revenuesFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(revenuesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -72,7 +72,7 @@ const getCostOfRevenues = (financialRawData, startYear, endYear) => {
         });
     }
 
-    costOfRevenuesFilteredMap = fixMapKeys(costOfRevenuesFilteredMap);
+    costOfRevenuesFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(costOfRevenuesFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(costOfRevenuesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -97,7 +97,7 @@ const getGrossProfit = (financialRawData, startYear, endYear) => {
         });
     }
 
-    grossProfitFilteredMap = fixMapKeys(grossProfitFilteredMap);
+    grossProfitFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(grossProfitFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(grossProfitFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -131,7 +131,7 @@ const getSellingGeneralAndAdministrativeExpense = (financialRawData, startYear, 
         });
     }
 
-    sellingGeneralAndAdministrativeExpenseFilteredMap = fixMapKeys(sellingGeneralAndAdministrativeExpenseFilteredMap);
+    sellingGeneralAndAdministrativeExpenseFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(sellingGeneralAndAdministrativeExpenseFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(sellingGeneralAndAdministrativeExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -155,7 +155,7 @@ const getDepreciationAndAmortization = (financialRawData, startYear, endYear) =>
         });
     }
 
-    depreciationAndAmortizationFilteredMap = fixMapKeys(depreciationAndAmortizationFilteredMap);
+    depreciationAndAmortizationFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(depreciationAndAmortizationFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(depreciationAndAmortizationFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -179,7 +179,7 @@ const getTotalOperatingExpenses = (financialRawData, startYear, endYear) => {
         });
     }
 
-    totalOperatingExpensesFilteredMap = fixMapKeys(totalOperatingExpensesFilteredMap);
+    totalOperatingExpensesFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(totalOperatingExpensesFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(totalOperatingExpensesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -205,7 +205,7 @@ const getOperatingIncomeLoss = (financialRawData, startYear, endYear) => {
         });
     }
 
-    operatingIncomeLossFilteredMap = fixMapKeys(operatingIncomeLossFilteredMap);
+    operatingIncomeLossFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(operatingIncomeLossFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(operatingIncomeLossFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -231,7 +231,7 @@ const getInterestExpense = (financialRawData, startYear, endYear) => {
         });
     }
 
-    interestExpenseFilteredMap = fixMapKeys(interestExpenseFilteredMap);
+    interestExpenseFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(interestExpenseFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(interestExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -256,7 +256,7 @@ const getInvestmentIncomeInterestAndDividends = (financialRawData, startYear, en
         });
     }
 
-    investmentIncomeFilteredMap = fixMapKeys(investmentIncomeFilteredMap);
+    investmentIncomeFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(investmentIncomeFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(investmentIncomeFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -281,7 +281,7 @@ const getNonOperatingIncomeExpenses = (financialRawData, startYear, endYear) => 
         });
     }
 
-    nonoperatingIncomeExpenseFilteredMap = fixMapKeys(nonoperatingIncomeExpenseFilteredMap);
+    nonoperatingIncomeExpenseFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(nonoperatingIncomeExpenseFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(nonoperatingIncomeExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -306,7 +306,7 @@ const getOtherNonOperatingIncomeExpenses = (financialRawData, startYear, endYear
         });
     }
 
-    otherNonoperatingIncomeExpenseFilteredMap = fixMapKeys(otherNonoperatingIncomeExpenseFilteredMap);
+    otherNonoperatingIncomeExpenseFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(otherNonoperatingIncomeExpenseFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(otherNonoperatingIncomeExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -340,7 +340,7 @@ const getEBTIncludingUnsualItems = (financialRawData, startYear, endYear) => {
         });
     }
 
-    ebtIncludingUnsualItemsFilteredMap = fixMapKeys(ebtIncludingUnsualItemsFilteredMap);
+    ebtIncludingUnsualItemsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(ebtIncludingUnsualItemsFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(ebtIncludingUnsualItemsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -365,7 +365,7 @@ const getIncomeTaxExpenseBenefit = (financialRawData, startYear, endYear) => {
         });
     }
 
-    incomeTaxExpenseBenefitFilteredMap = fixMapKeys(incomeTaxExpenseBenefitFilteredMap);
+    incomeTaxExpenseBenefitFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(incomeTaxExpenseBenefitFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(incomeTaxExpenseBenefitFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -390,7 +390,7 @@ const getEarningsFromContinuingOperations = (financialRawData, startYear, endYea
         });
     }
 
-    earningsFromContinuingOperationsFilteredMap = fixMapKeys(earningsFromContinuingOperationsFilteredMap);
+    earningsFromContinuingOperationsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(earningsFromContinuingOperationsFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(earningsFromContinuingOperationsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -415,7 +415,7 @@ const getNetIncome = (financialRawData, startYear, endYear) => {
         });
     }
 
-    netIncomeFilteredMap = fixMapKeys(netIncomeFilteredMap);
+    netIncomeFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(netIncomeFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(netIncomeFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -444,7 +444,7 @@ const getWeightedAverageNumberOfDilutedSharesOutstanding = (financialRawData, st
         });
     }
 
-    weightedAverageNumberOfDilutedSharesOutstandingFilteredMap = fixMapKeys(weightedAverageNumberOfDilutedSharesOutstandingFilteredMap);
+    weightedAverageNumberOfDilutedSharesOutstandingFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(weightedAverageNumberOfDilutedSharesOutstandingFilteredMap);
 
     // // Convert the map to an array of objects
     const dataArray = Array.from(weightedAverageNumberOfDilutedSharesOutstandingFilteredMap, ([year, data]) => ({ Year: year, ...data }));
@@ -465,7 +465,7 @@ const getCommonStockDividendsPerShareCashPaid = (financialRawData, startYear, en
             financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, commonStockDividendsPerShareCashPaidFilteredMap);
         });
     }
-    //commonStockDividendsPerShareCashPaidFilteredMap = fixMapKeys(commonStockDividendsPerShareCashPaidFilteredMap);
+    //commonStockDividendsPerShareCashPaidFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(commonStockDividendsPerShareCashPaidFilteredMap);
     // // Convert the map to an array of objects
     const dataArray = Array.from(commonStockDividendsPerShareCashPaidFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
@@ -485,7 +485,7 @@ const getEffectiveTaxRate = (financialRawData, startYear, endYear) => {
             financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, effectiveTaxRateFilteredMap);
         });
     }
-    effectiveTaxRateFilteredMap = fixMapKeys(effectiveTaxRateFilteredMap);
+    effectiveTaxRateFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(effectiveTaxRateFilteredMap);
     // // Convert the map to an array of objects
     const dataArray = Array.from(effectiveTaxRateFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
@@ -494,18 +494,6 @@ const getEffectiveTaxRate = (financialRawData, startYear, endYear) => {
     return effectiveTaxRateFilteredMap;
 }
     
-//FIXME - consider renaming this function, because the name is too generic
-// Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
-const fixMapKeys = (map) => {
-    const fixedMap = new Map();
-
-    map.forEach((value, key) => {
-      const yearFromEnd = new Date(value.end).getFullYear();
-      fixedMap.set(yearFromEnd, value);
-    });
-
-    return fixedMap;
-  }
 
 const getRevenueCagrForYears = (financialData, startYear, endYear) => {
     // Implement logic to get revenue CAGR from the financial data for the year interval

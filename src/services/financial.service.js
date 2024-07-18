@@ -458,6 +458,20 @@ class FinancialStatementService {
       }
     }
 
+    //FIXME - consider renaming this function, because the name is too generic
+    // Function to create a new map with corrected keys, ie, fix the years, basically it increments one year
+    fixMapKeysWithUpdatedForwardedYear = (map) => {
+      const fixedMap = new Map();
+
+      map.forEach((value, key) => {
+        const yearFromEnd = new Date(value.end).getFullYear();
+        fixedMap.set(yearFromEnd, value);
+      });
+
+      return fixedMap;
+    }
+
+
     //TODO - NF - document this method
     // in the future I might not remember why this is done
     checkIfHasFrameFieldAndUpdate(filteredDataMap, item) {
