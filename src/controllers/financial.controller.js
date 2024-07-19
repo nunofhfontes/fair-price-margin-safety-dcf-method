@@ -60,6 +60,8 @@ class FinancialStatementController {
 
     //BalanceSheet fields
     let cashAndCashEquivalents = await balanceSheetStatementService.getCashAndCashEquivalents(factsRaw);
+    //TODO - NF - Is this field the Total of Cash & ST Investments?
+    let cashAndCashEquivalentsRestricted = await balanceSheetStatementService.getCashAndCashEquivalentsRestricted(factsRaw);
 
 
 
@@ -106,6 +108,7 @@ class FinancialStatementController {
   
     //balanceSheet fields
     const cashAndCashEquivalentsMappedToObject = Object.fromEntries(cashAndCashEquivalents);
+    const cashAndCashEquivalentsRestrictedMappedToObject = Object.fromEntries(cashAndCashEquivalentsRestricted);
 
 
     // console.log(fcfMappedToObject);
@@ -145,7 +148,13 @@ class FinancialStatementController {
         }
       },
       balanceSheetStatement: {
-        cashAndCashEquivalents: cashAndCashEquivalentsMappedToObject,
+        cashAndShortTermInvestments: {
+          cashAndCashEquivalents: cashAndCashEquivalentsMappedToObject,
+          cashAndCashEquivalentsRestricted: cashAndCashEquivalentsRestrictedMappedToObject
+        },
+        receivables: {
+          
+        },
       },
       cashFlowStatement: {
 
