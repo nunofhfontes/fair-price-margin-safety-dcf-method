@@ -2,6 +2,7 @@ const financialService = require('../services/financial.service');
 const CashFlowService = require('../services/cashFlow.service');
 
 const financialStatementService = require('../services/financialStatement.service');
+const balanceSheetStatementService = require('../services/balanceSheet.service');
 
 class FinancialStatementController {
 
@@ -51,13 +52,24 @@ class FinancialStatementController {
     let earningsFromContinuingOperations = await financialStatementService.getEarningsFromContinuingOperations(factsRaw);
     let netIncome = await financialStatementService.getNetIncome(factsRaw);
     let weightAvgNrOfDilutSharesOutst = await financialStatementService.getWeightedAverageNumberOfDilutedSharesOutstanding(factsRaw);
+    //TODO - NF - CommonStockDividendsPerShareDeclared
     let commonStockDividendsPerShareCashPaid = await financialStatementService.getCommonStockDividendsPerShareCashPaid(factsRaw);
-    
-      //TODO - NF - EffectiveIncomeTaxRateContinuingOperations --> check if this is the correct field??
-      const effectiveTaxRate = await financialStatementService.getEffectiveTaxRate(factsRaw);
+    //TODO - NF - EffectiveIncomeTaxRateContinuingOperations --> check if this is the correct field??
+    const effectiveTaxRate = await financialStatementService.getEffectiveTaxRate(factsRaw);
 
 
-    // CommonStockDividendsPerShareDeclared
+    //BalanceSheet fields
+    let cashAndCashEquivalents = await balanceSheetStatementService.getCashAndCashEquivalents(factsRaw);
+
+
+
+    // let accountsReceivables = await financialStatementService.getAccountsReceivables(factsRaw);
+    // let inventory = await financialStatementService.getInventory(factsRaw);
+    // let otherCurrentAssets = await financialStatementService.getOtherCurrentAssets(factsRaw);
+    // let totalCurrentAssets = await financialStatementService.getTotalCurrentAssets(factsRaw);
+    // let totalAssets = await financialStatementService.getTotalAssets(factsRaw);
+    // let totalLongTermDebt = await financialStatementService.getTotalLongTermDebt(factsRaw);
+    // let totalShareholderEquity = await financialStatementService.getTotalShareholderEquity(factsRaw);
 
 
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
@@ -92,11 +104,13 @@ class FinancialStatementController {
     const commonStockDividendsPerShareCashPaidMappedToObject = Object.fromEntries(commonStockDividendsPerShareCashPaid);
     const effectiveTaxRateMappedToObject = Object.fromEntries(effectiveTaxRate);
   
+    //balanceSheet fields
+    const cashAndCashEquivalentsMappedToObject = Object.fromEntries(cashAndCashEquivalents);
 
 
     // console.log(fcfMappedToObject);
     res.status(200).json({
-      financialStatement: {
+      incomeStatement: {
         revenues: {
           revenues: revenuesMappedToObject,
           costOfRevenues: costOfRevenuesMappedToObject,
@@ -129,6 +143,12 @@ class FinancialStatementController {
           commonStockDividendsPerShareCashPaid: commonStockDividendsPerShareCashPaidMappedToObject,
           effectiveTaxRate: effectiveTaxRateMappedToObject,
         }
+      },
+      balanceSheetStatement: {
+        cashAndCashEquivalents: cashAndCashEquivalentsMappedToObject,
+      },
+      cashFlowStatement: {
+
       }
     });
   }
