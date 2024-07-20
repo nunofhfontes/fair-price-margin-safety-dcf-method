@@ -42,9 +42,28 @@ const getCashAndCashEquivalentsRestricted = (financialRawData, startYear, endYea
     return cashAndCashEquivalentsRestrictedFilteredMap;
 };
 
+const getAccountsReceivables = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> AccountsReceivables
+    //get AccountsReceivables out of the entire rawJson
+    let accountsReceivablesRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "AccountsReceivableNetCurrent");
+    let accountsReceivablesFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(accountsReceivablesRawJson) {
+        accountsReceivablesRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, accountsReceivablesFilteredMap);
+        });
+    }
+    accountsReceivablesFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(accountsReceivablesFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(accountsReceivablesFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - AccountsReceivables");
+    console.table(dataArray);
+    return accountsReceivablesFilteredMap;
+};
 
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
-    
+    getAccountsReceivables,
 };

@@ -62,16 +62,14 @@ class FinancialStatementController {
     let cashAndCashEquivalents = await balanceSheetStatementService.getCashAndCashEquivalents(factsRaw);
     //TODO - NF - Is this field the Total of Cash & ST Investments?
     let cashAndCashEquivalentsRestricted = await balanceSheetStatementService.getCashAndCashEquivalentsRestricted(factsRaw);
+    let accountsReceivables = await balanceSheetStatementService.getAccountsReceivables(factsRaw);
 
-
-
-    // let accountsReceivables = await financialStatementService.getAccountsReceivables(factsRaw);
-    // let inventory = await financialStatementService.getInventory(factsRaw);
-    // let otherCurrentAssets = await financialStatementService.getOtherCurrentAssets(factsRaw);
-    // let totalCurrentAssets = await financialStatementService.getTotalCurrentAssets(factsRaw);
-    // let totalAssets = await financialStatementService.getTotalAssets(factsRaw);
-    // let totalLongTermDebt = await financialStatementService.getTotalLongTermDebt(factsRaw);
-    // let totalShareholderEquity = await financialStatementService.getTotalShareholderEquity(factsRaw);
+    // let inventory = await balanceSheetStatementService.getInventory(factsRaw);
+    // let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
+    // let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
+    // let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
+    // let totalLongTermDebt = await balanceSheetStatementService.getTotalLongTermDebt(factsRaw);
+    // let totalShareholderEquity = await balanceSheetStatementService.getTotalShareholderEquity(factsRaw);
 
 
     // let fcf = await financialService.fetchFreeCashFlowForTicker(cik, req.params.companyId);
@@ -153,7 +151,19 @@ class FinancialStatementController {
           cashAndCashEquivalentsRestricted: cashAndCashEquivalentsRestrictedMappedToObject
         },
         receivables: {
-          
+
+        },
+        currentAssets: {
+
+        },
+        longTermAssets: {
+
+        },
+        netPropertyPlantEquipment: {
+
+        },
+        totalAssets: {
+
         },
       },
       cashFlowStatement: {
