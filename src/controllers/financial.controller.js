@@ -63,8 +63,9 @@ class FinancialStatementController {
     //TODO - NF - Is this field the Total of Cash & ST Investments?
     let cashAndCashEquivalentsRestricted = await balanceSheetStatementService.getCashAndCashEquivalentsRestricted(factsRaw);
     let accountsReceivables = await balanceSheetStatementService.getAccountsReceivables(factsRaw);
+    let inventory = await balanceSheetStatementService.getInventory(factsRaw);
 
-    // let inventory = await balanceSheetStatementService.getInventory(factsRaw);
+
     // let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
     // let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
     // let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
@@ -107,6 +108,8 @@ class FinancialStatementController {
     //balanceSheet fields
     const cashAndCashEquivalentsMappedToObject = Object.fromEntries(cashAndCashEquivalents);
     const cashAndCashEquivalentsRestrictedMappedToObject = Object.fromEntries(cashAndCashEquivalentsRestricted);
+    const accountsReceivablesMappedToObject = Object.fromEntries(accountsReceivables);
+    const inventoryMappedToObject = Object.fromEntries(inventory);
 
 
     // console.log(fcfMappedToObject);
@@ -151,10 +154,10 @@ class FinancialStatementController {
           cashAndCashEquivalentsRestricted: cashAndCashEquivalentsRestrictedMappedToObject
         },
         receivables: {
-
+          totalAccountsReceivables: accountsReceivablesMappedToObject,
         },
         currentAssets: {
-
+          inventory: inventoryMappedToObject,
         },
         longTermAssets: {
 

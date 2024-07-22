@@ -62,8 +62,29 @@ const getAccountsReceivables = (financialRawData, startYear, endYear) => {
     return accountsReceivablesFilteredMap;
 };
 
+const getInventory = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> Inventory
+    //get Inventory out of the entire rawJson
+    let inventoryRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "InventoryNet");
+    let inventoryFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(inventoryRawJson) {
+        inventoryRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, inventoryFilteredMap);
+        });
+    }
+    inventoryFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(inventoryFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(inventoryFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - Inventory");
+    console.table(dataArray);
+    return inventoryFilteredMap;
+};
+
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
     getAccountsReceivables,
+    getInventory,
 };
