@@ -483,6 +483,35 @@ class FinancialStatementService {
       }
     }
 
+    // sumTwoMaps(map1, map2) {
+    //   const sumMap = new Map([...map1, ...map2]);
+    //   return sumMap;
+    // }
+
+    sumTwoMaps(map1, map2) {
+      // Initialize a new Map to store the result
+      const resultMap = new Map();
+    
+      // Function to add values to the resultMap
+      const addToResultMap = (map) => {
+        map.forEach((value, key) => {
+          if (resultMap.has(key)) {
+            // If the key exists, sum the val fields
+            resultMap.get(key).val += value.val;
+          } else {
+            // If the key doesn't exist, create a new entry
+            resultMap.set(key, { ...value });
+          }
+        });
+      }
+    
+      // Add values from both maps to the resultMap
+      addToResultMap(map1);
+      addToResultMap(map2);
+    
+      return resultMap;
+    }
+
     async checkIfTickerIsListedOnUsExchange(ticker) {
 
       // we need to check if the inserte ticker is listed on some US exchange and available

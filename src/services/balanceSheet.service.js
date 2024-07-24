@@ -122,6 +122,41 @@ const getTotalCurrentAssets = (financialRawData, startYear, endYear) => {
     return totalCurrentAssetsFilteredMap;
 };
 
+const getNetPropertyPlantEquipment = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> NetPropertyPlantEquipment
+    //get NetPropertyPlantEquipment out of the entire rawJson
+    let netPropertyPlantEquipmentRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "PropertyPlantAndEquipmentNet");
+    let operatingLeaseRightOfUseAssetsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "OperatingLeaseRightOfUseAsset");
+    let netPropertyPlantEquipmentFilteredMap = new Map();
+    let operatingLeaseRightOfUseAssetsFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(netPropertyPlantEquipmentRawJson) {
+        netPropertyPlantEquipmentRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, netPropertyPlantEquipmentFilteredMap);
+        });
+    }
+    if(operatingLeaseRightOfUseAssetsRawJson) {
+        operatingLeaseRightOfUseAssetsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, operatingLeaseRightOfUseAssetsFilteredMap);
+        });
+    }
+    netPropertyPlantEquipmentFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(netPropertyPlantEquipmentFilteredMap);
+    operatingLeaseRightOfUseAssetsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(operatingLeaseRightOfUseAssetsFilteredMap);
+
+    // sum the two maps, the netPropertyPlantEquipmentFilteredMap and operatingLeaseRightOfUseAssetsFilteredMap
+    netPropertyPlantEquipmentFilteredMap = financialService.sumTwoMaps(netPropertyPlantEquipmentFilteredMap, operatingLeaseRightOfUseAssetsFilteredMap);
+
+    // netPropertyPlantEquipmentFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(netPropertyPlantEquipmentFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(netPropertyPlantEquipmentFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - NetPropertyPlantEquipment");
+    console.table(dataArray);
+    return netPropertyPlantEquipmentFilteredMap;
+};
+
+
+
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
@@ -129,4 +164,5 @@ module.exports = {
     getInventory,
     getOtherCurrentAssets,
     getTotalCurrentAssets,
+    getNetPropertyPlantEquipment,
 };
