@@ -418,6 +418,7 @@ class FinancialStatementService {
         const endDate = rawCurrentItem.end;
 
         if (!filteredDataMap.has(year) || endDate > filteredDataMap.get(year).end) {
+          // console.log("++ ", rawCurrentItem);
           filteredDataMap.set(year, rawCurrentItem);
         }
       }

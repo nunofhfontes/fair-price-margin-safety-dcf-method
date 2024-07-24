@@ -52,7 +52,7 @@ const getRevenueForYears = async (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(revenuesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - Revenues");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return revenuesFilteredMap;
 };
@@ -78,7 +78,7 @@ const getCostOfRevenues = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(costOfRevenuesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - Cost of Revenues");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return costOfRevenuesFilteredMap;
 }
@@ -103,7 +103,7 @@ const getGrossProfit = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(grossProfitFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - Gross Profit");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return grossProfitFilteredMap;
 }
@@ -137,7 +137,7 @@ const getSellingGeneralAndAdministrativeExpense = (financialRawData, startYear, 
     const dataArray = Array.from(sellingGeneralAndAdministrativeExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - SellingGeneralAndAdministrativeExpense");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return sellingGeneralAndAdministrativeExpenseFilteredMap;
 }
@@ -161,7 +161,7 @@ const getDepreciationAndAmortization = (financialRawData, startYear, endYear) =>
     const dataArray = Array.from(depreciationAndAmortizationFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - DepreciationAndAmortization");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return depreciationAndAmortizationFilteredMap;
 }
@@ -185,7 +185,7 @@ const getTotalOperatingExpenses = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(totalOperatingExpensesFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - TotalOperatingExpenses");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return totalOperatingExpensesFilteredMap;
 }
@@ -211,7 +211,7 @@ const getOperatingIncomeLoss = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(operatingIncomeLossFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - OperatingIncomeLoss");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return operatingIncomeLossFilteredMap;
 }
@@ -237,7 +237,7 @@ const getInterestExpense = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(interestExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - InterestExpense");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return interestExpenseFilteredMap;
 }
@@ -262,7 +262,7 @@ const getInvestmentIncomeInterestAndDividends = (financialRawData, startYear, en
     const dataArray = Array.from(investmentIncomeFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - InvestmentIncome");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return investmentIncomeFilteredMap;
 }
@@ -287,7 +287,7 @@ const getNonOperatingIncomeExpenses = (financialRawData, startYear, endYear) => 
     const dataArray = Array.from(nonoperatingIncomeExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - NonoperatingIncomeExpense");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return nonoperatingIncomeExpenseFilteredMap;
 }
@@ -312,7 +312,7 @@ const getOtherNonOperatingIncomeExpenses = (financialRawData, startYear, endYear
     const dataArray = Array.from(otherNonoperatingIncomeExpenseFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - OtherNonoperatingIncomeExpense");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return otherNonoperatingIncomeExpenseFilteredMap;
 }
@@ -346,7 +346,7 @@ const getEBTIncludingUnsualItems = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(ebtIncludingUnsualItemsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - EBTIncludingUnsualItems");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return ebtIncludingUnsualItemsFilteredMap;
 }
@@ -371,7 +371,7 @@ const getIncomeTaxExpenseBenefit = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(incomeTaxExpenseBenefitFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - IncomeTaxExpenseBenefit");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return incomeTaxExpenseBenefitFilteredMap;
 }
@@ -396,7 +396,7 @@ const getEarningsFromContinuingOperations = (financialRawData, startYear, endYea
     const dataArray = Array.from(earningsFromContinuingOperationsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - EarningsFromContinuingOperations");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return earningsFromContinuingOperationsFilteredMap;
 }
@@ -421,7 +421,7 @@ const getNetIncome = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(netIncomeFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - NetIncome");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return netIncomeFilteredMap;
 
@@ -450,7 +450,7 @@ const getWeightedAverageNumberOfDilutedSharesOutstanding = (financialRawData, st
     const dataArray = Array.from(weightedAverageNumberOfDilutedSharesOutstandingFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - WeightedAverageNumberOfDilutedSharesOutstanding");
-    console.table(dataArray);
+    // console.table(dataArray);
 
     return weightedAverageNumberOfDilutedSharesOutstandingFilteredMap;
 }
@@ -470,7 +470,7 @@ const getCommonStockDividendsPerShareCashPaid = (financialRawData, startYear, en
     const dataArray = Array.from(commonStockDividendsPerShareCashPaidFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - CommonStockDividendsPerShareCashPaid");
-    console.table(dataArray);
+    // console.table(dataArray);
     return commonStockDividendsPerShareCashPaidFilteredMap;
 }
 
@@ -490,7 +490,7 @@ const getEffectiveTaxRate = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(effectiveTaxRateFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - EffectiveTaxRate");
-    console.table(dataArray);
+    // console.table(dataArray);
     return effectiveTaxRateFilteredMap;
 }
     

@@ -18,7 +18,7 @@ const getCashAndCashEquivalents = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(cashAndCashEquivalentsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - CashAndCashEquivalents");
-    console.table(dataArray);
+    //console.table(dataArray);
     return cashAndCashEquivalentsFilteredMap;
 };
 
@@ -38,7 +38,7 @@ const getCashAndCashEquivalentsRestricted = (financialRawData, startYear, endYea
     const dataArray = Array.from(cashAndCashEquivalentsRestrictedFilteredMap, ([year, data]) => ({ Year: year, ...data }));
     // // Print the table to the console
     console.table("Printing the Table - CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents");
-    console.table(dataArray);
+    // console.table(dataArray);
     return cashAndCashEquivalentsRestrictedFilteredMap;
 };
 
@@ -58,7 +58,7 @@ const getAccountsReceivables = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(accountsReceivablesFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
     // // Print the table to the console
     console.table("Printing the Table - AccountsReceivables");
-    console.table(dataArray);
+    // console.table(dataArray);
     return accountsReceivablesFilteredMap;
 };
 
@@ -78,7 +78,7 @@ const getInventory = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(inventoryFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
     // // Print the table to the console
     console.table("Printing the Table - Inventory");
-    console.table(dataArray);
+    // console.table(dataArray);
     return inventoryFilteredMap;
 };
 
@@ -98,7 +98,7 @@ const getOtherCurrentAssets = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(otherCurrentAssetsFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
     // // Print the table to the console
     console.table("Printing the Table - OtherCurrentAssets");
-    console.table(dataArray);
+    // console.table(dataArray);
     return otherCurrentAssetsFilteredMap;
 };
 
@@ -118,7 +118,7 @@ const getTotalCurrentAssets = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(totalCurrentAssetsFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
     // // Print the table to the console
     console.table("Printing the Table - TotalCurrentAssets");
-    console.table(dataArray);
+    // console.table(dataArray);
     return totalCurrentAssetsFilteredMap;
 };
 
@@ -142,6 +142,11 @@ const getNetPropertyPlantEquipment = (financialRawData, startYear, endYear) => {
     }
     netPropertyPlantEquipmentFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(netPropertyPlantEquipmentFilteredMap);
     operatingLeaseRightOfUseAssetsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(operatingLeaseRightOfUseAssetsFilteredMap);
+
+    // console.table("NetProP");
+    // console.table(Array.from(netPropertyPlantEquipmentFilteredMap, ([year, data]) => ({ Year: year, ...data })));
+    // console.table("OpLeRouA");
+    // console.table(Array.from(operatingLeaseRightOfUseAssetsFilteredMap, ([year, data]) => ({ Year: year, ...data })));
 
     // sum the two maps, the netPropertyPlantEquipmentFilteredMap and operatingLeaseRightOfUseAssetsFilteredMap
     netPropertyPlantEquipmentFilteredMap = financialService.sumTwoMaps(netPropertyPlantEquipmentFilteredMap, operatingLeaseRightOfUseAssetsFilteredMap);
