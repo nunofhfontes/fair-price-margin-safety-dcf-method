@@ -65,9 +65,9 @@ class FinancialStatementController {
     let accountsReceivables = await balanceSheetStatementService.getAccountsReceivables(factsRaw);
     let inventory = await balanceSheetStatementService.getInventory(factsRaw);
     let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
+    let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
     
     
-    // let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
     // let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
     // let totalLongTermDebt = await balanceSheetStatementService.getTotalLongTermDebt(factsRaw);
     // let totalShareholderEquity = await balanceSheetStatementService.getTotalShareholderEquity(factsRaw);
@@ -111,6 +111,7 @@ class FinancialStatementController {
     const accountsReceivablesMappedToObject = Object.fromEntries(accountsReceivables);
     const inventoryMappedToObject = Object.fromEntries(inventory);
     const otherCurrentAssetsMappedToObject = Object.fromEntries(otherCurrentAssets);
+    const totalCurrentAssetsMappedToObject = Object.fromEntries(totalCurrentAssets);
 
 
     // console.log(fcfMappedToObject);
@@ -152,7 +153,7 @@ class FinancialStatementController {
       balanceSheetStatement: {
         cashAndShortTermInvestments: {
           cashAndCashEquivalents: cashAndCashEquivalentsMappedToObject,
-          cashAndCashEquivalentsRestricted: cashAndCashEquivalentsRestrictedMappedToObject
+          cashAndCashEquivalentsRestricted: cashAndCashEquivalentsRestrictedMappedToObject,
         },
         receivables: {
           totalAccountsReceivables: accountsReceivablesMappedToObject,
@@ -160,6 +161,7 @@ class FinancialStatementController {
         currentAssets: {
           inventory: inventoryMappedToObject,
           otherCurrentAssets: otherCurrentAssetsMappedToObject,
+          totalCurrentAssets: totalCurrentAssetsMappedToObject,
         },
         longTermAssets: {
 

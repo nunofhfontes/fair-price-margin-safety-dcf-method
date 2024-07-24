@@ -102,10 +102,31 @@ const getOtherCurrentAssets = (financialRawData, startYear, endYear) => {
     return otherCurrentAssetsFilteredMap;
 };
 
+const getTotalCurrentAssets = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> TotalCurrentAssets
+    //get TotalCurrentAssets out of the entire rawJson
+    let totalCurrentAssetsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "AssetsCurrent");
+    let totalCurrentAssetsFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(totalCurrentAssetsRawJson) {
+        totalCurrentAssetsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, totalCurrentAssetsFilteredMap);
+        });
+    }
+    totalCurrentAssetsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(totalCurrentAssetsFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(totalCurrentAssetsFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - TotalCurrentAssets");
+    console.table(dataArray);
+    return totalCurrentAssetsFilteredMap;
+};
+
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
     getAccountsReceivables,
     getInventory,
     getOtherCurrentAssets,
+    getTotalCurrentAssets,
 };
