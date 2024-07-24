@@ -64,9 +64,9 @@ class FinancialStatementController {
     let cashAndCashEquivalentsRestricted = await balanceSheetStatementService.getCashAndCashEquivalentsRestricted(factsRaw);
     let accountsReceivables = await balanceSheetStatementService.getAccountsReceivables(factsRaw);
     let inventory = await balanceSheetStatementService.getInventory(factsRaw);
-
-
-    // let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
+    let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
+    
+    
     // let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
     // let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
     // let totalLongTermDebt = await balanceSheetStatementService.getTotalLongTermDebt(factsRaw);
@@ -110,6 +110,7 @@ class FinancialStatementController {
     const cashAndCashEquivalentsRestrictedMappedToObject = Object.fromEntries(cashAndCashEquivalentsRestricted);
     const accountsReceivablesMappedToObject = Object.fromEntries(accountsReceivables);
     const inventoryMappedToObject = Object.fromEntries(inventory);
+    const otherCurrentAssetsMappedToObject = Object.fromEntries(otherCurrentAssets);
 
 
     // console.log(fcfMappedToObject);
@@ -158,6 +159,7 @@ class FinancialStatementController {
         },
         currentAssets: {
           inventory: inventoryMappedToObject,
+          otherCurrentAssets: otherCurrentAssetsMappedToObject,
         },
         longTermAssets: {
 
