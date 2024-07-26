@@ -156,8 +156,43 @@ const getNetPropertyPlantEquipment = (financialRawData, startYear, endYear) => {
     const dataArray = Array.from(netPropertyPlantEquipmentFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
     // // Print the table to the console
     console.table("Printing the Table - NetPropertyPlantEquipment");
-    console.table(dataArray);
+    // console.table(dataArray);
     return netPropertyPlantEquipmentFilteredMap;
+};
+
+const getAccumulatedDepreciation = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> AccumulatedDepreciation
+    //get AccumulatedDepreciation out of the entire rawJson
+    let propPlantEquipFinLeaseRightOfUseAssetAccDeprAmortRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAccumulatedDepreciationAndAmortization");
+    let accDeprDeplAndAmortPropPlantAndEquipRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment");
+    
+    let accumulatedDepreciationFilteredMap = new Map();
+    let propPlantEquipFinLeaseRightOfUseAssetAccDeprAmortFilteredMap = new Map();
+    let accDeprDeplAndAmortPropPlantAndEquipFilteredMap = new Map();
+    
+    
+    // Parsing the Raw Data and getting the right 10-K values
+    if(propPlantEquipFinLeaseRightOfUseAssetAccDeprAmortRawJson) {
+        propPlantEquipFinLeaseRightOfUseAssetAccDeprAmortRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, accumulatedDepreciationFilteredMap);
+        });
+    }
+
+    // Parsing the Raw Data and getting the right 10-K values
+    if(accDeprDeplAndAmortPropPlantAndEquipRawJson) {
+        accDeprDeplAndAmortPropPlantAndEquipRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, accumulatedDepreciationFilteredMap);
+        });
+    }
+
+    accumulatedDepreciationFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(accumulatedDepreciationFilteredMap);
+
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(accumulatedDepreciationFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - AccumulatedDepreciation");
+    console.table(dataArray);
+    return accumulatedDepreciationFilteredMap;
 };
 
 
@@ -170,4 +205,6 @@ module.exports = {
     getOtherCurrentAssets,
     getTotalCurrentAssets,
     getNetPropertyPlantEquipment,
+    getAccumulatedDepreciation,
+
 };

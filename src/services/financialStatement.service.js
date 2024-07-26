@@ -433,8 +433,6 @@ const getWeightedAverageNumberOfDilutedSharesOutstanding = (financialRawData, st
     // get WeightedAverageNumberOfDilutedSharesOutstanding out of the entire rawJson
     let weightedAverageNumberOfDilutedSharesOutstandingRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "WeightedAverageNumberOfDilutedSharesOutstanding");
     
-    console.log("=> ", weightedAverageNumberOfDilutedSharesOutstandingRawJson);
-
     let weightedAverageNumberOfDilutedSharesOutstandingFilteredMap = new Map();
 
     // Parsing the Raw Data and getting the right 10-K values

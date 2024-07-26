@@ -67,6 +67,7 @@ class FinancialStatementController {
     let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
     let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
     let netPropertyPlantEquipment = await balanceSheetStatementService.getNetPropertyPlantEquipment(factsRaw);
+    let accumulatedDepreciation = await balanceSheetStatementService.getAccumulatedDepreciation(factsRaw);
     
     //     "AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment": {
     // "label": "Accumulated Depreciation, Depletion and Amortization, Property, Plant, and Equipment",
@@ -138,6 +139,7 @@ class FinancialStatementController {
     const otherCurrentAssetsMappedToObject = Object.fromEntries(otherCurrentAssets);
     const totalCurrentAssetsMappedToObject = Object.fromEntries(totalCurrentAssets);
     const netPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(netPropertyPlantEquipment);
+    const accumulatedDepreciationMappedToObject = Object.fromEntries(accumulatedDepreciation);
 
 
     // console.log(fcfMappedToObject);
@@ -190,6 +192,7 @@ class FinancialStatementController {
           totalCurrentAssets: totalCurrentAssetsMappedToObject,
         },
         longTermAssets: {
+          accumulatedDepreciation: accumulatedDepreciationMappedToObject,
           netPropertyPlantAndEquipment: netPropertyPlantAndEquipmentMappedToObject,
         },
         netPropertyPlantEquipment: {
