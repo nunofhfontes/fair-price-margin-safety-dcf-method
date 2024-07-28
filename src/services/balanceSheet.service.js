@@ -215,7 +215,26 @@ const getGrossPropertyPlantAndEquipment = (financialRawData, startYear, endYear)
     return grossPropertyPlantEquipmentFilteredMap;
 };
 
-
+const getGoodwill = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> Goodwill
+    //get Goodwill out of the entire rawJson
+    let goodwillRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "Goodwill");
+    let goodwillFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(goodwillRawJson) {
+        goodwillRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            console.log("each rawCurrentItem -> ", rawCurrentItem);
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, goodwillFilteredMap);
+        });
+    }
+    goodwillFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(goodwillFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(goodwillFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - Goodwill");
+    console.table(dataArray);
+    return goodwillFilteredMap;
+};
 
 
 module.exports = {
@@ -229,5 +248,5 @@ module.exports = {
     getAccumulatedDepreciation,
     getGrossPropertyPlantAndEquipment,
     getGoodwill,
-
+    
 };

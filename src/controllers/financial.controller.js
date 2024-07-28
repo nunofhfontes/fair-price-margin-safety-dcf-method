@@ -126,6 +126,8 @@ class FinancialStatementController {
     const netPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(netPropertyPlantEquipment);
     const accumulatedDepreciationMappedToObject = Object.fromEntries(accumulatedDepreciation);
     const grossPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(grossPropertyPlantAndEquipment);
+    const goodwillMappedToObject = Object.fromEntries(goodwill);
+
 
 
     // console.log(fcfMappedToObject);
@@ -181,6 +183,8 @@ class FinancialStatementController {
           grossPropertyPlantAndEquipment: grossPropertyPlantAndEquipmentMappedToObject,
           accumulatedDepreciation: accumulatedDepreciationMappedToObject,
           netPropertyPlantAndEquipment: netPropertyPlantAndEquipmentMappedToObject,
+          longTermInvestments: {},
+          goodwill: goodwillMappedToObject,
         },
         netPropertyPlantEquipment: {
 
