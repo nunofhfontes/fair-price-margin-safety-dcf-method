@@ -68,27 +68,12 @@ class FinancialStatementController {
     let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
     let netPropertyPlantEquipment = await balanceSheetStatementService.getNetPropertyPlantEquipment(factsRaw);
     let accumulatedDepreciation = await balanceSheetStatementService.getAccumulatedDepreciation(factsRaw);
+    let grossPropertyPlantAndEquipment = await balanceSheetStatementService.getGrossPropertyPlantAndEquipment(factsRaw);
     
-    //     "AccumulatedDepreciationDepletionAndAmortizationPropertyPlantAndEquipment": {
-    // "label": "Accumulated Depreciation, Depletion and Amortization, Property, Plant, and Equipment",
-    // "description": "Amount of accumulated depreciation, depletion and amortization for physical assets used in the normal conduct of business to produce goods and services.",
+    
 
-
-    // PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAccumulatedDepreciationAndAmortization
-    // "description": "Amount of accumulated depreciation and amortization from plant, property, and equipment and right-of-use asset from finance lease.",
-
-    //     "PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAccumulatedDepreciationAndAmortization": {
-    // "label": "Property, Plant, and Equipment and Finance Lease Right-of-Use Asset, Accumulated Depreciation and Amortization",
-    // "description": "Amount of accumulated depreciation and amortization from plant, property, and equipment and right-of-use asset from finance lease.",
-
-
-
-
-
-    // PropertyPlantAndEquipmentNet": {
-    //   "label": "Property, Plant and Equipment, Net",
-    //   "description": "Amount after accumulated depreciation, depletion and amortization of physical assets used in the normal conduct of business to produce goods and services and not intended for resale. Examples include, but are not limited to, land, buildings, machinery and equipment, office equipment, and furniture and fixtures.",
-      
+    // let long term investments
+    let goodwill = await balanceSheetStatementService.getGoodwill(factsRaw);
 
 
 
@@ -140,6 +125,7 @@ class FinancialStatementController {
     const totalCurrentAssetsMappedToObject = Object.fromEntries(totalCurrentAssets);
     const netPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(netPropertyPlantEquipment);
     const accumulatedDepreciationMappedToObject = Object.fromEntries(accumulatedDepreciation);
+    const grossPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(grossPropertyPlantAndEquipment);
 
 
     // console.log(fcfMappedToObject);
@@ -192,6 +178,7 @@ class FinancialStatementController {
           totalCurrentAssets: totalCurrentAssetsMappedToObject,
         },
         longTermAssets: {
+          grossPropertyPlantAndEquipment: grossPropertyPlantAndEquipmentMappedToObject,
           accumulatedDepreciation: accumulatedDepreciationMappedToObject,
           netPropertyPlantAndEquipment: netPropertyPlantAndEquipmentMappedToObject,
         },

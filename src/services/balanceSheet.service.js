@@ -195,6 +195,27 @@ const getAccumulatedDepreciation = (financialRawData, startYear, endYear) => {
     return accumulatedDepreciationFilteredMap;
 };
 
+const getGrossPropertyPlantAndEquipment = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> GrossPropertyPlantEquipment
+    //get GrossPropertyPlantEquipment out of the entire rawJson
+    let grossPropertyPlantEquipmentRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "PropertyPlantAndEquipmentGross");
+    let grossPropertyPlantEquipmentFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(grossPropertyPlantEquipmentRawJson) {
+        grossPropertyPlantEquipmentRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, grossPropertyPlantEquipmentFilteredMap);
+        });
+    }
+    grossPropertyPlantEquipmentFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(grossPropertyPlantEquipmentFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(grossPropertyPlantEquipmentFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - GrossPropertyPlantEquipment");
+    console.table(dataArray);
+    return grossPropertyPlantEquipmentFilteredMap;
+};
+
+
 
 
 module.exports = {
@@ -206,5 +227,7 @@ module.exports = {
     getTotalCurrentAssets,
     getNetPropertyPlantEquipment,
     getAccumulatedDepreciation,
+    getGrossPropertyPlantAndEquipment,
+    getGoodwill,
 
 };
