@@ -70,16 +70,15 @@ class FinancialStatementController {
     let accumulatedDepreciation = await balanceSheetStatementService.getAccumulatedDepreciation(factsRaw);
     let grossPropertyPlantAndEquipment = await balanceSheetStatementService.getGrossPropertyPlantAndEquipment(factsRaw);
     
-    
-
     // let long term investments
     let goodwill = await balanceSheetStatementService.getGoodwill(factsRaw);
+    
+    let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
 
 
 
 
-
-    // let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
+    
     // let totalLongTermDebt = await balanceSheetStatementService.getTotalLongTermDebt(factsRaw);
     // let totalShareholderEquity = await balanceSheetStatementService.getTotalShareholderEquity(factsRaw);
 
@@ -127,8 +126,13 @@ class FinancialStatementController {
     const accumulatedDepreciationMappedToObject = Object.fromEntries(accumulatedDepreciation);
     const grossPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(grossPropertyPlantAndEquipment);
     const goodwillMappedToObject = Object.fromEntries(goodwill);
+    const totalAssetsMappedToObject = Object.fromEntries(totalAssets);
 
 
+// "LongTermInvestments": {
+//         "label": "Long-term Investments",
+//         "description": "The total amount of investments that are intended to be held for an extended period of time (longer than one operating cycle).",
+//         "units": {
 
     // console.log(fcfMappedToObject);
     res.status(200).json({
@@ -185,6 +189,7 @@ class FinancialStatementController {
           netPropertyPlantAndEquipment: netPropertyPlantAndEquipmentMappedToObject,
           longTermInvestments: {},
           goodwill: goodwillMappedToObject,
+          totalAssets: totalAssetsMappedToObject,
         },
         netPropertyPlantEquipment: {
 

@@ -223,7 +223,6 @@ const getGoodwill = (financialRawData, startYear, endYear) => {
     // Parsing the Raw Data and getting the right 10-K values
     if(goodwillRawJson) {
         goodwillRawJson["units"]["USD"].forEach(rawCurrentItem => {
-            console.log("each rawCurrentItem -> ", rawCurrentItem);
             financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, goodwillFilteredMap);
         });
     }
@@ -236,6 +235,24 @@ const getGoodwill = (financialRawData, startYear, endYear) => {
     return goodwillFilteredMap;
 };
 
+const getTotalAssets = (financialRawData, startYear, endYear) => {
+
+    let totalCurrentAssetsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "Assets");
+    let totalCurrentAssetsFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(totalCurrentAssetsRawJson) {
+        totalCurrentAssetsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, totalCurrentAssetsFilteredMap);
+        });
+    }
+    totalCurrentAssetsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(totalCurrentAssetsFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(totalCurrentAssetsFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - TotalCurrentAssets");
+    console.table(dataArray);
+    return totalCurrentAssetsFilteredMap;
+}
 
 module.exports = {
     getCashAndCashEquivalents,
@@ -248,5 +265,6 @@ module.exports = {
     getAccumulatedDepreciation,
     getGrossPropertyPlantAndEquipment,
     getGoodwill,
+    getTotalAssets,
     
 };
