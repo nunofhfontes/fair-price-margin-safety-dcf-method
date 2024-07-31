@@ -74,6 +74,7 @@ class FinancialStatementController {
     let goodwill = await balanceSheetStatementService.getGoodwill(factsRaw);
     
     let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
+    let accountsPayableCurrent = await balanceSheetStatementService.getAccountsPayableCurrent(factsRaw);
 
 
 
@@ -127,6 +128,7 @@ class FinancialStatementController {
     const grossPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(grossPropertyPlantAndEquipment);
     const goodwillMappedToObject = Object.fromEntries(goodwill);
     const totalAssetsMappedToObject = Object.fromEntries(totalAssets);
+    const accountsPayableCurrentMappedToObject = Object.fromEntries(accountsPayableCurrent);
 
 
 // "LongTermInvestments": {
@@ -191,12 +193,12 @@ class FinancialStatementController {
           goodwill: goodwillMappedToObject,
           totalAssets: totalAssetsMappedToObject,
         },
-        netPropertyPlantEquipment: {
-
+        currentLiabilities: {
+          accountsPayableCurrent: accountsPayableCurrentMappedToObject,
+          
         },
-        totalAssets: {
-
-        },
+        longTermLiabilities: {},
+        commonEquity: {},
       },
       cashFlowStatement: {
 

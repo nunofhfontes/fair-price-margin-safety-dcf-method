@@ -254,6 +254,26 @@ const getTotalAssets = (financialRawData, startYear, endYear) => {
     return totalCurrentAssetsFilteredMap;
 }
 
+const getAccountsPayableCurrent = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> AccountsPayable
+    //get AccountsPayable out of the entire rawJson
+    let accountsPayableRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "AccountsPayableCurrent");
+    let accountsPayableFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(accountsPayableRawJson) {
+        accountsPayableRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, accountsPayableFilteredMap);
+        });
+    }
+    accountsPayableFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(accountsPayableFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(accountsPayableFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - AccountsPayable");
+    console.table(dataArray);
+    return accountsPayableFilteredMap;
+}
+
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
@@ -266,5 +286,5 @@ module.exports = {
     getGrossPropertyPlantAndEquipment,
     getGoodwill,
     getTotalAssets,
-    
+    getAccountsPayableCurrent,
 };
