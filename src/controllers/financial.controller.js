@@ -75,7 +75,7 @@ class FinancialStatementController {
     
     let totalAssets = await balanceSheetStatementService.getTotalAssets(factsRaw);
     let accountsPayableCurrent = await balanceSheetStatementService.getAccountsPayableCurrent(factsRaw);
-
+    let accruedIncomeTaxesCurrent = await balanceSheetStatementService.getAccruedIncomeTaxesCurrent(factsRaw);
 
 
 
@@ -129,6 +129,9 @@ class FinancialStatementController {
     const goodwillMappedToObject = Object.fromEntries(goodwill);
     const totalAssetsMappedToObject = Object.fromEntries(totalAssets);
     const accountsPayableCurrentMappedToObject = Object.fromEntries(accountsPayableCurrent);
+    const accruedIncomeTaxesCurrentMappedToObject = Object.fromEntries(accruedIncomeTaxesCurrent);
+
+    // AccruedIncomeTaxesCurrent
 
 
 // "LongTermInvestments": {
@@ -195,7 +198,7 @@ class FinancialStatementController {
         },
         currentLiabilities: {
           accountsPayableCurrent: accountsPayableCurrentMappedToObject,
-          
+          accruedExpenses: accruedIncomeTaxesCurrentMappedToObject,
         },
         longTermLiabilities: {},
         commonEquity: {},

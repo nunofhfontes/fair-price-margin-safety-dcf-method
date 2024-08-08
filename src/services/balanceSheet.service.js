@@ -274,6 +274,26 @@ const getAccountsPayableCurrent = (financialRawData, startYear, endYear) => {
     return accountsPayableFilteredMap;
 }
 
+const getAccruedIncomeTaxesCurrent = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> AccountsPayable
+    //get AccountsPayable out of the entire rawJson
+    let accruedIncomeTaxesRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "AccruedIncomeTaxesCurrent");
+    let accruedIncomeTaxesFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(accruedIncomeTaxesRawJson) {
+        accruedIncomeTaxesRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, accruedIncomeTaxesFilteredMap);
+        });
+    }
+    accruedIncomeTaxesFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(accruedIncomeTaxesFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(accruedIncomeTaxesFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - AccountsPayable");
+    console.table(dataArray);
+    return accruedIncomeTaxesFilteredMap;
+}
+
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
@@ -287,4 +307,5 @@ module.exports = {
     getGoodwill,
     getTotalAssets,
     getAccountsPayableCurrent,
+    getAccruedIncomeTaxesCurrent,
 };
