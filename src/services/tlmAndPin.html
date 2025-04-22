@@ -1,0 +1,418 @@
+
+Here's a Vue 3 component based on your HTML, converted to use Composition API and TailwindCSS where applicable. I kept the structure and styling close to the original, but modernized where appropriate and removed legacy ASP.NET Web Forms artifacts (e.g., WebForm_DoPostBackWithOptions). You’ll need to implement your authentication logic separately (e.g., via API).
+
+✅ ChaveMovelDigital.vue
+vue
+Copiar
+Editar
+<template>
+  <div>
+    <!-- Header -->
+    <header class="bg-white shadow">
+      <div class="flex justify-between items-center p-4">
+        <ul class="flex space-x-4 text-sm font-semibold">
+          <li :class="{ 'text-blue-600': lang === 'PT' }" @click="setLanguage('PT')">
+            <a href="#">Português</a>
+          </li>
+          <li :class="{ 'text-blue-600': lang === 'EN' }" @click="setLanguage('EN')">
+            <a href="#">English</a>
+          </li>
+        </ul>
+        <a href="https://www.autenticacao.gov.pt/">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/logo-ag.svg"
+               alt="Autenticação.gov.pt"
+               class="h-10" />
+        </a>
+      </div>
+      <div class="h-1 bg-gray-200"></div>
+    </header>
+
+    <!-- Warning -->
+    <div class="bg-yellow-100 text-center p-6 text-sm font-semibold">
+      <span class="font-bold">Atenção:</span>
+      <span>Nunca forneça os seus códigos PIN ou outros dados pessoais por SMS, email ou telefone.</span>
+      <a href="https://eportugal.gov.pt/burlas-e-sms-fraudulentas-em-nome-de-chave-movel-digital-ou-autenticacao-gov"
+         target="_blank"
+         class="text-blue-600 underline block mt-2">
+        Saiba mais sobre como se proteger de tentativas de fraude no portal gov.pt.
+      </a>
+    </div>
+
+    <!-- Auth Container -->
+    <div class="container mx-auto py-10 px-4">
+      <h2 class="text-xl font-bold text-center mb-4">FAÇA A SUA AUTENTICAÇÃO</h2>
+
+      <!-- Progress Bar -->
+      <div class="flex justify-center mb-6">
+        <div class="relative w-72 h-2 bg-white border border-gray-300">
+          <div class="h-full bg-blue-200" :style="{ width: percent }"></div>
+          <span class="absolute right-0 -top-6 text-sm font-semibold">{{ percent }}</span>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-center text-2xl font-bold mb-6">Chave Móvel Digital</h1>
+
+      <!-- Mobile Number -->
+      <div class="mb-4">
+        <label class="block mb-1 font-semibold">Número de telemóvel</label>
+        <input
+          v-model="mobile"
+          type="tel"
+          inputmode="numeric"
+          class="w-full h-11 border rounded px-4"
+          placeholder="+351..."
+        />
+      </div>
+
+      <!-- PIN -->
+      <div class="mb-2 relative">
+        <label class="block mb-1 font-semibold">Inserir PIN</label>
+        <input
+          v-model="pin"
+          :type="showPassword ? 'text' : 'password'"
+          maxlength="8"
+          inputmode="numeric"
+          class="w-full h-11 border rounded px-4 pr-10"
+        />
+        <img
+          src="/Ama.Authentication.Frontend/layoutCCC/img/eye.svg"
+          alt="Mostrar"
+          class="absolute right-3 top-3 h-5 w-5 cursor-pointer"
+          @click="togglePassword"
+        />
+      </div>
+
+      <!-- Error -->
+      <p v-if="pinError" class="text-red-600 text-sm mt-1">O campo PIN só permite números!</p>
+
+      <!-- Buttons -->
+      <div class="flex justify-between mt-6">
+        <button @click="cancel" class="btn px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
+          Cancelar
+        </button>
+        <button @click="submit" class="btn px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Autenticar
+        </button>
+      </div>
+
+      <!-- Registration Link -->
+      <p class="text-center mt-6 text-sm">
+        Se ainda não tem saiba como obter Chave Móvel Digital
+        <a href="https://www.autenticacao.gov.pt/cmd-pedido-chave" class="text-blue-600 underline">aqui</a>.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 text-center text-sm py-8">
+      <div class="mb-4">
+        <a href="https://www.ama.gov.pt" target="_blank">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/Logo_AMA.png" class="mx-auto h-8" alt="AMA" />
+        </a>
+      </div>
+      <ul class="flex justify-center space-x-6 mb-4">
+        <li><a href="https://www.gov.pt/" target="_blank">gov.pt</a></li>
+        <li><a href="PrivacyPolicy.aspx" target="_blank">Política de privacidade</a></li>
+        <li><a href="https://www.ama.gov.pt/web/agencia-para-a-modernizacao-administrativa/contactos1" target="_blank">Contactos</a></li>
+        <li><a href="Faqs.aspx" target="_blank">Ajuda</a></li>
+      </ul>
+      <div class="flex justify-center space-x-4">
+        <a href="https://www.facebook.com/ama.gov.pt" target="_blank">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/fb_footer.png" class="h-5" />
+        </a>
+        <a href="https://pt.linkedin.com/company/ama---ag-ncia-para-a-moderniza-o-administrativa-ip" target="_blank">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/li_footer.png" class="h-5" />
+        </a>
+        <a href="https://www.twitter.com/ama_gov_pt" target="_blank">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/tw_footer.png" class="h-5" />
+        </a>
+      </div>
+      <div class="mt-4">
+        AMA - Agência para a Modernização Administrativa, I.P. - Todos os direitos reservados © 2025 |
+        <a href="https://www.ama.gov.pt" target="_blank">www.ama.pt</a> |
+        <a href="mailto:ama@ama.pt">ama@ama.pt</a>
+      </div>
+    </footer>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const lang = ref('PT')
+const mobile = ref('')
+const pin = ref('')
+const showPassword = ref(false)
+const pinError = ref(false)
+
+const percent = '50%'
+
+function setLanguage(code) {
+  lang.value = code
+}
+
+function togglePassword() {
+  showPassword.value = !showPassword.value
+}
+
+function cancel() {
+  mobile.value = ''
+  pin.value = ''
+  pinError.value = false
+}
+
+function submit() {
+  if (!/^\d*$/.test(pin.value)) {
+    pinError.value = true
+    return
+  }
+  pinError.value = false
+  // Handle auth logic here (API call, redirect, etc.)
+  alert(`Authenticating with mobile: ${mobile.value}, PIN: ${pin.value}`)
+}
+</script>
+
+<style scoped>
+.btn {
+  transition: background-color 0.2s ease-in-out;
+}
+</style>
+Let me know if you need:
+
+i18n (internationalization),
+
+integration with your backend (e.g., REST auth),
+
+real progress bar logic (instead of hardcoded 50%),
+
+or to refactor into smaller components.
+
+Want to see this adapted to a mobile-first layout?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- -->
+
+
+
+
+
+
+
+
+
+        <div class="header">
+            <div class="language-container">
+                <ul class="nav navbar-nav navbar-right lang mobile-language-list-margin">
+                    <li id="PT" class="active">
+                        <a id="lnk_portuguese" href="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$lnk_portuguese&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, true))">Português</a></li>
+                    <li id="EN">
+                        <a id="lnk_english" href="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$lnk_english&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, true))">English</a></li>
+                    
+                </ul>
+            </div>
+            <div class="white-line">
+            </div>
+            <div class="row logo">
+                <a href="https://www.autenticacao.gov.pt/">
+                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/logo-ag.svg" alt="Autenticação.gov.pt" class="img img-responsive logo-ie">
+                </a>
+            </div>
+        </div>
+        <div class="WarningMessage" style="background-color: #FFF0CB;height: auto;text-align: center;padding: 30px;">
+            <span id="lblWarning" style="font-weight:bold;">Atenção: </span>
+            <span id="lblWarningInfo">Nunca forneça os seus códigos PIN ou outros dados pessoais por SMS, email ou telefone.</span>
+                <a id="hrefProtec" class="colorBlue" href="https://eportugal.gov.pt/burlas-e-sms-fraudulentas-em-nome-de-chave-movel-digital-ou-autenticacao-gov" target="_blank" style="text-decoration: underline;"><span id="lblProtec">Saiba mais sobre como se proteger de tentativas de fraude no portal gov.pt.</span></a>
+        </div>
+        <div class="container container-page container-height">
+            <!-- container-page-height -->
+            <div class="fd">
+                <div class="row">
+                </div>
+                <!-- Main component -->
+                <div role="tabpanel">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="chave" style="margin-bottom: 75px">
+                            <div>
+                                <!-- class="area-destaque" -->
+
+    <div class="authTitle">
+        <span id="MainContent_MainPage">FAÇA A SUA AUTENTICAÇÃO</span>
+    </div>
+
+    <div class="row margin20">
+        <div class="col-md-12 modalCenter">
+            <div class="wrapperModal-progress-bar">
+                <div style="background-color: White; height: 10px; width: 300px">
+                    <div id="MainContent_bar" style="height: 10px; width: 150px; background-color: #DBE1F2">
+                    </div>
+                    <span id="MainContent_percent" class="percent">50%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 modalCenter">
+            <h1 class="titleCMDModal">
+                Chave Móvel Digital</h1>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="MainContent_lblMobile" class="lblMobileTxtModal">Número de telemóvel</span>
+                <br>
+                <input type="hidden" id="humanCheck" name="humanCheck" value="8FBB298A-DE46-4657-88E8-95F1F1224784">
+                <div class="wrapperModal">
+                    <div class="intl-tel-input pretty inside"><input type="text" inputmode="numeric" id="inputMobile" name="inputMobile" value="" style="margin-top: 5px; height: 44px; border: none;" autocomplete="off" class="wrapperModalInput">
+                        
+                        <div class="flag-dropdown"><div class="selected-flag" tabindex="1" title="Portugal: +351"><div class="flag pt">
+                            
+                            <div class="arrow">
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <ul class="country-list hide">
+                        <li class="country preferred active" data-dial-code="351" data-country-code="pt">
+                            <div class="flag pt">
+                            </div>
+                            <span class="country-name">Portugal</span>
+                            <span class="dial-code">+351</span>
+                        </li>
+                        
+                        
+                        
+                        <li class="country" data-dial-code="351" data-country-code="pt">
+                            <div class="flag pt">
+                            </div>
+                            <span class="country-name">Portugal</span>
+                            <span class="dial-code">+351</span>
+                        </li>
+                        
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 label_error">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="MainContent_lblPin" class="lblMobileTxtModal">Inserir PIN</span>
+                <br>
+                <div class="wrapperModal">
+                    <input name="ctl00$MainContent$txtPin" type="password" maxlength="8" id="MainContent_txtPin" inputmode="numeric" size="8" class="wrapperModalInput" style="height: 44px; border: none;">
+                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/eye.svg" alt="Show Password" class="eye" id="toggle-password" tabindex="0" onkeydown="processKeyDownEye(this, event);">
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 label_error">
+                <span id="MainContent_revPin" style="color:Red;display:none;">O campo PIN só permite números!</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span id="MainContent_lblMsgError" class="label_error"></span>
+            </div>
+        </div>
+        <div class="row margin20">
+            
+        </div>
+        <!-- Botões -->
+        <div class="row">
+            <div class="col-md-12 mobileCenter center-buttons">
+                <div class="wrapperModal-noBorder">
+                    <input type="button" name="ctl00$MainContent$btnCancel" value="Cancelar" onclick="" id="MainContent_btnCancel" class="btn-modal btn-default-modal btn-modal-back btn-modal-text inline-buttons">
+                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/left_arrow.svg" alt="Voltar" class="arrow-left" id="Img2">
+                </div>
+                <div class="wrapperModal-noBorder">
+                    <input type="submit" name="ctl00$MainContent$btnNext" value="Autenticar" onclick="ShowLoading();WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$MainContent$btnNext&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="MainContent_btnNext" class="btn-modal btn-default-modal btn-modal-text-white btn-modal-blue inline-buttons">
+                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/right_arrow.svg" alt="Seguinte" class="arrow-right" id="Img3">
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading" id="divLoading" style="display: none">
+        </div>
+        
+        <div class="row margin40">
+            <div class="col-md-12 mobileCenter">
+                
+                <span id="MainContent_lblRegister">Se ainda não tem saiba como obter Chave Móvel Digital </span><a id="MainContent_hrefHere" class="colorBlue" href="https://www.autenticacao.gov.pt/cmd-pedido-chave" style="text-decoration: underline;"><span id="MainContent_lblHere">aqui</span></a>
+            </div>
+        </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container footer">
+            <div class="row margin-0">
+                <div class="col-md-12 center">
+                    <a target="_blank" href="https://www.ama.gov.pt">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/Logo_AMA.png" class="logo-ama" alt="Agência para a Modernização Administrativa" title="Agência para a Modernização Administrativa"></a>
+                    <ul>
+                        <li><a target="_blank" href="https://www.gov.pt/">
+                            <span id="lblCitizenPortal">gov.pt</span></a></li>
+                        <li><a target="_blank" href="PrivacyPolicy.aspx">
+                            <span id="lblPrivacyPolicy">Política de privacidade</span></a></li>
+                        <li><a target="_blank" href="https://www.ama.gov.pt/web/agencia-para-a-modernizacao-administrativa/contactos1">
+                            <span id="lblContacts">Contactos</span></a></li>
+                        <li><a target="_blank" href="Faqs.aspx">
+                            <span id="lblFaqs">Ajuda</span></a></li>
+                    </ul>
+                    <a target="_blank" href="https://www.facebook.com/ama.gov.pt">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/fb_footer.png" alt="Facebook AMA"></a>
+                    <a target="_blank" href="https://pt.linkedin.com/company/ama---ag-ncia-para-a-moderniza-o-administrativa-ip">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/li_footer.png" alt="LinkedIn AMA"></a>
+                    <a target="_blank" href="https://www.twitter.com/ama_gov_pt">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/tw_footer.png" alt="Twitter AMA"></a>
+                </div>
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span id="lblAmaDesc">AMA - Agência para a Modernização Administrativa, I.P. - Todos os direitos reservados @ </span>
+                            <span id="lblCopyrightYear">2025</span>
+                            <a href="https://www.ama.gov.pt" target="_blank">www.ama.pt</a>
+                            | <a href="mailto:ama@ama.pt">ama@ama.pt</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ 
