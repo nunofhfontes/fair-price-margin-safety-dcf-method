@@ -1,0 +1,195 @@
+</div>
+
+        <div class="white-line">
+        </div>
+        <div id="MainPageHeader" class="header">
+            <div class="language-container">
+                <ul class="lang-menu nav navbar-nav navbar-right lang">
+                    <li class="active lang-menu-item">
+                        <a id="lnk_portuguese" href="javascript:__doPostBack('ctl00$lnk_portuguese','')">Português</a>
+                    </li>
+                    <li class=" lang-menu-item">
+                        <a id="lnk_english" class="lang-disable-text" href="javascript:__doPostBack('ctl00$lnk_english','')" style="border: none;">English</a>
+                    </li>
+                    <li class=" lang-menu-item" style="display: none">
+                        <a id="lnk_spanish" href="javascript:__doPostBack('ctl00$lnk_spanish','')">Castellano</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row logo">
+                <div class="col-md-12">
+                    <a href="https://www.autenticacao.gov.pt">
+                        <img src="/fa/layout_ccc/image/logo-ag.svg" alt="Autenticação.gov.pt" class="img img-responsive logo-ie">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="WarningMessage" style="background-color: #FFF0CB;height: auto;text-align: center;padding: 30px;">
+            <span id="lblWarning" style="font-weight:bold;">Atenção:</span>
+            <span id="lblWarningInfo">Nunca forneça os seus códigos PIN ou outros dados pessoais por SMS, email ou telefone.</span>
+                <a id="hrefProtec" class="colorBlue" href="https://eportugal.gov.pt/burlas-e-sms-fraudulentas-em-nome-de-chave-movel-digital-ou-autenticacao-gov" target="_blank" style="text-decoration: underline;"><span id="lblProtec">Saiba mais sobre como se proteger de tentativas de fraude no portal gov.pt.</span></a>
+        </div>
+
+        <div class="container container-page">
+            <div class="fd">
+                
+                <div class="body-container">
+                    <!-- BEGIN: Conteúdo -->
+                    
+    <link href="css/select2/select2.min.css?cb=07092020" rel="stylesheet">
+    <link href="css/Eidas.css?cb=07092020" rel="stylesheet">
+    <link href="css/Modal.css?cb=07092020" rel="stylesheet">
+
+    <div class="authTitle">
+        <span id="MainContent_MainPage">FAÇA A SUA AUTENTICAÇÃO COM</span>
+    </div>
+
+    <div class="row margin20 authProgressBar">
+        <div class="col-md-12 modalCenter">
+            <div class="wrapperModal-progress-bar">
+                <div style="background-color: White; height: 10px; width: 300px">
+                    <div id="MainContent_bar2" class="bar0">
+                    
+</div>
+                    <span id="MainContent_percent" class="percent0">0 %</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="MainContent_authSelectTitle" class="authSelectTitle">
+        <span id="MainContent_authSelectTitleLabel">SELECIONE O MEIO DE AUTENTICAÇÃO</span>
+        <span id="MainContent_lblMainPageInfoSPName"></span>
+    </div>
+
+    <div id="MainContent_authRadio" aria-required="true" role="form" class="form-group authSelect">
+        <span id="MainContent_authRadioDesc" style="display: none">Forma de Autenticação</span>
+        <ul role="radiogroup" aria-labelledby="MainContent_authRadioDesc">
+            <li id="MainContent_ccOptLi" class="authSelectOption" role="radio" aria-checked="false">
+                <input id="MainContent_ccOpt" type="radio" name="ctl00$MainContent$authOptions" value="ccOpt" onclick="javascript:setTimeout('__doPostBack(\'ctl00$MainContent$ccOpt\',\'\')', 0)">
+                <label for="MainContent_ccOpt" id="MainContent_ccOptLabel" tabindex="1" class="authSelectLabel">Cartão de Cidadão</label>
+            </li>
+            <li id="MainContent_cmdOptLi" class="authSelectOption" role="radio" aria-checked="false" aria-selected="true">
+                <input id="MainContent_cmdOpt" type="radio" name="ctl00$MainContent$authOptions" value="cmdOpt" checked="checked">
+                <label for="MainContent_cmdOpt" id="MainContent_cmdOptLabel" tabindex="2" class="authSelectLabel">Chave Móvel Digital</label>
+            </li>
+            
+            
+        </ul>
+    </div>
+
+    <div id="MainContent_js_cmd_options">
+        <div class="modal-container-input-points">
+            <h3>
+                <span id="MainContent_lblSelectAuth">Pretende fazer a autenticação através de:</span>
+            </h3>
+            <div aria-required="true" class="authSelect">
+                <span id="MainContent_cmdRadioDesc" style="display: none">Forma de Autenticação via Chave Móvel Digital</span>
+                <ul role="radiogroup" aria-labelledby="MainContent_cmdRadioDesc">
+                    <li id="MainContent_smsOptLi" role="radio" aria-checked="true" class="authSelectOption" aria-selected="true">
+                        <input id="MainContent_cmd_type_sms" type="radio" name="ctl00$MainContent$cmdOptions" value="cmd_type_sms" checked="checked">
+                        <label for="MainContent_cmd_type_sms" id="MainContent_cmd_type_sms_lbl" tabindex="5" class="authSelectLabel" style="font-weight:bold;">Telemóvel</label>
+                    </li>
+                    
+                   
+                    <li id="MainContent_qrCodeOptLi" role="radio" aria-checked="false" class="authSelectOption">
+                        <input id="MainContent_cmd_type_qrCode" type="radio" name="ctl00$MainContent$cmdOptions" value="cmd_type_qrCode" onclick="javascript:setTimeout('__doPostBack(\'ctl00$MainContent$cmd_type_qrCode\',\'\')', 0)">
+                        <label for="MainContent_cmd_type_qrCode" id="MainContent_cmd_type_qrCode_lbl" tabindex="7" class="authSelectLabel" style="font-weight:normal;">Código QR</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="main_tab" role="tabpanel" style="display: none">
+        <!-- Nav tabs -->
+        <ul id="MainContent_tabchooser" class="nav nav-tabs responsive" role="tablist" style="display: none;">
+          
+        </ul>
+        <!-- Tab panes -->
+
+        <!--tab content-->
+        <div id="MainContent_mainPageContent" class="col-md-12 MainBox" style="border-top: 1px solid rgb(224, 224, 224);">
+            <div id="area_destaque" class="area-destaque" style="padding-top: 30px;">
+
+                
+
+                <div id="MainContent_divAttributesDisplay">
+                    <b>&nbsp;Autoridade Tributária e Aduaneira&nbsp;</b>
+                    <span id="MainContent_lbl_ask_entity">solicitou alguns dos seus dados para realizar o serviço <i>online</i> pretendido</span>
+                    <a id="MainContent_lbTooltip" class="aspNetDisabled" data-toggle="tooltip" data-placement="right" data-original-title="Tooltip on right" data-html="true" title="<p class='tooltipTitle'>Ao utilizar os nossos servi&amp;#231;os est&amp;#225; a aceitar os presentes termos de utiliza&amp;#231;&amp;#227;o. Alertamos para a possibilidade de aplica&amp;#231;&amp;#227;o de outros termos de utiliza&amp;#231;&amp;#227;o, no &amp;#226;mbito do acesso ao servi&amp;#231;o online.</p>">
+                        <span class="info-icon"></span>
+                    </a>
+                    <ul class="demandAttrListli">
+                    </ul>
+                    </div>
+
+                <div id="MainContent_divMainButtons" class="divMainButtons">
+                    <div>
+                        <div id="MainContent_p" onkeypress="javascript:return WebForm_FireDefaultButton(event, 'MainContent_Button2')">
+	
+                            <input type="submit" name="ctl00$MainContent$Button3" value="Recusar" id="MainContent_Button3" class="btn btn-default btn-red">
+                            <input type="submit" name="ctl00$MainContent$Button2" value="Autorizar" id="MainContent_Button2" class="btn btn-default">
+                        
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+                    <!-- END: Conteúdo -->
+                </div>
+            </div>
+        </div>
+        <div id="MainPageFooter" class="container footer">
+            <div class="row">
+                <div class="col-sm-12 center">
+                    <div class="info-footer">
+                        <p>
+                            <span id="lblAuthGovInfoFooter">O processo de autenticação é um serviço da Identificação Eletrónica que permite confirmar a sua identidade,<br>facilitando o acesso online a vários serviços públicos. </span>
+                            <a href="https://www.autenticacao.gov.pt/" target="_blank">
+                                <span id="lblMoreInfo">Saiba mais sobre a Identificação Eletrónica.</span></a>
+                        </p>
+                    </div>
+                    <a target="_blank" href="https://www.ama.gov.pt/">
+                        <img src="/fa/layout_ccc/image/Logo_AMA.png" class="logo-ama" alt="Agência para a Modernização Administrativa" title="Agência para a Modernização Administrativa"></a>
+                    <ul>
+                        <li><a target="_blank" href="https://www.gov.pt">
+                            <span id="lblUrlAmaSites">gov.pt</span></a></li>
+                        <li><a target="_blank" href="https://www.ama.gov.pt/web/agencia-para-a-modernizacao-administrativa/politica-de-privacidade">
+                            <span id="lblUrlPrivacyPolicy">Política de Privacidade</span></a></li>
+                        <li><a target="_blank" href="https://www.ama.gov.pt/web/agencia-para-a-modernizacao-administrativa/contactos1">
+                            <span id="lblUrlContacts">Contactos</span></a></li>
+                    </ul>
+
+                    <ul class="itemul">
+                        <li class="itemli">
+                            <a target="_blank" href="https://www.facebook.com/ama.gov.pt">
+                                <img src="/fa/layout_ccc/image/fb_footer.png" alt="Facebook AMA"></a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://pt.linkedin.com/company/ama---ag-ncia-para-a-moderniza-o-administrativa-ip">
+                                <img src="/fa/layout_ccc/image/li_footer.png" alt="LinkedIn AMA"></a>
+                        </li>
+                        <li>
+                            <a target="_blank" href="https://www.twitter.com/ama_gov_pt">
+                                <img src="/fa/layout_ccc/image/tw_footer.png" alt="Twitter AMA"></a>
+                        </li>
+                        
+                    </ul>
+
+                    <div class="copyright">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span id="lblAmaDesc">AMA - Agência para a Modernização Administrativa, IP - Todos os direitos reservados @ </span>
+                                <span id="lblCopyrightYear">2025</span>
+                                <a href="https://www.ama.gov.pt/" target="_blank">www.ama.gov.pt</a> | <a href="mailto:ama@ama.pt">ama@ama.pt</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
