@@ -1,0 +1,370 @@
+Sure! Here's how you can convert the HTML page you provided into a Vue 3 Composition API component with TailwindCSS styling. I've also cleaned up some inline styles and replaced them with Tailwind classes where appropriate. This version assumes you will handle the __doPostBack logic separately, perhaps using an event handler or simulated for now.
+
+✅ Vue 3 Component (AuthenticationPage.vue)
+vue
+Copiar
+Editar
+<template>
+  <div>
+    <!-- Header -->
+    <div class="header">
+      <div class="language-container">
+        <ul class="flex justify-end space-x-4 mt-4">
+          <li :class="{ 'font-bold underline': activeLang === 'PT' }" @click="setLanguage('PT')">
+            <a href="#">Português</a>
+          </li>
+          <li :class="{ 'font-bold underline': activeLang === 'EN' }" @click="setLanguage('EN')">
+            <a href="#">English</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="border-t border-gray-200 mt-4"></div>
+
+      <div class="flex justify-center py-4">
+        <a href="https://www.autenticacao.gov.pt/">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/logo-ag.svg" alt="Autenticação.gov.pt" class="h-12">
+        </a>
+      </div>
+    </div>
+
+    <!-- Warning Message -->
+    <div class="bg-yellow-100 text-center py-6 px-4">
+      <span class="font-bold">Atenção: </span>
+      <span>Nunca forneça os seus códigos PIN ou outros dados pessoais por SMS, email ou telefone.</span>
+      <a class="text-blue-600 underline ml-2" href="https://eportugal.gov.pt/burlas-e-sms-fraudulentas-em-nome-de-chave-movel-digital-ou-autenticacao-gov" target="_blank">
+        Saiba mais sobre como se proteger de tentativas de fraude no portal gov.pt.
+      </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-4">
+      <div class="text-center mb-4 text-xl font-semibold">FAÇA A SUA AUTENTICAÇÃO</div>
+
+      <!-- Progress bar -->
+      <div class="flex justify-center mb-6">
+        <div class="bg-white w-72 h-2 relative">
+          <div class="bg-blue-200 h-2" style="width: 80%"></div>
+          <span class="absolute right-0 top-[-1.25rem] text-sm">80%</span>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="text-center mb-4">
+        <h1 class="text-2xl font-semibold">Chave Móvel Digital</h1>
+      </div>
+
+      <!-- TAN Input -->
+      <div class="mb-4">
+        <label for="tanInput" class="block font-medium">Código de segurança <span class="text-red-500">*</span></label>
+        <input
+          id="tanInput"
+          type="text"
+          maxlength="6"
+          class="w-full border border-gray-300 rounded px-3 py-2 mt-2"
+          autocomplete="off"
+          v-model="tanCode"
+        />
+      </div>
+
+      <!-- Resend SMS -->
+      <div class="mb-6 text-sm">
+        <span>Caso não o tenha recebido, clique em </span>
+        <a href="#" @click.prevent="sendSms" class="font-bold underline text-blue-600">Enviar por SMS</a>
+      </div>
+
+      <!-- Biometric Info -->
+      <div class="bg-gray-100 p-4 rounded-lg mb-6">
+        <p class="font-semibold mb-2">App Autenticação Gov</p>
+        <div class="flex items-center">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/Touch ID.svg" alt="Touch ID" class="h-10 mr-2">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/FACE ID.svg" alt="Face ID" class="h-10 mr-4">
+          <span>Se tiver a app Autenticação Gov, não necessita de introduzir o código de segurança, pode confirmar a sua autenticação através dos seus dados biométricos.</span>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex justify-between items-center mt-6">
+        <button class="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded" @click="goBack">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/left_arrow.svg" alt="Voltar" class="h-4">
+          Voltar
+        </button>
+        <button class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded" @click="submit">
+          Confirmar
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/right_arrow.svg" alt="Confirmar" class="h-4">
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="bg-gray-50 mt-10 py-6 text-center text-sm">
+      <div class="mb-2">
+        <a href="https://www.ama.gov.pt" target="_blank">
+          <img src="/Ama.Authentication.Frontend/layoutCCC/img/Logo_AMA.png" alt="AMA" class="h-8 mx-auto mb-2">
+        </a>
+        <ul class="flex justify-center space-x-4">
+          <li><a href="https://www.gov.pt/" target="_blank">gov.pt</a></li>
+          <li><a href="PrivacyPolicy.aspx" target="_blank">Política de privacidade</a></li>
+          <li><a href="https://www.ama.gov.pt/web/agencia-para-a-modernizacao-administrativa/contactos1" target="_blank">Contactos</a></li>
+          <li><a href="Faqs.aspx" target="_blank">Ajuda</a></li>
+        </ul>
+      </div>
+      <div>
+        AMA - Agência para a Modernização Administrativa, I.P. - Todos os direitos reservados © 2025 |
+        <a href="mailto:ama@ama.pt" class="text-blue-500">ama@ama.pt</a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const tanCode = ref('')
+const activeLang = ref('PT')
+
+const setLanguage = (lang) => {
+  activeLang.value = lang
+  // Replace with actual postback or routing logic
+  console.log(`Language changed to: ${lang}`)
+}
+
+const sendSms = () => {
+  console.log('Resending SMS...')
+}
+
+const submit = () => {
+  console.log('Submitted with TAN:', tanCode.value)
+}
+
+const goBack = () => {
+  console.log('Going back...')
+}
+</script>
+
+<style scoped>
+a:hover {
+  text-decoration: underline;
+}
+</style>
+🧩 Notes:
+I’ve replaced ASP.NET-specific elements (like __doPostBack) with Vue methods and placeholders (console.log) – you'll likely need to integrate real logic or API calls.
+
+TailwindCSS is used for layout and style instead of inline CSS.
+
+Text content and structure were preserved.
+
+Adjust image paths or convert them to @/assets/ if using Vite/Webpack and bundling assets.
+
+Would you like help integrating this component into your Vue app or connecting it to an API/backend?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="header">
+            <div class="language-container">
+                <ul class="nav navbar-nav navbar-right lang mobile-language-list-margin">
+                    <li id="PT" class="active">
+                        <a id="lnk_portuguese" href="javascript:__doPostBack('ctl00$lnk_portuguese','')">Português</a></li>
+                    <li id="EN">
+                        <a id="lnk_english" href="javascript:__doPostBack('ctl00$lnk_english','')">English</a></li>
+                    
+                </ul>
+            </div>
+            <div class="white-line">
+            </div>
+            <div class="row logo">
+                <a href="https://www.autenticacao.gov.pt/">
+                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/logo-ag.svg" alt="Autenticação.gov.pt" class="img img-responsive logo-ie">
+                </a>
+            </div>
+        </div>
+        <div class="WarningMessage" style="background-color: #FFF0CB;height: auto;text-align: center;padding: 30px;">
+            <span id="lblWarning" style="font-weight:bold;">Atenção: </span>
+            <span id="lblWarningInfo">Nunca forneça os seus códigos PIN ou outros dados pessoais por SMS, email ou telefone.</span>
+                <a id="hrefProtec" class="colorBlue" href="https://eportugal.gov.pt/burlas-e-sms-fraudulentas-em-nome-de-chave-movel-digital-ou-autenticacao-gov" target="_blank" style="text-decoration: underline;"><span id="lblProtec">Saiba mais sobre como se proteger de tentativas de fraude no portal gov.pt.</span></a>
+        </div>
+        <div class="container container-page container-height">
+            <!-- container-page-height -->
+            <div class="fd">
+                <div class="row">
+                </div>
+                <!-- Main component -->
+                <div role="tabpanel">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="chave" style="margin-bottom: 75px">
+                            <div>
+                                <!-- class="area-destaque" -->
+                                
+    <div class="authTitle">
+        <span id="MainContent_MainPage">FAÇA A SUA AUTENTICAÇÃO</span>
+    </div>
+    <div class="row margin20">
+        <div class="col-md-12 modalCenter">
+            <div class="wrapperModal-progress-bar">
+                <div style="background-color: White; height: 10px; width: 300px">
+                    <div id="MainContent_bar" style="height: 10px; width: 240px; background-color: #DBE1F2">
+                    </div>
+                    <span id="MainContent_percent" class="percent80">80%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 modalCenter">
+            <h1 class="titleCMDModal">
+                Chave Móvel Digital</h1>
+        </div>
+    </div>
+    <div id="MainContent_pnlDefaultButton" onkeypress="">
+	
+        <div class="row margin20" visible="false">
+            <div id="MainContent_divMainInfo" class="col-md-12">
+                
+                <span id="MainContent_spanInformationTimeTan" class="labelTextModal">Para validar a autenticação, insira nos próximos 2 minutos o código que foi enviado via SMS para o seu telemóvel.</span><span id="Span2" visible="false"></span>
+            </div>
+        </div>
+        
+        <div id="MainContent_divAuthMobileTan">
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="MainContent_txtMobileTAN" id="MainContent_lblMobileTAN" class="lblMobileTxtModal modal-display">Código de segurança</label>
+                    <span id="MainContent_lblModalAsc" class="asteriscoModal"> *</span>
+                    <br>
+                    <input name="ctl00$MainContent$txtMobileTAN" type="text" maxlength="6" id="MainContent_txtMobileTAN" class="wrapperModal wrapperModalInput" autocomplete="off" style="margin-top: 5px; height: 44px;">
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 20px;">
+            <div id="MainContent_divForceSMS" class="col-md-12">
+                
+            
+                <span id="MainContent_lblSMSButton">Caso não o tenha recebido, clique em </span>
+                <a id="MainContent_btnForceSms" style="text-decoration-line: underline; font-weight: bold" href="javascript:__doPostBack('ctl00$MainContent$btnForceSms','')">
+                    <span id="MainContent_lblSMS">Enviar por SMS</span>
+                </a>
+            
+            </div>
+        </div>
+        <div id="MainContent_biometricDiv" class="row">
+            <div class="col-md-12 mobileCenter">
+                <div class="componentWraper">
+                    <p class="componentTitle">
+                        App Autenticação Gov
+                    </p>
+                    <div class="row componentRow">
+                        <div class="col-md-3 col-xs-4">
+                            <div>
+                                <div>
+                                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/Touch ID.svg" alt="touchId" class="imagesBioTouch" id="Img3">
+                                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/FACE ID.svg" alt="faceId" class="imagesBioFace" id="Img4">
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-xs-8">
+                            <div class="modalAppText">
+                                <span id="MainContent_lblApp">Se tiver a app Autenticação Gov, não necessita de introduzir o código de segurança, pode confirmar a sua autenticação através dos seus dados biométricos.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <span id="MainContent_spanMobileTANError" class="label_error"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <span id="MainContent_lblMsgError" class="label_error"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <b><span id="MainContent_spanInformationFreeSMS"></span></b>
+            </div>
+        </div>
+        <div id="MainContent_divSendSms" class="row mobileCenter center-buttons">
+            
+            
+        </div>
+        <div class="row bottom">
+            <div class="col-md-12 mobileCenter center-buttons">
+                <div class="wrapperModal-noBorder">
+                    <input type="button" name="ctl00$MainContent$btnCancelModal" value="Voltar" onclick="" id="MainContent_btnCancelModal" class="btn-modal btn-default-modal btn-modal-back btn-modal-text inline-buttons">
+                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/left_arrow.svg" alt="Voltar" class="arrow-left" id="Img1">
+                </div>
+                <div class="wrapperModal-noBorder">
+                    <input type="submit" name="ctl00$MainContent$btnNext" value="Confirmar" onclick="ShowLoading();" id="MainContent_btnNext" class="btn-modal btn-default-modal btn-modal-text-white btn-modal-blue inline-buttons">
+                    <img src="/Ama.Authentication.Frontend/layoutCCC/img/right_arrow.svg" alt="Voltar" class="arrow-right" id="Img2">
+                </div>
+            </div>
+        </div>
+        <div class="loading" id="divLoading" style="display: none">
+        </div>
+        <input type="hidden" name="ctl00$MainContent$refGuid" id="MainContent_refGuid" value="_0ad7e8c8-b2c9-4474-a035-bdab0c0daf59">
+        <input type="submit" name="ctl00$MainContent$buttonLoop" value="" id="MainContent_buttonLoop" style="display: none">
+        
+        <div class="row">
+            <div style="height: 15px;">
+            </div>
+        </div>
+        
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container footer">
+            <div class="row margin-0">
+                <div class="col-md-12 center">
+                    <a target="_blank" href="https://www.ama.gov.pt">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/Logo_AMA.png" class="logo-ama" alt="Agência para a Modernização Administrativa" title="Agência para a Modernização Administrativa"></a>
+                    <ul>
+                        <li><a target="_blank" href="https://www.gov.pt/">
+                            <span id="lblCitizenPortal">gov.pt</span></a></li>
+                        <li><a target="_blank" href="PrivacyPolicy.aspx">
+                            <span id="lblPrivacyPolicy">Política de privacidade</span></a></li>
+                        <li><a target="_blank" href="https://www.ama.gov.pt/web/agencia-para-a-modernizacao-administrativa/contactos1">
+                            <span id="lblContacts">Contactos</span></a></li>
+                        <li><a target="_blank" href="Faqs.aspx">
+                            <span id="lblFaqs">Ajuda</span></a></li>
+                    </ul>
+                    <a target="_blank" href="https://www.facebook.com/ama.gov.pt">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/fb_footer.png" alt="Facebook AMA"></a>
+                    <a target="_blank" href="https://pt.linkedin.com/company/ama---ag-ncia-para-a-moderniza-o-administrativa-ip">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/li_footer.png" alt="LinkedIn AMA"></a>
+                    <a target="_blank" href="https://www.twitter.com/ama_gov_pt">
+                        <img src="/Ama.Authentication.Frontend/layoutCCC/img/tw_footer.png" alt="Twitter AMA"></a>
+                </div>
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span id="lblAmaDesc">AMA - Agência para a Modernização Administrativa, I.P. - Todos os direitos reservados @ </span>
+                            <span id="lblCopyrightYear">2025</span>
+                            <a href="https://www.ama.gov.pt" target="_blank">www.ama.pt</a>
+                            | <a href="mailto:ama@ama.pt">ama@ama.pt</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
