@@ -289,7 +289,7 @@ const getAccruedIncomeTaxesCurrent = (financialRawData, startYear, endYear) => {
     // // Convert the map to an array of objects
     const dataArray = Array.from(accruedIncomeTaxesFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
     // // Print the table to the console
-    console.table("Printing the Table - AccountsPayable");
+    console.table("Printing the Table - Accred Expenses");
     console.table(dataArray);
     return accruedIncomeTaxesFilteredMap;
 }

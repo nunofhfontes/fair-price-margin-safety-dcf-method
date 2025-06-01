@@ -78,6 +78,18 @@ class FinancialStatementController {
     let accruedIncomeTaxesCurrent = await balanceSheetStatementService.getAccruedIncomeTaxesCurrent(factsRaw);
 
 
+    // Total current Liabilities
+    // LiabilitiesCurrent
+
+
+
+
+    // Accrued Expenses = AccruedLiabilitiesCurrent
+    //              + AccruedCompensationCurrent
+    //              + AccruedInterestPayableCurrent
+    //              + AccruedIncomeTaxesCurrent
+    //              + OtherAccruedLiabilitiesCurrent
+
 
     
     // let totalLongTermDebt = await balanceSheetStatementService.getTotalLongTermDebt(factsRaw);
@@ -130,6 +142,10 @@ class FinancialStatementController {
     const totalAssetsMappedToObject = Object.fromEntries(totalAssets);
     const accountsPayableCurrentMappedToObject = Object.fromEntries(accountsPayableCurrent);
     const accruedIncomeTaxesCurrentMappedToObject = Object.fromEntries(accruedIncomeTaxesCurrent);
+
+
+    
+
 
     // AccruedIncomeTaxesCurrent
 
