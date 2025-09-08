@@ -42,6 +42,26 @@ const getCashAndCashEquivalentsRestricted = (financialRawData, startYear, endYea
     return cashAndCashEquivalentsRestrictedFilteredMap;
 };
 
+const getShortTermInvestments = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> ShortTermInvestments
+    //get ShortTermInvestments out of the entire rawJson
+    let shortTermInvestmentsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "ShortTermInvestments");    
+    let shortTermInvestmentsFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(shortTermInvestmentsRawJson) {
+        shortTermInvestmentsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, shortTermInvestmentsFilteredMap);
+        });
+    }
+    shortTermInvestmentsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(shortTermInvestmentsFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(shortTermInvestmentsFilteredMap, ([year, data]) => ({ Year: year, ...data }));
+    // // Print the table to the console
+    console.table("Printing the Table - ShortTermInvestments");
+    // console.table(dataArray);
+    return shortTermInvestmentsFilteredMap;    
+};
+
 const getAccountsReceivables = (financialRawData, startYear, endYear) => {
     //SEC's field for cost of revenue -> AccountsReceivables
     //get AccountsReceivables out of the entire rawJson
@@ -289,7 +309,7 @@ const getAccruedIncomeTaxesCurrent = (financialRawData, startYear, endYear) => {
     // // Convert the map to an array of objects
     const dataArray = Array.from(accruedIncomeTaxesFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
     // // Print the table to the console
-    console.table("Printing the Table - Accred Expenses");
+    console.table("Printing the Table - Accrued Expenses");
     console.table(dataArray);
     return accruedIncomeTaxesFilteredMap;
 }
@@ -297,6 +317,7 @@ const getAccruedIncomeTaxesCurrent = (financialRawData, startYear, endYear) => {
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
+    getShortTermInvestments,
     getAccountsReceivables,
     getInventory,
     getOtherCurrentAssets,

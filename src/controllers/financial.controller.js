@@ -62,6 +62,7 @@ class FinancialStatementController {
     let cashAndCashEquivalents = await balanceSheetStatementService.getCashAndCashEquivalents(factsRaw);
     //TODO - NF - Is this field the Total of Cash & ST Investments?
     let cashAndCashEquivalentsRestricted = await balanceSheetStatementService.getCashAndCashEquivalentsRestricted(factsRaw);
+    let shortTermInvestments = await balanceSheetStatementService.getShortTermInvestments(factsRaw);
     let accountsReceivables = await balanceSheetStatementService.getAccountsReceivables(factsRaw);
     let inventory = await balanceSheetStatementService.getInventory(factsRaw);
     let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
@@ -131,6 +132,7 @@ class FinancialStatementController {
     //balanceSheet fields
     const cashAndCashEquivalentsMappedToObject = Object.fromEntries(cashAndCashEquivalents);
     const cashAndCashEquivalentsRestrictedMappedToObject = Object.fromEntries(cashAndCashEquivalentsRestricted);
+    const shortTermInvestmentsMappedToObject = Object.fromEntries(shortTermInvestments);
     const accountsReceivablesMappedToObject = Object.fromEntries(accountsReceivables);
     const inventoryMappedToObject = Object.fromEntries(inventory);
     const otherCurrentAssetsMappedToObject = Object.fromEntries(otherCurrentAssets);
@@ -195,6 +197,9 @@ class FinancialStatementController {
         cashAndShortTermInvestments: {
           cashAndCashEquivalents: cashAndCashEquivalentsMappedToObject,
           cashAndCashEquivalentsRestricted: cashAndCashEquivalentsRestrictedMappedToObject,
+        },
+        shortTermInvestments: {
+          shortTermInvestments: shortTermInvestmentsMappedToObject,
         },
         receivables: {
           totalAccountsReceivables: accountsReceivablesMappedToObject,
