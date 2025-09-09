@@ -64,7 +64,9 @@ class FinancialStatementController {
     let cashAndCashEquivalentsRestricted = await balanceSheetStatementService.getCashAndCashEquivalentsRestricted(factsRaw);
     let shortTermInvestments = await balanceSheetStatementService.getShortTermInvestments(factsRaw);
     let accountsReceivables = await balanceSheetStatementService.getAccountsReceivables(factsRaw);
+    //field IncomeTaxesReceivable - should I add this field??
     let inventory = await balanceSheetStatementService.getInventory(factsRaw);
+    let prepaidExpenseAndOtherAssets = await balanceSheetStatementService.getPrepaidExpenseAndOtherAssets(factsRaw);
     let otherCurrentAssets = await balanceSheetStatementService.getOtherCurrentAssets(factsRaw);
     let totalCurrentAssets = await balanceSheetStatementService.getTotalCurrentAssets(factsRaw);
     let netPropertyPlantEquipment = await balanceSheetStatementService.getNetPropertyPlantEquipment(factsRaw);
@@ -134,6 +136,7 @@ class FinancialStatementController {
     const cashAndCashEquivalentsRestrictedMappedToObject = Object.fromEntries(cashAndCashEquivalentsRestricted);
     const shortTermInvestmentsMappedToObject = Object.fromEntries(shortTermInvestments);
     const accountsReceivablesMappedToObject = Object.fromEntries(accountsReceivables);
+    const prepaidExpenseAndOtherAssetsMappedToObject = Object.fromEntries(prepaidExpenseAndOtherAssets);
     const inventoryMappedToObject = Object.fromEntries(inventory);
     const otherCurrentAssetsMappedToObject = Object.fromEntries(otherCurrentAssets);
     const totalCurrentAssetsMappedToObject = Object.fromEntries(totalCurrentAssets);
@@ -206,6 +209,7 @@ class FinancialStatementController {
         },
         currentAssets: {
           inventory: inventoryMappedToObject,
+          prepaidExpenses: prepaidExpenseAndOtherAssetsMappedToObject,
           otherCurrentAssets: otherCurrentAssetsMappedToObject,
           totalCurrentAssets: totalCurrentAssetsMappedToObject,
         },

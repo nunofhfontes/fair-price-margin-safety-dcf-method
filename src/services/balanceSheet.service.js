@@ -102,6 +102,27 @@ const getInventory = (financialRawData, startYear, endYear) => {
     return inventoryFilteredMap;
 };
 
+const getPrepaidExpenseAndOtherAssets = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> PrepaidExpenseAndOtherAssets
+    //get PrepaidExpenseAndOtherAssets out of the entire rawJson
+    let prepaidExpenseAndOtherAssetsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "PrepaidExpenseAndOtherAssets");
+    let prepaidExpenseAndOtherAssetsFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(prepaidExpenseAndOtherAssetsRawJson) {
+        prepaidExpenseAndOtherAssetsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, prepaidExpenseAndOtherAssetsFilteredMap);
+        });
+    }
+    prepaidExpenseAndOtherAssetsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(prepaidExpenseAndOtherAssetsFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(prepaidExpenseAndOtherAssetsFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - PrepaidExpenseAndOtherAssets");
+
+    // console.table(dataArray);
+    return prepaidExpenseAndOtherAssetsFilteredMap;
+}
+
 const getOtherCurrentAssets = (financialRawData, startYear, endYear) => {
     //SEC's field for cost of revenue -> OtherCurrentAssets
     //get OtherCurrentAssets out of the entire rawJson
@@ -320,6 +341,7 @@ module.exports = {
     getShortTermInvestments,
     getAccountsReceivables,
     getInventory,
+    getPrepaidExpenseAndOtherAssets,
     getOtherCurrentAssets,
     getTotalCurrentAssets,
     getNetPropertyPlantEquipment,
