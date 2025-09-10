@@ -74,6 +74,8 @@ class FinancialStatementController {
     let grossPropertyPlantAndEquipment = await balanceSheetStatementService.getGrossPropertyPlantAndEquipment(factsRaw);
     let longTermInvestments = await balanceSheetStatementService.getLongTermInvestments(factsRaw);
     
+    let currentPortionOfLongTermDebtAndCapitalLeaseObligations = await balanceSheetStatementService.getCurrentPortionOfLongTermDebtAndCapitalLeaseObligations(factsRaw);
+
     // let long term investments
     let goodwill = await balanceSheetStatementService.getGoodwill(factsRaw);
     
@@ -83,7 +85,7 @@ class FinancialStatementController {
 
 
     // Total current Liabilities
-    // LiabilitiesCurrent
+    let totalCurrentLiabilities = await balanceSheetStatementService.getTotalCurrentLiabilities(factsRaw); // TotalCurrentLiabilitiesCurrent
 
 
 
@@ -143,12 +145,14 @@ class FinancialStatementController {
     const totalCurrentAssetsMappedToObject = Object.fromEntries(totalCurrentAssets);
     const netPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(netPropertyPlantEquipment);
     const longTermInvestmentsMappedToObject = Object.fromEntries(longTermInvestments);
+    const currentPortionOfLongTermDebtAndCapitalLeaseObligationsMappedToObject = Object.fromEntries(currentPortionOfLongTermDebtAndCapitalLeaseObligations);
     const accumulatedDepreciationMappedToObject = Object.fromEntries(accumulatedDepreciation);
     const grossPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(grossPropertyPlantAndEquipment);
     const goodwillMappedToObject = Object.fromEntries(goodwill);
     const totalAssetsMappedToObject = Object.fromEntries(totalAssets);
     const accountsPayableCurrentMappedToObject = Object.fromEntries(accountsPayableCurrent);
     const accruedIncomeTaxesCurrentMappedToObject = Object.fromEntries(accruedIncomeTaxesCurrent);
+    const totalCurrentLiabilitiesMappedToObject = Object.fromEntries(totalCurrentLiabilities);
 
 
     
@@ -224,8 +228,10 @@ class FinancialStatementController {
           totalAssets: totalAssetsMappedToObject,
         },
         currentLiabilities: {
+          currentPortionOfLongTermDebtAndCapitalLeaseObligations: currentPortionOfLongTermDebtAndCapitalLeaseObligationsMappedToObject,
           accountsPayableCurrent: accountsPayableCurrentMappedToObject,
           accruedExpenses: accruedIncomeTaxesCurrentMappedToObject,
+          totalCurrentLiabilities: totalCurrentLiabilitiesMappedToObject
         },
         longTermLiabilities: {},
         commonEquity: {},

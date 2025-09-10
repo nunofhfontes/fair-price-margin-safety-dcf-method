@@ -276,6 +276,26 @@ const getLongTermInvestments = (financialRawData, startYear, endYear) => {
     return longTermInvestmentsFilteredMap;
 }
 
+const getCurrentPortionOfLongTermDebtAndCapitalLeaseObligations = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> LongTermDebtAndCapitalLeaseObligationsCurrent
+    //get LongTermDebtAndCapitalLeaseObligationsCurrent out of the entire rawJson
+    let longTermDebtAndCapitalLeaseObligationsCurrentRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "LongTermDebtAndCapitalLeaseObligationsCurrent");
+    let longTermDebtAndCapitalLeaseObligationsCurrentFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(longTermDebtAndCapitalLeaseObligationsCurrentRawJson) {
+        longTermDebtAndCapitalLeaseObligationsCurrentRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, longTermDebtAndCapitalLeaseObligationsCurrentFilteredMap);
+        });
+    }
+    longTermDebtAndCapitalLeaseObligationsCurrentFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(longTermDebtAndCapitalLeaseObligationsCurrentFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(longTermDebtAndCapitalLeaseObligationsCurrentFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - LongTermDebtAndCapitalLeaseObligationsCurrent");
+    console.table(dataArray);
+    return longTermDebtAndCapitalLeaseObligationsCurrentFilteredMap;
+}
+
 const getGoodwill = (financialRawData, startYear, endYear) => {
     //SEC's field for cost of revenue -> Goodwill
     //get Goodwill out of the entire rawJson
@@ -355,6 +375,26 @@ const getAccruedIncomeTaxesCurrent = (financialRawData, startYear, endYear) => {
     return accruedIncomeTaxesFilteredMap;
 }
 
+const getTotalCurrentLiabilities = (financialRawData, startYear, endYear) => {
+    //SEC's field for total current liabilities -> LiabilitiesCurrent
+    //get LiabilitiesCurrent out of the entire rawJson    
+    let totalCurrentLiabilitiesRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "LiabilitiesCurrent");
+    let totalCurrentLiabilitiesFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(totalCurrentLiabilitiesRawJson) {
+        totalCurrentLiabilitiesRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, totalCurrentLiabilitiesFilteredMap);
+        });
+    }
+    totalCurrentLiabilitiesFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(totalCurrentLiabilitiesFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(totalCurrentLiabilitiesFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - TotalCurrentLiabilities");
+    console.table(dataArray);
+    return totalCurrentLiabilitiesFilteredMap;
+}
+
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
@@ -368,8 +408,10 @@ module.exports = {
     getAccumulatedDepreciation,
     getGrossPropertyPlantAndEquipment,
     getLongTermInvestments,
+    getCurrentPortionOfLongTermDebtAndCapitalLeaseObligations,
     getGoodwill,
     getTotalAssets,
     getAccountsPayableCurrent,
     getAccruedIncomeTaxesCurrent,
+    getTotalCurrentLiabilities
 };
