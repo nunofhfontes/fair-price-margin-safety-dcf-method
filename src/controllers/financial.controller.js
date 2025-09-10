@@ -72,6 +72,7 @@ class FinancialStatementController {
     let netPropertyPlantEquipment = await balanceSheetStatementService.getNetPropertyPlantEquipment(factsRaw);
     let accumulatedDepreciation = await balanceSheetStatementService.getAccumulatedDepreciation(factsRaw);
     let grossPropertyPlantAndEquipment = await balanceSheetStatementService.getGrossPropertyPlantAndEquipment(factsRaw);
+    let longTermInvestments = await balanceSheetStatementService.getLongTermInvestments(factsRaw);
     
     // let long term investments
     let goodwill = await balanceSheetStatementService.getGoodwill(factsRaw);
@@ -141,6 +142,7 @@ class FinancialStatementController {
     const otherCurrentAssetsMappedToObject = Object.fromEntries(otherCurrentAssets);
     const totalCurrentAssetsMappedToObject = Object.fromEntries(totalCurrentAssets);
     const netPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(netPropertyPlantEquipment);
+    const longTermInvestmentsMappedToObject = Object.fromEntries(longTermInvestments);
     const accumulatedDepreciationMappedToObject = Object.fromEntries(accumulatedDepreciation);
     const grossPropertyPlantAndEquipmentMappedToObject = Object.fromEntries(grossPropertyPlantAndEquipment);
     const goodwillMappedToObject = Object.fromEntries(goodwill);
@@ -217,7 +219,7 @@ class FinancialStatementController {
           grossPropertyPlantAndEquipment: grossPropertyPlantAndEquipmentMappedToObject,
           accumulatedDepreciation: accumulatedDepreciationMappedToObject,
           netPropertyPlantAndEquipment: netPropertyPlantAndEquipmentMappedToObject,
-          longTermInvestments: {},
+          longTermInvestments: longTermInvestmentsMappedToObject,
           goodwill: goodwillMappedToObject,
           totalAssets: totalAssetsMappedToObject,
         },

@@ -256,6 +256,26 @@ const getGrossPropertyPlantAndEquipment = (financialRawData, startYear, endYear)
     return grossPropertyPlantEquipmentFilteredMap;
 };
 
+const getLongTermInvestments = (financialRawData, startYear, endYear) => {
+    //SEC's field for cost of revenue -> LongTermInvestments
+    //get LongTermInvestments out of the entire rawJson
+    let longTermInvestmentsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "LongTermInvestments");
+    let longTermInvestmentsFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(longTermInvestmentsRawJson) {
+        longTermInvestmentsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, longTermInvestmentsFilteredMap);
+        });
+    }
+    longTermInvestmentsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(longTermInvestmentsFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(longTermInvestmentsFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - LongTermInvestments");
+    console.table(dataArray);
+    return longTermInvestmentsFilteredMap;
+}
+
 const getGoodwill = (financialRawData, startYear, endYear) => {
     //SEC's field for cost of revenue -> Goodwill
     //get Goodwill out of the entire rawJson
@@ -347,6 +367,7 @@ module.exports = {
     getNetPropertyPlantEquipment,
     getAccumulatedDepreciation,
     getGrossPropertyPlantAndEquipment,
+    getLongTermInvestments,
     getGoodwill,
     getTotalAssets,
     getAccountsPayableCurrent,
