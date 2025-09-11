@@ -74,7 +74,10 @@ class FinancialStatementController {
     let grossPropertyPlantAndEquipment = await balanceSheetStatementService.getGrossPropertyPlantAndEquipment(factsRaw);
     let longTermInvestments = await balanceSheetStatementService.getLongTermInvestments(factsRaw);
     
+    //Current Liabilities
     let currentPortionOfLongTermDebtAndCapitalLeaseObligations = await balanceSheetStatementService.getCurrentPortionOfLongTermDebtAndCapitalLeaseObligations(factsRaw);
+    //TODO - NF - ShortTermBorrowings
+    //let shortTermBorrowings = await balanceSheetStatementService.getShortTermBorrowings(factsRaw);
 
     // let long term investments
     let goodwill = await balanceSheetStatementService.getGoodwill(factsRaw);
@@ -88,6 +91,8 @@ class FinancialStatementController {
     let totalCurrentLiabilities = await balanceSheetStatementService.getTotalCurrentLiabilities(factsRaw); // TotalCurrentLiabilitiesCurrent
 
 
+    //Long Term Liabilities
+    let deferredIncomeTaxLiabilities = await balanceSheetStatementService.getDeferredIncomeTaxLiabilitiesNet(factsRaw);
 
 
     // Accrued Expenses = AccruedLiabilitiesCurrent
@@ -153,7 +158,7 @@ class FinancialStatementController {
     const accountsPayableCurrentMappedToObject = Object.fromEntries(accountsPayableCurrent);
     const accruedIncomeTaxesCurrentMappedToObject = Object.fromEntries(accruedIncomeTaxesCurrent);
     const totalCurrentLiabilitiesMappedToObject = Object.fromEntries(totalCurrentLiabilities);
-
+    const deferredIncomeTaxLiabilitiesMappedToObject = Object.fromEntries(deferredIncomeTaxLiabilities);
 
     
 
@@ -233,7 +238,9 @@ class FinancialStatementController {
           accruedExpenses: accruedIncomeTaxesCurrentMappedToObject,
           totalCurrentLiabilities: totalCurrentLiabilitiesMappedToObject
         },
-        longTermLiabilities: {},
+        longTermLiabilities: {
+          deferredIncomeTaxLiabilities: deferredIncomeTaxLiabilitiesMappedToObject
+        },
         commonEquity: {},
       },
       cashFlowStatement: {

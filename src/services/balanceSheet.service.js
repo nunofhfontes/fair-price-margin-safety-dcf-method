@@ -296,6 +296,27 @@ const getCurrentPortionOfLongTermDebtAndCapitalLeaseObligations = (financialRawD
     return longTermDebtAndCapitalLeaseObligationsCurrentFilteredMap;
 }
 
+const getShortTermBorrowings = (financialRawData, startYear, endYear) => {
+    
+    //SEC's field for short term borrowings, fast money -> ShortTermBorrowings
+    //get ShortTermBorrowings out of the entire rawJson
+    let shortTermBorrowingsRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "ShortTermBorrowings");
+    let shortTermBorrowingsFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(shortTermBorrowingsRawJson) {
+        shortTermBorrowingsRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, shortTermBorrowingsFilteredMap);
+        });
+    }
+    shortTermBorrowingsFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(shortTermBorrowingsFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(shortTermBorrowingsFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - ShortTermBorrowings");
+    console.table(dataArray);
+    return shortTermBorrowingsFilteredMap;
+}
+
 const getGoodwill = (financialRawData, startYear, endYear) => {
     //SEC's field for cost of revenue -> Goodwill
     //get Goodwill out of the entire rawJson
@@ -395,6 +416,26 @@ const getTotalCurrentLiabilities = (financialRawData, startYear, endYear) => {
     return totalCurrentLiabilitiesFilteredMap;
 }
 
+const getDeferredIncomeTaxLiabilitiesNet = (financialRawData, startYear, endYear) => {
+    //SEC's field for deferred income liabilities -> DeferredIncomeTaxLiabilitiesNet
+    //get DeferredIncomeTaxLiabilitiesNet out of the entire rawJson    
+    let deferredIncomeTaxLiabilitiesNetRawJson = financialService.extractAccountsFinancialDataFromRawDataJson(financialRawData, "DeferredIncomeTaxLiabilitiesNet");
+    let deferredIncomeTaxLiabilitiesNetFilteredMap = new Map();
+    // Parsing the Raw Data and getting the right 10-K values
+    if(deferredIncomeTaxLiabilitiesNetRawJson) {
+        deferredIncomeTaxLiabilitiesNetRawJson["units"]["USD"].forEach(rawCurrentItem => {
+            financialService.extractAndFilterAnualResultsFromRawData(rawCurrentItem, deferredIncomeTaxLiabilitiesNetFilteredMap);
+        });
+    }
+    deferredIncomeTaxLiabilitiesNetFilteredMap = financialService.fixMapKeysWithUpdatedForwardedYear(deferredIncomeTaxLiabilitiesNetFilteredMap);
+    // // Convert the map to an array of objects
+    const dataArray = Array.from(deferredIncomeTaxLiabilitiesNetFilteredMap, ([year, data]) => ({ Year: year, ...data }));  
+    // // Print the table to the console
+    console.table("Printing the Table - DeferredIncomeTaxLiabilitiesNet");
+    console.table(dataArray);
+    return deferredIncomeTaxLiabilitiesNetFilteredMap;
+}
+
 module.exports = {
     getCashAndCashEquivalents,
     getCashAndCashEquivalentsRestricted,
@@ -409,9 +450,11 @@ module.exports = {
     getGrossPropertyPlantAndEquipment,
     getLongTermInvestments,
     getCurrentPortionOfLongTermDebtAndCapitalLeaseObligations,
+    getShortTermBorrowings,
     getGoodwill,
     getTotalAssets,
     getAccountsPayableCurrent,
     getAccruedIncomeTaxesCurrent,
-    getTotalCurrentLiabilities
+    getTotalCurrentLiabilities,
+    getDeferredIncomeTaxLiabilitiesNet
 };
